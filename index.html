@@ -15,7 +15,6 @@
     summary::-webkit-details-marker{ display:none; }
     html, body { height: 100%; }
 
-    /* Background wash */
     .wash{ position: fixed; inset: 0; z-index: -10; }
     .bg-blob{
       position:absolute;
@@ -28,7 +27,6 @@
       transform: translate(22vw, 28vh) scale(1.08);
     }
 
-    /* Stage */
     .scroll-stage{ position: relative; height: 600vh; }
     .sticky-panel{
       position: sticky;
@@ -40,7 +38,6 @@
       padding: 24px;
     }
 
-    /* Slides (one visible) */
     .slide{
       position:absolute; inset:0;
       display:flex; align-items:center; justify-content:center;
@@ -56,13 +53,9 @@
       visibility:visible;
       pointer-events:auto;
     }
-    details > summary{
-      cursor: default;
-      user-select: none;
-      pointer-events: none;
-    }
+    details > summary{ cursor: default; user-select: none; pointer-events: none; }
 
-    /* Mini-player */
+    /* Mini */
     .mini-wrap{
       position: fixed;
       left: 18px;
@@ -77,16 +70,16 @@
       border: 1px solid rgba(0,0,0,0.08);
 
       opacity: 0;
-      transform: translateY(18px) scale(0.96);
-      transition: opacity 280ms ease, transform 280ms ease;
+      transform: translateY(18px) scale(0.965);
+      transition: opacity 320ms ease, transform 320ms ease;
       pointer-events: none;
     }
     .mini-wrap.show{
       opacity: 1;
       transform: translateY(0) scale(1);
       pointer-events: auto;
+      cursor: pointer;
     }
-
     .mini-bar{
       position:absolute;
       left: 10px;
@@ -122,7 +115,6 @@
     }
     .mini-close:hover{ background: rgba(255,255,255,0.98); }
 
-    /* Mini canvas (fixed design size -> scaled down) */
     .mini-canvas{
       width: 1200px;
       height: 800px;
@@ -130,7 +122,7 @@
       transform-origin: top left;
     }
 
-    /* Animation portal for "sucked into" effect */
+    /* Portal */
     .portal{
       position: fixed;
       inset: 0;
@@ -144,7 +136,7 @@
       height: 100vh;
       padding: 24px;
       box-sizing: border-box;
-      will-change: transform, opacity;
+      will-change: transform, opacity, filter;
     }
   </style>
 </head>
@@ -156,11 +148,9 @@
     <div id="blob" class="bg-blob"></div>
   </div>
 
-  <!-- Animation portal -->
   <div id="portal" class="portal" aria-hidden="true"></div>
 
-  <!-- Mini -->
-  <div id="mini" class="mini-wrap" aria-hidden="true">
+  <div id="mini" class="mini-wrap" aria-hidden="true" title="Go back">
     <div id="miniInner"></div>
     <div class="mini-bar">
       <div class="mini-label">Previous</div>
@@ -435,7 +425,6 @@
     const slides = Array.from(document.querySelectorAll("[data-slide]"));
     const stage = document.getElementById("stage");
     const blob  = document.getElementById("blob");
-
     const portal = document.getElementById("portal");
 
     const mini = document.getElementById("mini");
@@ -449,7 +438,7 @@
     }
     setStageHeight();
 
-    /* Background motion (kept simple + stable) */
+    /* Background */
     const clamp01 = (x) => Math.min(1, Math.max(0, x));
     const lerp = (a, b, t) => a + (b - a) * t;
 
@@ -476,33 +465,31 @@
 
       const k0 = keys[i0], k1 = keys[i1];
 
-      const x  = lerp(k0.x,  k1.x,  t);
-      const y  = lerp(k0.y,  k1.y,  t);
-      const s  = lerp(k0.s,  k1.s,  t);
-      const op = lerp(k0.op, k1.op, t);
-
-      const prW = clamp01(lerp(k0.pr, k1.pr, t));
-      const blW = clamp01(lerp(k0.bl, k1.bl, t));
-      const ylW = clamp01(lerp(k0.yl, k1.yl, t));
-
-      blob.style.transform = `translate(${x}vw, ${y}vh) scale(${s})`;
-      blob.style.opacity = String(op);
-      blob.style.background = buildGradient(prW, blW, ylW);
+      blob.style.transform =
+        `translate(${lerp(k0.x,k1.x,t)}vw, ${lerp(k0.y,k1.y,t)}vh) scale(${lerp(k0.s,k1.s,t)})`;
+      blob.style.opacity = String(lerp(k0.op,k1.op,t));
+      blob.style.background = buildGradient(
+        clamp01(lerp(k0.pr,k1.pr,t)),
+        clamp01(lerp(k0.bl,k1.bl,t)),
+        clamp01(lerp(k0.yl,k1.yl,t))
+      );
     }
 
-    /* Mini render: fixed canvas -> scale */
+    /* Mini */
     const MINI_W = 1200;
     const MINI_H = 800;
+    let miniPrevIdx = null;
 
     function hideMini(){
       mini.classList.remove("show");
       mini.setAttribute("aria-hidden","true");
       miniInner.innerHTML = "";
+      miniPrevIdx = null;
     }
 
     function renderMini(prevIdx){
-      // prevIdx can be 0 on the second page -> must show
       if (prevIdx < 0) { hideMini(); return; }
+      miniPrevIdx = prevIdx;
 
       const canvas = document.createElement("div");
       canvas.className = "mini-canvas";
@@ -520,11 +507,9 @@
       clone.style.boxSizing = "border-box";
 
       canvas.appendChild(clone);
-
       miniInner.innerHTML = "";
       miniInner.appendChild(canvas);
 
-      // scale canvas to fit mini
       const targetW = mini.clientWidth;
       const targetH = mini.clientHeight;
       const scale = Math.min(targetW / MINI_W, targetH / MINI_H);
@@ -532,17 +517,34 @@
       canvas.style.transformOrigin = "top left";
     }
 
-    /* "sucked into mini" animation */
+    function scrollToSlide(idx){
+      const total = stage.offsetHeight - window.innerHeight;
+      const p = (slides.length <= 1) ? 0 : (idx / (slides.length - 1));
+      const target = stage.offsetTop + (total * p);
+      window.scrollTo({ top: target, behavior: "smooth" });
+    }
+
+    // Click mini -> go back
+    mini.addEventListener("click", (e) => {
+      if (e.target === miniClose) return;
+      if (miniPrevIdx == null) return;
+      scrollToSlide(miniPrevIdx);
+    });
+
+    miniClose.addEventListener("click", (e) => {
+      e.stopPropagation();
+      hideMini();
+    });
+
+    /* Sucked-into animation (softer + left-emphasis + slower) */
     function animateIntoMini(prevIdx){
-      // On first page there is no previous; on second page prevIdx=0 -> animate is ok
       if (prevIdx < 0) return;
 
-      // Ensure mini has layout rect (even if hidden)
       const miniRect = mini.getBoundingClientRect();
 
-      // Portal clone (full-screen)
       const card = document.createElement("div");
       card.className = "portal-card";
+
       const clone = slides[prevIdx].cloneNode(true);
       clone.classList.remove("active");
       clone.style.position = "relative";
@@ -554,6 +556,7 @@
       clone.style.display = "flex";
       clone.style.alignItems = "center";
       clone.style.justifyContent = "center";
+
       card.appendChild(clone);
       portal.appendChild(card);
 
@@ -563,17 +566,19 @@
       const scaleX = miniRect.width / vw;
       const scaleY = miniRect.height / vh;
 
-      const tx = miniRect.left;
-      const ty = miniRect.top;
+      // left-emphasis: overshoot X slightly (feel "pulled left")
+      const tx = miniRect.left - 26;  // stronger left pull
+      const ty = miniRect.top + 8;    // reduce "downward drag" feel
 
       card.animate(
         [
-          { transform: "translate(0px,0px) scale(1,1)", opacity: 1 },
-          { transform: `translate(${tx}px,${ty}px) scale(${scaleX},${scaleY})`, opacity: 0.98 }
+          { transform: "translate(0px,0px) scale(1,1)", opacity: 0.85, filter: "blur(0px)" },
+          { transform: `translate(${tx*0.55}px,${ty*0.35}px) scale(0.92,0.92)`, opacity: 0.35, filter: "blur(1.2px)" },
+          { transform: `translate(${tx}px,${ty}px) scale(${scaleX},${scaleY})`, opacity: 0.0, filter: "blur(2.0px)" }
         ],
         {
-          duration: 520,
-          easing: "cubic-bezier(.2,.9,.2,1)",
+          duration: 760, // slower
+          easing: "cubic-bezier(.18,.88,.18,1)",
           fill: "forwards"
         }
       ).onfinish = () => {
@@ -581,17 +586,12 @@
       };
     }
 
-    miniClose.addEventListener("click", (e) => {
-      e.stopPropagation();
-      hideMini();
-    });
-
     /* Slides */
     function setActive(idx){
       slides.forEach((s,i)=> s.classList.toggle("active", i===idx));
     }
 
-    /* Scroll loop with rAF throttle (stable) */
+    /* Scroll loop (rAF throttle) */
     let prevActive = 0;
     let rafPending = false;
 
@@ -605,25 +605,23 @@
       const idx = Math.round(rawSlide);
 
       if (idx !== prevActive) {
-        // current idx=0 -> no mini
-        // current idx>=1 -> previous exists
         if (idx === 0) {
           hideMini();
         } else {
           const prevIdx = idx - 1;
-          // 1) animate old page into mini
-          // (use the prevIdx, which is the page that just left)
+
+          // Render mini first (so it "exists"), but keep hidden
+          renderMini(prevIdx);
+
+          // Animate into the mini position (softer)
           animateIntoMini(prevIdx);
 
-          // 2) update mini content + show
-          renderMini(prevIdx);
-          // show slightly after animation starts (less abrupt)
+          // Show mini a bit later (less abrupt)
           setTimeout(() => {
             mini.classList.add("show");
             mini.setAttribute("aria-hidden","false");
-          }, 120);
+          }, 220);
         }
-
         prevActive = idx;
       }
 
@@ -649,6 +647,5 @@
     hideMini();
     compute();
   </script>
-
 </body>
 </html>
