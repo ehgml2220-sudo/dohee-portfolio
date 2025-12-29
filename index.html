@@ -15,15 +15,17 @@
     summary::-webkit-details-marker{ display:none; }
     html, body { height: 100%; }
 
-    /* background wash */
+    /* background */
     .wash{ position: fixed; inset: 0; z-index: -10; }
     .bg-blob{
       position:absolute;
-      width:820px; height:820px;
+      width: 860px;
+      height: 860px;
       border-radius:9999px;
-      filter: blur(120px);
-      opacity:0.24;
+      filter: blur(125px);
+      opacity: 0.30; /* stronger */
       will-change: transform, opacity, background;
+      transform: translate(22vw, 28vh) scale(1.06); /* initial = first key */
     }
 
     /* sticky stage */
@@ -38,12 +40,11 @@
       padding: 24px;
     }
 
-    /* slides (only one visible) */
+    /* slides */
     .slide{
       position:absolute; inset:0;
       display:flex; align-items:center; justify-content:center;
       padding:24px;
-
       opacity:0;
       visibility:hidden;
       pointer-events:none;
@@ -62,7 +63,7 @@
       pointer-events: none;
     }
 
-    /* --- Mini-player (prev slide) --- */
+    /* mini-player */
     .mini-wrap{
       position: fixed;
       left: 18px;
@@ -72,29 +73,26 @@
       height: 170px;
       border-radius: 18px;
       overflow: hidden;
-      background: rgba(255,255,255,0.92);
+      background: rgba(255,255,255,0.94);
       box-shadow: 0 18px 45px rgba(0,0,0,0.12);
       border: 1px solid rgba(0,0,0,0.08);
 
       opacity: 0;
       transform: translateY(16px) scale(0.96);
       transition: opacity 320ms ease, transform 320ms ease;
-      pointer-events: none; /* enabled only when shown */
+      pointer-events: none;
     }
     .mini-wrap.show{
       opacity: 1;
       transform: translateY(0) scale(1);
       pointer-events: auto;
     }
-
     .mini-inner{
       width: 100%;
       height: 100%;
       transform-origin: top left;
-      /* scale will be set by JS to fit */
       will-change: transform;
     }
-
     .mini-bar{
       position:absolute;
       left: 10px;
@@ -109,7 +107,7 @@
     .mini-label{
       font-size: 12px;
       color: rgba(0,0,0,0.55);
-      background: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.85);
       border: 1px solid rgba(0,0,0,0.08);
       padding: 6px 10px;
       border-radius: 999px;
@@ -123,17 +121,12 @@
       align-items:center;
       justify-content:center;
       border-radius: 999px;
-      background: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.88);
       border: 1px solid rgba(0,0,0,0.08);
       color: rgba(0,0,0,0.6);
       cursor: pointer;
     }
-    .mini-close:hover{ background: rgba(255,255,255,0.95); }
-
-    /* optional: make mini a touch softer so it doesn't compete */
-    .mini-wrap .mini-inner{
-      filter: blur(0.2px);
-    }
+    .mini-close:hover{ background: rgba(255,255,255,0.98); }
   </style>
 </head>
 
@@ -144,14 +137,11 @@
     <div id="blob" class="bg-blob"></div>
   </div>
 
-  <!-- mini-player container -->
   <div id="mini" class="mini-wrap" aria-hidden="true">
     <div id="miniInner" class="mini-inner"></div>
     <div class="mini-bar">
       <div class="mini-label">Previous</div>
-      <button id="miniClose" class="mini-close" type="button" aria-label="Close mini">
-        ✕
-      </button>
+      <button id="miniClose" class="mini-close" type="button" aria-label="Close mini">✕</button>
     </div>
   </div>
 
@@ -433,32 +423,30 @@
       stage.style.height = `${slides.length * VH_PER_SLIDE}vh`;
     }
     setStageHeight();
-    window.addEventListener("resize", () => {
-      setStageHeight();
-      // re-fit mini content on resize
-      fitMini();
-    });
+    window.addEventListener("resize", () => { setStageHeight(); fitMini(); });
 
-    // --- background continuous motion (connected) ---
+    /* ---------- Background (continuous, stronger color) ---------- */
     const clamp01 = (x) => Math.min(1, Math.max(0, x));
     const lerp = (a, b, t) => a + (b - a) * t;
 
+    // stronger weights + opacity
     const keys = [
-      { x: 22,  y: 28,  s: 1.06, op: 0.22, pr: 0.95, bl: 0.10, yl: 0.00 },
-      { x: 10,  y: 12,  s: 1.10, op: 0.24, pr: 0.55, bl: 0.85, yl: 0.15 },
-      { x:  0,  y:  0,  s: 1.14, op: 0.26, pr: 0.12, bl: 0.70, yl: 0.95 },
-      { x: -10, y: -10, s: 1.12, op: 0.24, pr: 0.10, bl: 0.90, yl: 0.55 },
-      { x: -22, y: -22, s: 1.10, op: 0.22, pr: 0.70, bl: 0.35, yl: 0.10 }
+      { x: 22,  y: 28,  s: 1.08, op: 0.32, pr: 1.00, bl: 0.12, yl: 0.00 },
+      { x: 10,  y: 12,  s: 1.12, op: 0.34, pr: 0.60, bl: 1.00, yl: 0.18 },
+      { x:  0,  y:  0,  s: 1.16, op: 0.36, pr: 0.16, bl: 0.85, yl: 1.00 },
+      { x: -10, y: -10, s: 1.14, op: 0.34, pr: 0.14, bl: 1.00, yl: 0.65 },
+      { x: -22, y: -22, s: 1.12, op: 0.32, pr: 0.85, bl: 0.42, yl: 0.12 }
     ];
 
     function buildGradient(prW, blW, ylW){
-      const pr = `rgba(74,42,106,${(0.75 * prW).toFixed(3)})`;
-      const bl = `rgba(175,198,217,${(0.75 * blW).toFixed(3)})`;
-      const yl = `rgba(244,225,154,${(0.85 * ylW).toFixed(3)})`;
+      // stronger alphas (still soft)
+      const pr = `rgba(74,42,106,${(0.92 * prW).toFixed(3)})`;
+      const bl = `rgba(175,198,217,${(0.92 * blW).toFixed(3)})`;
+      const yl = `rgba(244,225,154,${(0.98 * ylW).toFixed(3)})`;
       return `radial-gradient(circle at 35% 35%, ${yl} 0%, ${bl} 38%, ${pr} 62%, rgba(255,255,255,0) 74%)`;
     }
 
-    function updateBackgroundContinuous(progress){
+    function updateBackground(progress){
       const raw = progress * (keys.length - 1);
       const i0 = Math.floor(raw);
       const i1 = Math.min(i0 + 1, keys.length - 1);
@@ -480,19 +468,14 @@
       blob.style.background = buildGradient(prW, blW, ylW);
     }
 
-    // --- Mini-player logic ---
-    let prevIndex = 0;
-    let miniIndex = null;
-
+    /* ---------- Mini player ---------- */
     function fitMini(){
-      // Fit content inside 280x170 preserving scale
       const content = miniInner.firstElementChild;
       if (!content) return;
 
       const targetW = mini.clientWidth;
       const targetH = mini.clientHeight;
 
-      // Measure original (use a temp visible state)
       content.style.transform = "none";
       const r = content.getBoundingClientRect();
       const scale = Math.min(targetW / r.width, targetH / r.height);
@@ -501,88 +484,83 @@
       content.style.transform = `scale(${scale})`;
     }
 
-    function showMiniFor(index){
-      // Don't show mini for first slide
-      if (index <= 0) {
-        mini.classList.remove("show");
-        miniInner.innerHTML = "";
-        miniIndex = null;
-        return;
-      }
+    function hideMini(){
+      mini.classList.remove("show");
+      mini.setAttribute("aria-hidden", "true");
+      miniInner.innerHTML = "";
+    }
 
-      // Clone previous slide
-      const clone = slides[index].cloneNode(true);
-      clone.classList.add("mini-clone");
+    function showMini(prevIdx){
+      // ✅ prevIdx must be >= 1, otherwise no previous
+      if (prevIdx < 1) { hideMini(); return; }
+
+      const clone = slides[prevIdx].cloneNode(true);
       clone.classList.remove("active");
       clone.style.position = "relative";
       clone.style.inset = "auto";
       clone.style.opacity = "1";
       clone.style.visibility = "visible";
-      clone.style.pointerEvents = "none"; // mini is preview only
+      clone.style.pointerEvents = "none";
       clone.style.padding = "24px";
 
       miniInner.innerHTML = "";
       miniInner.appendChild(clone);
 
-      // Fit & show
       requestAnimationFrame(() => {
         fitMini();
         mini.classList.add("show");
         mini.setAttribute("aria-hidden", "false");
       });
-
-      miniIndex = index;
     }
-
-    // Click mini to go back (optional but nice)
-    mini.addEventListener("click", (e) => {
-      if (e.target === miniClose) return;
-      if (miniIndex == null) return;
-      // Scroll to that slide section
-      scrollToSlide(miniIndex);
-    });
 
     miniClose.addEventListener("click", (e) => {
       e.stopPropagation();
-      mini.classList.remove("show");
-      mini.setAttribute("aria-hidden", "true");
+      hideMini();
     });
 
-    function scrollToSlide(idx){
-      const total = stage.offsetHeight - window.innerHeight;
-      const p = (slides.length <= 1) ? 0 : (idx / (slides.length - 1));
-      const target = stage.offsetTop + (total * p);
-      window.scrollTo({ top: target, behavior: "smooth" });
-    }
+    /* ---------- Slide switching + rAF throttle (reduces flicker) ---------- */
+    let prevActive = 0;
+    let rafPending = false;
 
-    // Slides: hard switch
     function setActive(idx){
       slides.forEach((s, i) => s.classList.toggle("active", i === idx));
     }
 
-    function update(){
+    function compute(){
       const rect = stage.getBoundingClientRect();
       const total = stage.offsetHeight - window.innerHeight;
       const scrolled = Math.min(Math.max(-rect.top, 0), total);
       const progress = total > 0 ? (scrolled / total) : 0;
 
-      // active index
       const rawSlide = progress * (slides.length - 1);
       const idx = Math.round(rawSlide);
 
-      // If index changed, show mini with previous slide
-      if (idx !== prevIndex) {
-        const old = prevIndex;
-        prevIndex = idx;
-        if (old !== idx) showMiniFor(old);
+      if (idx !== prevActive) {
+        // ✅ show mini only when CURRENT page has a real previous
+        // Example: when moving to page 2 (idx=1), previous is 0 => hide mini
+        // when moving to page 3 (idx=2), previous is 1 => show mini(1)
+        const previousPageIndex = idx - 1;
+        showMini(previousPageIndex);
+        prevActive = idx;
       }
 
       setActive(idx);
-      updateBackgroundContinuous(progress);
+      updateBackground(progress);
+      rafPending = false;
     }
 
-    window.addEventListener("scroll", update, { passive: true });
-    update();
+    function onScroll(){
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(compute);
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+
+    // init
+    hideMini();
+    compute();
   </script>
 
 </body>
