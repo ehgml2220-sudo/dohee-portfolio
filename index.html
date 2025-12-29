@@ -215,43 +215,61 @@
 
   </section>
 
-  <script>
-    // 1) Auto-open details when they enter viewport
-    const detailsEls = document.querySelectorAll("details.auto-open");
-    const openObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.open = true;
-          openObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.35 });
-    detailsEls.forEach((el) => openObserver.observe(el));
+<script>
+  // 1) Auto-open details when they enter viewport
+  const detailsEls = document.querySelectorAll("details.auto-open");
+  const openObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.open = true;
+        openObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.35 });
+  detailsEls.forEach((el) => openObserver.observe(el));
 
-    // 2) Blur cards as they move away from viewport center (above or below)
-    const blurItems = Array.from(document.querySelectorAll("[data-blur-item]"));
+  // 2) Blur tuning (gentler, with center dead-zone)
+  const blurItems = Array.from(document.querySelectorAll("[data-blur-item]"));
 
-    function applyBlur() {
-      const centerY = window.innerHeight / 2;
+  function applyBlur() {
+    const centerY = window.innerHeight / 2;
 
-      blurItems.forEach(el => {
-        const r = el.getBoundingClientRect();
-        const elCenter = r.top + r.height / 2;
-        const d = Math.abs(centerY - elCenter);
+    // ✅ 중앙 선명 구간(데드존): 화면 높이의 22%
+    const deadZone = window.innerHeight * 0.22;
 
-        // subtle Netflix-like blur
-        const blurPx = Math.min(d / 340, 5);        // max 5px
-        const op = Math.max(1 - d / 1000, 0.78);    // min 0.78
+    // ✅ 블러가 본격적으로 늘기 시작하는 스케일(커질수록 천천히)
+    const range = window.innerHeight * 0.90;
 
-        el.style.filter = `blur(${blurPx}px)`;
-        el.style.opacity = op;
-      });
-    }
+    blurItems.forEach(el => {
+      const r = el.getBoundingClientRect();
+      const elCenter = r.top + r.height / 2;
+      const d = Math.abs(centerY - elCenter);
 
-    window.addEventListener("scroll", applyBlur, { passive: true });
-    window.addEventListener("resize", applyBlur);
-    applyBlur();
-  </script>
+      // 데드존 안이면 blur 0
+      const effective = Math.max(0, d - deadZone);
+
+      // 0~1 정규화
+      let t = Math.min(effective / range, 1);
+
+      // ✅ 비선형(제곱): 초반 변화 완만
+      t = t * t;
+
+      // ✅ 최대 blur 낮추기 (2.8px 정도)
+      const blurPx = 2.8 * t;
+
+      // ✅ opacity는 거의 유지 (최소 0.90)
+      const opacity = 1 - 0.10 * t;
+
+      el.style.filter = `blur(${blurPx.toFixed(2)}px)`;
+      el.style.opacity = opacity.toFixed(3);
+    });
+  }
+
+  window.addEventListener("scroll", applyBlur, { passive: true });
+  window.addEventListener("resize", applyBlur);
+  applyBlur();
+</script>
+
 
 </body>
 </html>
