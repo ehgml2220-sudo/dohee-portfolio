@@ -7,125 +7,173 @@
 
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Minimal theme (white base + 2 accent colors) -->
+  <style>
+    :root{
+      /* 추천 톤: 차분한 공기색 + 잉크 같은 퍼플 */
+      --country-air: #AFC6D9;
+      --purple-prose: #4A2A6A;
+    }
+  </style>
 </head>
 
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-white text-gray-900">
+
+  <!-- Subtle background wash (white only + tiny tint) -->
+  <div class="fixed inset-0 -z-10">
+    <div class="absolute inset-0 bg-white"></div>
+    <div
+      class="absolute -top-32 -left-24 h-[520px] w-[520px] rounded-full blur-3xl opacity-25"
+      style="background: var(--country-air);"
+    ></div>
+    <div
+      class="absolute -bottom-40 -right-24 h-[560px] w-[560px] rounded-full blur-3xl opacity-20"
+      style="background: var(--purple-prose);"
+    ></div>
+  </div>
 
   <!-- Hero -->
-  <header class="min-h-[55vh] w-full text-center px-6 py-20">
-    <h1 class="text-5xl font-bold mb-6">
-      Dohee Kim — Product Language & Localization
+  <header class="max-w-5xl mx-auto text-center px-6 pt-20 pb-14">
+    <p class="text-sm tracking-wide text-gray-600">
+      Product Language · Localization · Quality
+    </p>
+
+    <h1 class="text-5xl font-extrabold mt-4 leading-tight">
+      Dohee Kim
+      <span class="block text-2xl font-semibold mt-3 text-gray-700">
+        Product Language & Localization
+      </span>
     </h1>
 
-    <p class="text-xl max-w-3xl mx-auto text-gray-700">
+    <p class="text-lg max-w-3xl mx-auto mt-7 text-gray-700 leading-relaxed">
       Korean language specialist building AI-assisted quality frameworks and culturally resonant product experiences.
     </p>
+
+    <div class="mt-10 flex justify-center gap-3">
+      <a href="mailto:dkim112@yonsei.ac.kr"
+         class="rounded-full px-5 py-2 text-sm font-semibold border border-black/10 bg-white hover:border-black/20 transition">
+        Email
+      </a>
+
+      <a href="#work"
+         class="rounded-full px-5 py-2 text-sm font-semibold text-white transition"
+         style="background: var(--purple-prose);">
+        View work
+      </a>
+    </div>
   </header>
 
   <!-- Cards -->
-  <section class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6 pb-20">
+  <section id="work" class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6 pb-20">
 
-    <!-- 카드 1 -->
-    <div class="rounded-3xl shadow-lg overflow-hidden text-left bg-[#0f1b35]">
-      <div class="p-6 flex justify-center">
-        <div
-          class="w-24 h-24 bg-white border rounded-2xl bg-contain bg-center bg-no-repeat shadow"
-          style="background-image:url('images/speech-eval.png')">
+    <!-- Card 1 -->
+    <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 hover:ring-black/10 transition">
+      <!-- Thumbnail frame -->
+      <div class="p-6">
+        <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
+          <div class="aspect-[16/10]">
+            <img
+              src="images/speech-eval.png"
+              alt="AI Speech Evaluation screenshot"
+              class="w-full h-full object-cover object-top"
+            />
+          </div>
         </div>
       </div>
 
-      <h2
-        class="text-2xl font-extrabold px-6 mb-2 text-transparent"
-        style="
-          background-image:url('images/speech-eval.png');
-          background-size: cover;
-          background-position: center;
-          -webkit-background-clip: text;
-          background-clip: text;
-        "
-      >
-        AI Speech Evaluation
-      </h2>
+      <div class="px-6 pb-6">
+        <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
+          AI Speech Evaluation
+        </h2>
 
-      <p class="p-6 text-gray-200 opacity-0 translate-y-3 transition-all duration-700 reveal">
-        발음·억양 오류를 평가하고, 사람이 검증하는 human-in-the-loop 품질 루프를 설계했습니다.
-      </p>
-    </div>
+        <p class="text-gray-700 text-sm mt-2 leading-relaxed">
+          Pronunciation & intonation error evaluation with a human QA loop.
+        </p>
 
-    <!-- 카드 2 -->
-    <div class="rounded-3xl shadow-lg overflow-hidden text-left bg-[#0f1b35]">
-      <div class="p-6 flex justify-center">
-        <div
-          class="w-24 h-24 bg-white border rounded-2xl bg-contain bg-center bg-no-repeat shadow"
-          style="background-image:url('images/pronunciation-detail.png')">
+        <a href="speech-eval.html"
+           class="inline-flex items-center mt-5 text-sm font-semibold underline underline-offset-4"
+           style="color: var(--purple-prose);">
+          Read more →
+        </a>
+      </div>
+
+      <!-- tiny accent line -->
+      <div class="h-1 w-full" style="background: var(--country-air);"></div>
+    </article>
+
+    <!-- Card 2 -->
+    <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 hover:ring-black/10 transition">
+      <div class="p-6">
+        <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
+          <div class="aspect-[16/10]">
+            <img
+              src="images/pronunciation-detail.png"
+              alt="Content Quality screenshot"
+              class="w-full h-full object-cover object-top"
+            />
+          </div>
         </div>
       </div>
 
-      <h2
-        class="text-2xl font-extrabold px-6 mb-2 text-transparent"
-        style="
-          background-image:url('images/pronunciation-detail.png');
-          background-size: cover;
-          background-position: center;
-          -webkit-background-clip: text;
-          background-clip: text;
-        "
-      >
-        Content Quality & Cultural Fit
-      </h2>
+      <div class="px-6 pb-6">
+        <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
+          Content Quality & Cultural Fit
+        </h2>
 
-      <p class="p-6 text-gray-200 opacity-0 translate-y-3 transition-all duration-700 reveal">
-        phoneme / intonation 분석과 오류 기준 정의를 통해 피드백을 체계화했습니다.
-      </p>
-    </div>
+        <p class="text-gray-700 text-sm mt-2 leading-relaxed">
+          Phoneme/intonation analysis and consistent error criteria for feedback.
+        </p>
 
-    <!-- 카드 3 -->
-    <div class="rounded-3xl shadow-lg overflow-hidden text-left bg-[#0f1b35]">
-      <div class="p-6 flex justify-center">
-        <div
-          class="w-24 h-24 bg-white border rounded-2xl bg-contain bg-center bg-no-repeat shadow"
-          style="background-image:url('images/feedback-examples.png')">
+        <a href="content-quality.html"
+           class="inline-flex items-center mt-5 text-sm font-semibold underline underline-offset-4"
+           style="color: var(--purple-prose);">
+          Read more →
+        </a>
+      </div>
+
+      <div class="h-1 w-full" style="background: var(--country-air);"></div>
+    </article>
+
+    <!-- Card 3 -->
+    <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 hover:ring-black/10 transition">
+      <div class="p-6">
+        <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
+          <div class="aspect-[16/10]">
+            <img
+              src="images/feedback-examples.png"
+              alt="Guidelines screenshot"
+              class="w-full h-full object-cover object-top"
+            />
+          </div>
         </div>
       </div>
 
-      <h2
-        class="text-2xl font-extrabold px-6 mb-2 text-transparent"
-        style="
-          background-image:url('images/feedback-examples.png');
-          background-size: cover;
-          background-position: center;
-          -webkit-background-clip: text;
-          background-clip: text;
-        "
-      >
-        Guidelines & Operations
-      </h2>
+      <div class="px-6 pb-6">
+        <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
+          Guidelines & Operations
+        </h2>
 
-      <p class="p-6 text-gray-200 opacity-0 translate-y-3 transition-all duration-700 reveal">
-        현장 사례를 가이드라인·프로세스·품질 프레임워크로 확장했습니다.
-      </p>
-    </div>
+        <p class="text-gray-700 text-sm mt-2 leading-relaxed">
+          Practical cases into guidelines, process, and QA framework.
+        </p>
+
+        <a href="guidelines-ops.html"
+           class="inline-flex items-center mt-5 text-sm font-semibold underline underline-offset-4"
+           style="color: var(--purple-prose);">
+          Read more →
+        </a>
+      </div>
+
+      <div class="h-1 w-full" style="background: var(--country-air);"></div>
+    </article>
 
   </section>
 
   <!-- Footer -->
-  <footer class="text-center text-gray-500 text-sm pb-10">
+  <footer class="text-center text-gray-500 text-sm pb-12">
     Contact: dkim112@yonsei.ac.kr — Korea
   </footer>
 
-  <!-- Scroll animation -->
-  <script>
-    const items = document.querySelectorAll(".reveal");
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.remove("opacity-0", "translate-y-3");
-        }
-      });
-    }, { threshold: 0.25 });
-
-    items.forEach(el => observer.observe(el));
-  </script>
 </body>
 </html>
