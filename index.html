@@ -4,32 +4,25 @@
   <meta charset="UTF-8" />
   <title>Dohee Kim — Netflix Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Netflix-dedicated minimal theme (white base + 2 accent colors) -->
   <style>
     :root{
-      --country-air: #AFC6D9;   /* airy blue */
-      --purple-prose: #4A2A6A;  /* deep purple */
+      --country-air: #AFC6D9;
+      --purple-prose: #4A2A6A;
     }
   </style>
 </head>
 
 <body class="bg-white text-gray-900">
 
-  <!-- Subtle background wash -->
+  <!-- Soft background wash -->
   <div class="fixed inset-0 -z-10">
     <div class="absolute inset-0 bg-white"></div>
-    <div
-      class="absolute -top-32 -left-24 h-[520px] w-[520px] rounded-full blur-3xl opacity-25"
-      style="background: var(--country-air);"
-    ></div>
-    <div
-      class="absolute -bottom-40 -right-24 h-[560px] w-[560px] rounded-full blur-3xl opacity-20"
-      style="background: var(--purple-prose);"
-    ></div>
+    <div class="absolute -top-32 -left-24 h-[520px] w-[520px] rounded-full blur-3xl opacity-25"
+         style="background: var(--country-air);"></div>
+    <div class="absolute -bottom-40 -right-24 h-[560px] w-[560px] rounded-full blur-3xl opacity-20"
+         style="background: var(--purple-prose);"></div>
   </div>
 
   <!-- Hero -->
@@ -51,81 +44,48 @@
       so product language feels authentically local at scale.
     </p>
 
-    <div class="mt-10 flex justify-center gap-3">
+    <!-- Email only -->
+    <div class="mt-10 flex justify-center">
       <a href="mailto:dkim112@yonsei.ac.kr"
-         class="rounded-full px-5 py-2 text-sm font-semibold border border-black/10 bg-white hover:border-black/20 transition">
+         class="rounded-full px-6 py-2.5 text-sm font-semibold border border-black/10 bg-white
+                hover:border-black/20 transition">
         Email
-      </a>
-
-      <a href="#work"
-         class="rounded-full px-5 py-2 text-sm font-semibold text-white transition"
-         style="background: var(--purple-prose);">
-        View work
       </a>
     </div>
   </header>
 
   <!-- Work Cards -->
-  <section id="work" class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6 pb-20">
+  <section class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6 pb-20">
 
     <!-- Card 1 -->
-   <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 hover:ring-black/10 transition">
-  <!-- Thumbnail -->
-  <div class="p-6">
-    <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
-      <div class="aspect-[16/10]">
-        <img
-          src="images/speech-eval.png"
-          alt="AI Language Quality screenshot"
-          class="w-full h-full object-cover object-top scale-[1.12]"
-        />
+    <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5">
+      <div class="p-6">
+        <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
+          <div class="aspect-[16/10]">
+            <img
+              src="images/speech-eval.png"
+              alt="Human-in-the-loop AI Language Quality screenshot"
+              class="w-full h-full object-cover object-top scale-[1.12]"
+            />
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="px-6 pb-6">
-    <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
-      Human-in-the-loop AI Language Quality
-    </h2>
-
-    <p class="text-gray-700 text-sm mt-2 leading-relaxed">
-      Defining where human linguistic judgment is essential in AI-driven evaluation systems.
-    </p>
-
-    <!-- Read more (expand) -->
-    <details class="group mt-4">
-      <summary
-        class="cursor-pointer list-none text-sm font-semibold underline underline-offset-4"
-        style="color: var(--purple-prose);">
-        <span class="group-open:hidden">Read more →</span>
-        <span class="hidden group-open:inline">Show less ↑</span>
-      </summary>
-
-      <!-- Expanded content -->
-      <div class="mt-4 text-sm text-gray-700 space-y-3">
-        <p>
-          I worked on defining error taxonomies for pronunciation and intonation,
-          focusing on where automated evaluation requires human linguistic judgment.
-        </p>
-
-        <ul class="list-disc pl-5 space-y-1">
-          <li>Segmental & suprasegmental error categories</li>
-          <li>Reviewer decision criteria and edge-case notes</li>
-          <li>Feedback loops to improve consistency and model iteration</li>
-        </ul>
-
-        <p class="text-gray-600">
-          This framework safeguards language quality while enabling evaluation to scale.
+      <div class="px-6 pb-6">
+        <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
+          Human-in-the-loop AI Language Quality
+        </h2>
+        <p class="text-gray-700 text-sm mt-2 leading-relaxed">
+          Defining where human linguistic judgment is essential
+          in AI-driven evaluation systems.
         </p>
       </div>
-    </details>
-  </div>
 
-  <div class="h-1 w-full" style="background: var(--country-air);"></div>
-</article>
+      <div class="h-1 w-full" style="background: var(--country-air);"></div>
+    </article>
 
     <!-- Card 2 -->
-    <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 hover:ring-black/10 transition">
+    <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5">
       <div class="p-6">
         <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
           <div class="aspect-[16/10]">
@@ -142,23 +102,17 @@
         <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
           Language Quality Frameworks & Guardrails
         </h2>
-
         <p class="text-gray-700 text-sm mt-2 leading-relaxed">
-          Building standards and quality criteria that govern AI-assisted localization.
+          Building standards and quality criteria
+          that govern AI-assisted localization.
         </p>
-
-        <a href="guardrails.html"
-           class="inline-flex items-center mt-5 text-sm font-semibold underline underline-offset-4"
-           style="color: var(--purple-prose);">
-          Read more →
-        </a>
       </div>
 
       <div class="h-1 w-full" style="background: var(--country-air);"></div>
     </article>
 
-    <!-- Card 3 (NO extra zoom) -->
-    <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 hover:ring-black/10 transition">
+    <!-- Card 3 -->
+    <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5">
       <div class="p-6">
         <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
           <div class="aspect-[16/10]">
@@ -175,16 +129,10 @@
         <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
           Product Language & Cultural Fit (Korean)
         </h2>
-
         <p class="text-gray-700 text-sm mt-2 leading-relaxed">
-          Ensuring product language resonates authentically with Korean members.
+          Ensuring product language resonates authentically
+          with Korean members.
         </p>
-
-        <a href="cultural-fit.html"
-           class="inline-flex items-center mt-5 text-sm font-semibold underline underline-offset-4"
-           style="color: var(--purple-prose);">
-          Read more →
-        </a>
       </div>
 
       <div class="h-1 w-full" style="background: var(--country-air);"></div>
@@ -192,12 +140,5 @@
 
   </section>
 
-  <!-- Footer -->
-  <footer class="text-center text-gray-500 text-sm pb-12">
-    Contact: dkim112@yonsei.ac.kr — Korea
-  </footer>
-
 </body>
 </html>
-
-
