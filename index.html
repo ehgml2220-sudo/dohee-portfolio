@@ -8,14 +8,29 @@
 
   <style>
     :root{
-      --country-air:#AFC6D9;
-      --purple-prose:#4A2A6A;
+      --country-air:#AFC6D9;     /* airy blue */
+      --purple-prose:#4A2A6A;    /* deep purple */
+      --butter-yellow:#F4E19A;   /* soft yellow */
     }
     summary::-webkit-details-marker{ display:none; }
     html, body { height: 100%; }
 
     /* background wash */
     .wash{ position: fixed; inset: 0; z-index: -10; }
+    .bg-blob{
+      position: absolute;
+      width: 760px;
+      height: 760px;
+      border-radius: 9999px;
+      filter: blur(110px);
+      opacity: 0.22;
+      transform: translate(0,0) scale(1);
+      transition:
+        transform 1100ms cubic-bezier(.22,.9,.2,1),
+        opacity 1100ms cubic-bezier(.22,.9,.2,1),
+        background 1100ms cubic-bezier(.22,.9,.2,1);
+      will-change: transform, opacity, background;
+    }
 
     /* sticky stage */
     .scroll-stage{ position: relative; height: 600vh; }
@@ -29,7 +44,7 @@
       padding: 24px;
     }
 
-    /* slides stack but ONLY one is visible (no overlap) */
+    /* slides stack but only one visible */
     .slide{
       position: absolute;
       inset: 0;
@@ -42,7 +57,7 @@
       visibility: hidden;
       pointer-events: none;
 
-      transition: opacity 260ms ease; /* short, clean */
+      transition: opacity 260ms ease;
       will-change: opacity;
     }
     .slide.active{
@@ -62,12 +77,10 @@
 
 <body class="bg-white text-gray-900">
 
+  <!-- background -->
   <div class="wash">
     <div class="absolute inset-0 bg-white"></div>
-    <div class="absolute -top-32 -left-24 h-[520px] w-[520px] rounded-full blur-3xl opacity-25"
-         style="background: var(--country-air);"></div>
-    <div class="absolute -bottom-40 -right-24 h-[560px] w-[560px] rounded-full blur-3xl opacity-20"
-         style="background: var(--purple-prose);"></div>
+    <div id="blob" class="bg-blob"></div>
   </div>
 
   <main class="scroll-stage" id="stage">
@@ -184,7 +197,6 @@
                 Error taxonomy and decision rules for stable human review at scale.
               </p>
             </div>
-
             <details open>
               <summary class="hidden">Details</summary>
               <div class="px-8 md:px-10 pb-10 border-t border-black/5">
@@ -220,7 +232,6 @@
                 </div>
               </div>
             </details>
-
             <div class="h-1 w-full" style="background: var(--country-air);"></div>
           </div>
         </div>
@@ -239,7 +250,6 @@
                 Standards that reduce inconsistency across AI-assisted localization outputs.
               </p>
             </div>
-
             <details open>
               <summary class="hidden">Details</summary>
               <div class="px-8 md:px-10 pb-10 border-t border-black/5">
@@ -275,7 +285,6 @@
                 </div>
               </div>
             </details>
-
             <div class="h-1 w-full" style="background: var(--country-air);"></div>
           </div>
         </div>
@@ -294,7 +303,6 @@
                 Korean product language that feels natural, clear, and culturally aligned.
               </p>
             </div>
-
             <details open>
               <summary class="hidden">Details</summary>
               <div class="px-8 md:px-10 pb-10 border-t border-black/5">
@@ -330,7 +338,6 @@
                 </div>
               </div>
             </details>
-
             <div class="h-1 w-full" style="background: var(--country-air);"></div>
           </div>
         </div>
@@ -342,8 +349,8 @@
   <script>
     const slides = Array.from(document.querySelectorAll("[data-slide]"));
     const stage = document.getElementById("stage");
+    const blob = document.getElementById("blob");
 
-    // Give enough scroll distance; higher = slower change
     const VH_PER_SLIDE = 130;
 
     function setStageHeight(){
@@ -352,8 +359,50 @@
     setStageHeight();
     window.addEventListener("resize", setStageHeight);
 
+    // ✅ Each slide: move from bottom-right -> center -> top-left (and repeat), and change colors
+    const bgSteps = [
+      // 0 HERO: purple heavy at bottom-right
+      {
+        transform: "translate(20vw, 28vh) scale(1.05)",
+        opacity: 0.22,
+        bg: "radial-gradient(circle at 30% 30%, rgba(74,42,106,0.95), rgba(74,42,106,0.00) 62%)"
+      },
+      // 1 TEASERS: purple -> blue
+      {
+        transform: "translate(8vw, 10vh) scale(1.10)",
+        opacity: 0.24,
+        bg: "radial-gradient(circle at 35% 35%, rgba(175,198,217,0.95), rgba(74,42,106,0.20) 40%, rgba(255,255,255,0) 68%)"
+      },
+      // 2 CASE 1: blue + yellow blend (center)
+      {
+        transform: "translate(0vw, 0vh) scale(1.12)",
+        opacity: 0.26,
+        bg: "radial-gradient(circle at 35% 35%, rgba(244,225,154,0.92), rgba(175,198,217,0.55) 38%, rgba(255,255,255,0) 70%)"
+      },
+      // 3 CASE 2: travel toward top-left, more blue
+      {
+        transform: "translate(-10vw, -10vh) scale(1.10)",
+        opacity: 0.24,
+        bg: "radial-gradient(circle at 35% 35%, rgba(175,198,217,0.90), rgba(244,225,154,0.35) 40%, rgba(255,255,255,0) 72%)"
+      },
+      // 4 CASE 3: top-left, purple returns subtly
+      {
+        transform: "translate(-20vw, -22vh) scale(1.08)",
+        opacity: 0.22,
+        bg: "radial-gradient(circle at 35% 35%, rgba(74,42,106,0.70), rgba(175,198,217,0.35) 42%, rgba(255,255,255,0) 72%)"
+      }
+    ];
+
+    function updateBackground(idx){
+      const c = bgSteps[idx] || bgSteps[bgSteps.length - 1];
+      blob.style.transform = c.transform;
+      blob.style.opacity = String(c.opacity);
+      blob.style.background = c.bg;
+    }
+
     function setActive(idx){
       slides.forEach((s, i) => s.classList.toggle("active", i === idx));
+      updateBackground(idx);
     }
 
     function update(){
@@ -362,7 +411,6 @@
       const scrolled = Math.min(Math.max(-rect.top, 0), total);
       const progress = total > 0 ? (scrolled / total) : 0;
 
-      // map progress to index (hard switch, no overlap)
       const raw = progress * (slides.length - 1);
       const idx = Math.round(raw);
 
@@ -370,6 +418,7 @@
     }
 
     window.addEventListener("scroll", update, { passive: true });
+    updateBackground(0);
     update();
   </script>
 
