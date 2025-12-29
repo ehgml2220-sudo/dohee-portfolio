@@ -69,37 +69,60 @@
   <section id="work" class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6 pb-20">
 
     <!-- Card 1 -->
-    <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 hover:ring-black/10 transition">
-      <div class="p-6">
-        <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
-          <div class="aspect-[16/10]">
-            <img
-              src="images/speech-eval.png"
-              alt="Human-in-the-loop AI Language Quality screenshot"
-              class="w-full h-full object-cover object-top scale-[1.12]"
-            />
-          </div>
-        </div>
+   <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 hover:ring-black/10 transition">
+  <!-- Thumbnail -->
+  <div class="p-6">
+    <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
+      <div class="aspect-[16/10]">
+        <img
+          src="images/speech-eval.png"
+          alt="AI Language Quality screenshot"
+          class="w-full h-full object-cover object-top scale-[1.12]"
+        />
       </div>
+    </div>
+  </div>
 
-      <div class="px-6 pb-6">
-        <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
-          Human-in-the-loop AI Language Quality
-        </h2>
+  <div class="px-6 pb-6">
+    <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
+      Human-in-the-loop AI Language Quality
+    </h2>
 
-        <p class="text-gray-700 text-sm mt-2 leading-relaxed">
-          Defining where human linguistic judgment is essential in AI-driven evaluation systems.
+    <p class="text-gray-700 text-sm mt-2 leading-relaxed">
+      Defining where human linguistic judgment is essential in AI-driven evaluation systems.
+    </p>
+
+    <!-- Read more (expand) -->
+    <details class="group mt-4">
+      <summary
+        class="cursor-pointer list-none text-sm font-semibold underline underline-offset-4"
+        style="color: var(--purple-prose);">
+        <span class="group-open:hidden">Read more →</span>
+        <span class="hidden group-open:inline">Show less ↑</span>
+      </summary>
+
+      <!-- Expanded content -->
+      <div class="mt-4 text-sm text-gray-700 space-y-3">
+        <p>
+          I worked on defining error taxonomies for pronunciation and intonation,
+          focusing on where automated evaluation requires human linguistic judgment.
         </p>
 
-        <a href="human-in-the-loop.html"
-           class="inline-flex items-center mt-5 text-sm font-semibold underline underline-offset-4"
-           style="color: var(--purple-prose);">
-          Read more →
-        </a>
-      </div>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>Segmental & suprasegmental error categories</li>
+          <li>Reviewer decision criteria and edge-case notes</li>
+          <li>Feedback loops to improve consistency and model iteration</li>
+        </ul>
 
-      <div class="h-1 w-full" style="background: var(--country-air);"></div>
-    </article>
+        <p class="text-gray-600">
+          This framework safeguards language quality while enabling evaluation to scale.
+        </p>
+      </div>
+    </details>
+  </div>
+
+  <div class="h-1 w-full" style="background: var(--country-air);"></div>
+</article>
 
     <!-- Card 2 -->
     <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 hover:ring-black/10 transition">
@@ -177,100 +200,4 @@
 </body>
 </html>
 
-<!-- human-in-loop.html (Read more page example) -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Human-in-the-loop AI Language Quality — Dohee Kim</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root{ --country-air:#AFC6D9; --purple-prose:#4A2A6A; }
-  </style>
-</head>
 
-<body class="bg-white text-gray-900">
-
-  <!-- Soft wash -->
-  <div class="fixed inset-0 -z-10">
-    <div class="absolute inset-0 bg-white"></div>
-    <div class="absolute -top-32 -left-24 h-[520px] w-[520px] rounded-full blur-3xl opacity-20"
-         style="background: var(--country-air);"></div>
-    <div class="absolute -bottom-40 -right-24 h-[560px] w-[560px] rounded-full blur-3xl opacity-15"
-         style="background: var(--purple-prose);"></div>
-  </div>
-
-  <main class="max-w-4xl mx-auto px-6 py-16">
-    <a href="index.html"
-       class="text-sm text-gray-600 hover:text-gray-900 underline underline-offset-4">
-      ← Back
-    </a>
-
-    <h1 class="text-4xl font-extrabold mt-6" style="color: var(--purple-prose);">
-      Human-in-the-loop AI Language Quality
-    </h1>
-
-    <p class="text-lg text-gray-700 mt-4 leading-relaxed">
-      A case page that shows how I define review criteria, align evaluators, and keep output quality stable.
-    </p>
-
-    <!-- Hero image -->
-    <div class="mt-10 rounded-3xl overflow-hidden bg-white shadow-sm ring-1 ring-black/5">
-      <div class="aspect-[16/10]">
-        <img src="images/speech-eval.png" alt="Screenshot"
-             class="w-full h-full object-cover object-top" />
-      </div>
-    </div>
-
-    <!-- Content blocks -->
-    <section class="mt-10 space-y-6">
-
-      <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-black/5">
-        <h2 class="text-xl font-bold mb-2">Context</h2>
-        <p class="text-gray-700 leading-relaxed">
-          Speech evaluation requires consistent human judgment. I worked on error labels, examples, and decision rules
-          so review stays reliable across large sets.
-        </p>
-      </div>
-
-      <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-black/5">
-        <h2 class="text-xl font-bold mb-2">What I did</h2>
-        <ul class="list-disc pl-5 text-gray-700 space-y-1">
-          <li>Defined error taxonomy for segmental and suprasegmental features</li>
-          <li>Wrote criteria and edge-case notes to reduce reviewer drift</li>
-          <li>Shared feedback to refine guidelines and raise consistency</li>
-        </ul>
-      </div>
-
-      <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-black/5">
-        <h2 class="text-xl font-bold mb-2">Why it matters for Netflix Product</h2>
-        <p class="text-gray-700 leading-relaxed">
-          Member trust depends on language quality. Human review protects nuance and brand voice where automation alone
-          may fail.
-        </p>
-      </div>
-
-      <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-black/5">
-        <h2 class="text-xl font-bold mb-2">Artifacts</h2>
-        <ul class="text-gray-700 space-y-2">
-          <li>
-            <span class="font-semibold" style="color: var(--purple-prose);">•</span>
-            Error taxonomy (labels + examples)
-          </li>
-          <li>
-            <span class="font-semibold" style="color: var(--purple-prose);">•</span>
-            Reviewer criteria (decision rules + edge cases)
-          </li>
-          <li>
-            <span class="font-semibold" style="color: var(--purple-prose);">•</span>
-            Feedback loop notes (what changed and why)
-          </li>
-        </ul>
-      </div>
-
-    </section>
-  </main>
-
-</body>
-</html>
