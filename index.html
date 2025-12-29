@@ -1,183 +1,154 @@
-<meta charset="UTF-8" />
-<title>Dohee Kim — Netflix Portfolio</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dohee Kim — Netflix Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- Tailwind CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 
-<style>
-:root{
---country-air: #AFC6D9;
---purple-prose: #4A2A6A;
-}
+  <style>
+    :root{
+      --country-air: #AFC6D9;
+      --purple-prose: #4A2A6A;
+    }
 
-summary::-webkit-details-marker { display: none; }
+    summary::-webkit-details-marker { display: none; }
 
-    .blur-item {
-      transition: filter 0.35s ease, opacity 0.35s ease;
-    /* blur behavior */
+    /* blur transition */
     .blur-item{
       transition: filter 0.32s ease, opacity 0.32s ease;
-will-change: filter, opacity;
-}
-</style>
-@@ -34,8 +32,8 @@
-style="background: var(--purple-prose);"></div>
-</div>
+      will-change: filter, opacity;
+    }
 
-  <!-- Hero (NO blur) -->
-  <header class="max-w-5xl mx-auto text-center px-6 pt-20 pb-14">
-  <!-- Hero (no blur target) -->
+    /* keep "no click needed" vibe */
+    details.auto-open > summary{
+      cursor: default;
+      user-select: none;
+    }
+  </style>
+</head>
+
+<body class="bg-white text-gray-900">
+
+  <!-- Soft background wash -->
+  <div class="fixed inset-0 -z-10">
+    <div class="absolute inset-0 bg-white"></div>
+    <div class="absolute -top-32 -left-24 h-[520px] w-[520px] rounded-full blur-3xl opacity-25"
+         style="background: var(--country-air);"></div>
+    <div class="absolute -bottom-40 -right-24 h-[560px] w-[560px] rounded-full blur-3xl opacity-20"
+         style="background: var(--purple-prose);"></div>
+  </div>
+
+  <!-- Hero -->
   <header class="max-w-5xl mx-auto text-center px-6 pt-20 pb-12">
-<p class="text-sm tracking-wide text-gray-600">
-Globalization · Product Language · Korean
-</p>
-@@ -55,164 +53,276 @@ <h1 class="text-5xl font-extrabold mt-4 leading-tight">
+    <p class="text-sm tracking-wide text-gray-600">
+      Globalization · Product Language · Korean
+    </p>
 
-<div class="mt-10 flex justify-center">
-<a href="mailto:dkim112@yonsei.ac.kr"
-         class="rounded-full px-6 py-2.5 text-sm font-semibold border border-black/10 bg-white
-                hover:border-black/20 transition">
+    <h1 class="text-5xl font-extrabold mt-4 leading-tight">
+      Dohee Kim
+      <span class="block text-2xl font-semibold mt-3 text-gray-700">
+        Product Language Manager (Korean)
+      </span>
+    </h1>
+
+    <p class="text-lg max-w-3xl mx-auto mt-7 text-gray-700 leading-relaxed">
+      Safeguarding linguistic craft while scaling language with AI.
+      I build standards, guardrails, and human-in-the-loop quality systems
+      so product language feels authentically local at scale.
+    </p>
+
+    <div class="mt-10 flex justify-center">
+      <a href="mailto:dkim112@yonsei.ac.kr"
          class="rounded-full px-6 py-2.5 text-sm font-semibold border border-black/10 bg-white hover:border-black/20 transition">
-Email
-</a>
-</div>
-</header>
+        Email
+      </a>
+    </div>
+  </header>
 
-  <!-- Work Cards -->
-  <section class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6 pb-20">
-  <!-- Teaser Cards -->
+  <!-- ✅ Teaser Cards (3 columns on desktop) -->
   <section class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6 pb-14">
 
-    <!-- Card 1 -->
-<article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 blur-item" data-blur-item>
-<div class="p-6">
-<div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
-<div class="aspect-[16/10]">
-            <img src="images/speech-eval.png"
+    <!-- Teaser 1 -->
+    <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 blur-item" data-blur-item>
+      <div class="p-6">
+        <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
+          <div class="aspect-[16/10]">
             <img src="images/speech-eval.png" alt="AI Language Quality"
-class="w-full h-full object-cover object-top scale-[1.12]" />
-</div>
-</div>
-</div>
-
-      <div class="px-6 pb-8">
-      <div class="px-6 pb-6">
-<h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
-Human-in-the-loop AI Language Quality
-</h2>
-
-<p class="text-gray-700 text-sm mt-2 leading-relaxed">
-          Defining where human linguistic judgment is essential in AI-driven evaluation systems.
-          Decision criteria for human review in AI evaluation systems.
-</p>
-
-        <details class="auto-open mt-4">
-          <summary class="text-sm font-semibold" style="color: var(--purple-prose);">
-            Details
-          </summary>
-          <div class="mt-4 pt-4 border-t border-black/10 text-sm text-gray-700 space-y-3">
-            <p>
-              Built error taxonomy and decision criteria to keep human review consistent at scale,
-              especially for edge cases automation struggles with.
-            </p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li>Segmental & suprasegmental error categories</li>
-              <li>Reviewer decision rules and edge cases</li>
-              <li>Feedback loops for guideline refinement</li>
-            </ul>
+                 class="w-full h-full object-cover object-top scale-[1.12]" />
           </div>
-        </details>
-</div>
-
-<div class="h-1 w-full" style="background: var(--country-air);"></div>
-</article>
-
-    <!-- Card 2 -->
-<article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 blur-item" data-blur-item>
-<div class="p-6">
-<div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
-<div class="aspect-[16/10]">
-            <img src="images/pronunciation-detail.png"
-            <img src="images/pronunciation-detail.png" alt="Guardrails"
-class="w-full h-full object-cover object-top scale-[1.12]" />
-</div>
-</div>
-</div>
-
-      <div class="px-6 pb-8">
-      <div class="px-6 pb-6">
-<h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
-Language Quality Frameworks & Guardrails
-</h2>
-
-<p class="text-gray-700 text-sm mt-2 leading-relaxed">
-          Building standards and quality criteria that govern AI-assisted localization.
-          Standards and quality criteria for AI-assisted localization.
-</p>
-
-        <details class="auto-open mt-4">
-          <summary class="text-sm font-semibold" style="color: var(--purple-prose);">
-            Details
-          </summary>
-          <div class="mt-4 pt-4 border-t border-black/10 text-sm text-gray-700 space-y-3">
-            <ul class="list-disc pl-5 space-y-1">
-              <li>Error definitions and classification rules</li>
-              <li>Terminology and consistency criteria</li>
-              <li>Reviewer alignment across datasets</li>
-            </ul>
-          </div>
-        </details>
-</div>
-
-<div class="h-1 w-full" style="background: var(--country-air);"></div>
-</article>
-
-    <!-- Card 3 -->
-<article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 blur-item" data-blur-item>
-<div class="p-6">
-<div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
-<div class="aspect-[16/10]">
-            <img src="images/feedback-examples.png"
-            <img src="images/feedback-examples.png" alt="Cultural Fit"
-class="w-full h-full object-cover object-top" />
-</div>
-</div>
-</div>
-
-      <div class="px-6 pb-8">
-      <div class="px-6 pb-6">
-<h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
-Product Language & Cultural Fit (Korean)
-</h2>
-
-<p class="text-gray-700 text-sm mt-2 leading-relaxed">
-          Ensuring product language resonates authentically with Korean members.
-          Korean product language that feels natural and local.
-</p>
+        </div>
       </div>
+
+      <div class="px-6 pb-6">
+        <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
+          Human-in-the-loop AI Language Quality
+        </h2>
+        <p class="text-gray-700 text-sm mt-2 leading-relaxed">
+          Decision criteria for human review in AI evaluation systems.
+        </p>
+      </div>
+
+      <div class="h-1 w-full" style="background: var(--country-air);"></div>
+    </article>
+
+    <!-- Teaser 2 -->
+    <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 blur-item" data-blur-item>
+      <div class="p-6">
+        <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
+          <div class="aspect-[16/10]">
+            <img src="images/pronunciation-detail.png" alt="Guardrails"
+                 class="w-full h-full object-cover object-top scale-[1.12]" />
+          </div>
+        </div>
+      </div>
+
+      <div class="px-6 pb-6">
+        <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
+          Language Quality Frameworks & Guardrails
+        </h2>
+        <p class="text-gray-700 text-sm mt-2 leading-relaxed">
+          Standards and quality criteria for AI-assisted localization.
+        </p>
+      </div>
+
+      <div class="h-1 w-full" style="background: var(--country-air);"></div>
+    </article>
+
+    <!-- Teaser 3 -->
+    <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 blur-item" data-blur-item>
+      <div class="p-6">
+        <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
+          <div class="aspect-[16/10]">
+            <img src="images/feedback-examples.png" alt="Cultural Fit"
+                 class="w-full h-full object-cover object-top" />
+          </div>
+        </div>
+      </div>
+
+      <div class="px-6 pb-6">
+        <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
+          Product Language & Cultural Fit (Korean)
+        </h2>
+        <p class="text-gray-700 text-sm mt-2 leading-relaxed">
+          Korean product language that feels natural and local.
+        </p>
+      </div>
+
       <div class="h-1 w-full" style="background: var(--country-air);"></div>
     </article>
 
   </section>
 
-        <details class="auto-open mt-4">
-          <summary class="text-sm font-semibold" style="color: var(--purple-prose);">
-            Details
-          </summary>
-          <div class="mt-4 pt-4 border-t border-black/10 text-sm text-gray-700 space-y-3">
-            <ul class="list-disc pl-5 space-y-1">
-              <li>Clarity and usability in UI wording</li>
-              <li>Cultural nuance and sensitivity awareness</li>
-              <li>Market-specific expectations advocacy</li>
-            </ul>
-  <!-- Big Case Studies (auto-open on scroll) -->
+  <!-- ✅ Big Case Studies (scroll down = auto open = more content) -->
   <section class="max-w-6xl mx-auto px-6 pb-24 space-y-10">
 
     <!-- Case 1 -->
-    <details class="case group rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden blur-item"
-             data-blur-item data-autoopen="1">
-      <summary class="p-8 md:p-10 select-none cursor-default">
+    <details class="case auto-open group rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden blur-item"
+             data-blur-item>
+      <summary class="p-8 md:p-10 select-none">
         <div class="flex items-start justify-between gap-6">
           <div>
             <p class="text-sm text-gray-600">Case Study</p>
@@ -221,18 +192,15 @@ Product Language & Cultural Fit (Korean)
                 Consistent criteria → stable outcomes → clearer quality signals for tool iteration.
               </p>
             </div>
-</div>
-        </details>
+          </div>
         </div>
-</div>
+      </div>
     </details>
 
-      <div class="h-1 w-full" style="background: var(--country-air);"></div>
-    </article>
     <!-- Case 2 -->
-    <details class="case group rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden blur-item"
-             data-blur-item data-autoopen="1">
-      <summary class="p-8 md:p-10 select-none cursor-default">
+    <details class="case auto-open group rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden blur-item"
+             data-blur-item>
+      <summary class="p-8 md:p-10 select-none">
         <div class="flex items-start justify-between gap-6">
           <div>
             <p class="text-sm text-gray-600">Case Study</p>
@@ -282,9 +250,9 @@ Product Language & Cultural Fit (Korean)
     </details>
 
     <!-- Case 3 -->
-    <details class="case group rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden blur-item"
-             data-blur-item data-autoopen="1">
-      <summary class="p-8 md:p-10 select-none cursor-default">
+    <details class="case auto-open group rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden blur-item"
+             data-blur-item>
+      <summary class="p-8 md:p-10 select-none">
         <div class="flex items-start justify-between gap-6">
           <div>
             <p class="text-sm text-gray-600">Case Study</p>
@@ -333,63 +301,51 @@ Product Language & Cultural Fit (Korean)
       </div>
     </details>
 
-</section>
+  </section>
 
-  <!-- Scripts -->
-<script>
-    /* Auto-open details on scroll */
-    const detailsEls = document.querySelectorAll("details.auto-open");
-    /* 1) auto-open case studies on scroll (no click) */
-    const cases = document.querySelectorAll('details.case[data-autoopen="1"]');
-const openObserver = new IntersectionObserver((entries) => {
-entries.forEach(entry => {
-if (entry.isIntersecting) {
-entry.target.open = true;
-openObserver.unobserve(entry.target);
-}
-});
-    }, { threshold: 0.35 });
-    detailsEls.forEach(el => openObserver.observe(el));
+  <script>
+    /* 1) Auto-open only for Case Studies (scroll down = reveal more) */
+    const caseDetails = document.querySelectorAll("details.case.auto-open");
+    const openObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.open = true;
+          openObserver.unobserve(entry.target);
+        }
+      });
     }, { threshold: 0.22 });
-    cases.forEach(d => openObserver.observe(d));
 
-    /* 2) blur items above/below focus while scrolling
-          - center item stays sharp
-          - not-yet-seen and already-passed items blur */
+    caseDetails.forEach((d) => openObserver.observe(d));
+
+    /* 2) Gentle blur: center stays clear */
     const blurItems = Array.from(document.querySelectorAll("[data-blur-item]"));
 
     function applyBlur() {
       const centerY = window.innerHeight / 2;
 
-    /* Scroll-based blur */
-    const blurItems = document.querySelectorAll("[data-blur-item]");
-    function updateBlur() {
-      const center = window.innerHeight / 2;
-blurItems.forEach(el => {
-const r = el.getBoundingClientRect();
-const elCenter = r.top + r.height / 2;
-        const d = Math.abs(center - elCenter);
-        const blur = Math.min(d / 300, 6);
-        const opacity = Math.max(1 - d / 600, 0.6);
-        el.style.filter = `blur(${blur}px)`;
-        el.style.opacity = opacity;
+      const deadZone = window.innerHeight * 0.32;
+      const range = window.innerHeight * 1.25;
+      const maxBlur = 2.2;
+      const minOpacity = 0.90;
+
+      blurItems.forEach(el => {
+        const r = el.getBoundingClientRect();
+        const elCenter = r.top + r.height / 2;
         const d = Math.abs(centerY - elCenter);
 
-        // Subtle + Netflix-y: small blur, mild fade
-        const blurPx = Math.min(d / 320, 5);     // max 5px
-        const op = Math.max(1 - d / 900, 0.72);  // min 0.72
+        const effective = Math.max(0, d - deadZone);
+        let t = Math.min(effective / range, 1);
+        t = t * t;
 
-        el.style.filter = `blur(${blurPx}px)`;
-        el.style.opacity = op;
-});
-}
-    window.addEventListener("scroll", updateBlur, { passive: true });
-    window.addEventListener("resize", updateBlur);
-    updateBlur();
+        el.style.filter = `blur(${(maxBlur * t).toFixed(2)}px)`;
+        el.style.opacity = (1 - (1 - minOpacity) * t).toFixed(3);
+      });
+    }
 
     window.addEventListener("scroll", applyBlur, { passive: true });
     window.addEventListener("resize", applyBlur);
     applyBlur();
-</script>
+  </script>
 
 </body>
+</html>
