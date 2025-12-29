@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <title>Dohee Kim — Netflix Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -13,11 +11,11 @@
       --country-air: #AFC6D9;
       --purple-prose: #4A2A6A;
     }
-
     summary::-webkit-details-marker { display: none; }
 
-    .blur-item {
-      transition: filter 0.35s ease, opacity 0.35s ease;
+    /* blur behavior */
+    .blur-item{
+      transition: filter 0.32s ease, opacity 0.32s ease;
       will-change: filter, opacity;
     }
   </style>
@@ -34,8 +32,8 @@
          style="background: var(--purple-prose);"></div>
   </div>
 
-  <!-- Hero (NO blur) -->
-  <header class="max-w-5xl mx-auto text-center px-6 pt-20 pb-14">
+  <!-- Hero (no blur target) -->
+  <header class="max-w-5xl mx-auto text-center px-6 pt-20 pb-12">
     <p class="text-sm tracking-wide text-gray-600">
       Globalization · Product Language · Korean
     </p>
@@ -55,137 +53,241 @@
 
     <div class="mt-10 flex justify-center">
       <a href="mailto:dkim112@yonsei.ac.kr"
-         class="rounded-full px-6 py-2.5 text-sm font-semibold border border-black/10 bg-white
-                hover:border-black/20 transition">
+         class="rounded-full px-6 py-2.5 text-sm font-semibold border border-black/10 bg-white hover:border-black/20 transition">
         Email
       </a>
     </div>
   </header>
 
-  <!-- Work Cards -->
-  <section class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6 pb-20">
+  <!-- Teaser Cards -->
+  <section class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6 pb-14">
 
-    <!-- Card 1 -->
     <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 blur-item" data-blur-item>
       <div class="p-6">
         <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
           <div class="aspect-[16/10]">
-            <img src="images/speech-eval.png"
+            <img src="images/speech-eval.png" alt="AI Language Quality"
                  class="w-full h-full object-cover object-top scale-[1.12]" />
           </div>
         </div>
       </div>
-
-      <div class="px-6 pb-8">
+      <div class="px-6 pb-6">
         <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
           Human-in-the-loop AI Language Quality
         </h2>
-
         <p class="text-gray-700 text-sm mt-2 leading-relaxed">
-          Defining where human linguistic judgment is essential in AI-driven evaluation systems.
+          Decision criteria for human review in AI evaluation systems.
         </p>
-
-        <details class="auto-open mt-4">
-          <summary class="text-sm font-semibold" style="color: var(--purple-prose);">
-            Details
-          </summary>
-          <div class="mt-4 pt-4 border-t border-black/10 text-sm text-gray-700 space-y-3">
-            <p>
-              Built error taxonomy and decision criteria to keep human review consistent at scale,
-              especially for edge cases automation struggles with.
-            </p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li>Segmental & suprasegmental error categories</li>
-              <li>Reviewer decision rules and edge cases</li>
-              <li>Feedback loops for guideline refinement</li>
-            </ul>
-          </div>
-        </details>
       </div>
-
       <div class="h-1 w-full" style="background: var(--country-air);"></div>
     </article>
 
-    <!-- Card 2 -->
     <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 blur-item" data-blur-item>
       <div class="p-6">
         <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
           <div class="aspect-[16/10]">
-            <img src="images/pronunciation-detail.png"
+            <img src="images/pronunciation-detail.png" alt="Guardrails"
                  class="w-full h-full object-cover object-top scale-[1.12]" />
           </div>
         </div>
       </div>
-
-      <div class="px-6 pb-8">
+      <div class="px-6 pb-6">
         <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
           Language Quality Frameworks & Guardrails
         </h2>
-
         <p class="text-gray-700 text-sm mt-2 leading-relaxed">
-          Building standards and quality criteria that govern AI-assisted localization.
+          Standards and quality criteria for AI-assisted localization.
         </p>
-
-        <details class="auto-open mt-4">
-          <summary class="text-sm font-semibold" style="color: var(--purple-prose);">
-            Details
-          </summary>
-          <div class="mt-4 pt-4 border-t border-black/10 text-sm text-gray-700 space-y-3">
-            <ul class="list-disc pl-5 space-y-1">
-              <li>Error definitions and classification rules</li>
-              <li>Terminology and consistency criteria</li>
-              <li>Reviewer alignment across datasets</li>
-            </ul>
-          </div>
-        </details>
       </div>
-
       <div class="h-1 w-full" style="background: var(--country-air);"></div>
     </article>
 
-    <!-- Card 3 -->
     <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 blur-item" data-blur-item>
       <div class="p-6">
         <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
           <div class="aspect-[16/10]">
-            <img src="images/feedback-examples.png"
+            <img src="images/feedback-examples.png" alt="Cultural Fit"
                  class="w-full h-full object-cover object-top" />
           </div>
         </div>
       </div>
-
-      <div class="px-6 pb-8">
+      <div class="px-6 pb-6">
         <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
           Product Language & Cultural Fit (Korean)
         </h2>
-
         <p class="text-gray-700 text-sm mt-2 leading-relaxed">
-          Ensuring product language resonates authentically with Korean members.
+          Korean product language that feels natural and local.
         </p>
-
-        <details class="auto-open mt-4">
-          <summary class="text-sm font-semibold" style="color: var(--purple-prose);">
-            Details
-          </summary>
-          <div class="mt-4 pt-4 border-t border-black/10 text-sm text-gray-700 space-y-3">
-            <ul class="list-disc pl-5 space-y-1">
-              <li>Clarity and usability in UI wording</li>
-              <li>Cultural nuance and sensitivity awareness</li>
-              <li>Market-specific expectations advocacy</li>
-            </ul>
-          </div>
-        </details>
       </div>
-
       <div class="h-1 w-full" style="background: var(--country-air);"></div>
     </article>
 
   </section>
 
-  <!-- Scripts -->
+  <!-- Big Case Studies (auto-open on scroll) -->
+  <section class="max-w-6xl mx-auto px-6 pb-24 space-y-10">
+
+    <!-- Case 1 -->
+    <details class="case group rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden blur-item"
+             data-blur-item data-autoopen="1">
+      <summary class="p-8 md:p-10 select-none cursor-default">
+        <div class="flex items-start justify-between gap-6">
+          <div>
+            <p class="text-sm text-gray-600">Case Study</p>
+            <h3 class="text-3xl md:text-4xl font-extrabold mt-2" style="color: var(--purple-prose);">
+              Human-in-the-loop AI Language Quality
+            </h3>
+            <p class="text-gray-700 mt-4 max-w-3xl leading-relaxed">
+              Error taxonomy and decision rules for stable human review at scale.
+            </p>
+          </div>
+          <div class="text-gray-400 text-2xl mt-1 group-open:rotate-180 transition">▾</div>
+        </div>
+      </summary>
+
+      <div class="px-8 md:px-10 pb-10 border-t border-black/5">
+        <div class="pt-8 grid md:grid-cols-2 gap-8">
+          <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
+            <div class="aspect-[16/10]">
+              <img src="images/speech-eval.png" alt="Screenshot"
+                   class="w-full h-full object-cover object-top" />
+            </div>
+          </div>
+          <div class="space-y-6">
+            <div>
+              <h4 class="text-lg font-bold mb-2">What I did</h4>
+              <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                <li>Defined segmental + suprasegmental error categories</li>
+                <li>Wrote decision criteria and edge-case notes</li>
+                <li>Refined guidelines via reviewer feedback</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold mb-2">Why it matters for Product</h4>
+              <p class="text-gray-700 leading-relaxed">
+                Human judgment safeguards nuance where automation may miss context.
+              </p>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold mb-2">Scale signal</h4>
+              <p class="text-gray-700 leading-relaxed">
+                Consistent criteria → stable outcomes → clearer quality signals for tool iteration.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Case 2 -->
+    <details class="case group rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden blur-item"
+             data-blur-item data-autoopen="1">
+      <summary class="p-8 md:p-10 select-none cursor-default">
+        <div class="flex items-start justify-between gap-6">
+          <div>
+            <p class="text-sm text-gray-600">Case Study</p>
+            <h3 class="text-3xl md:text-4xl font-extrabold mt-2" style="color: var(--purple-prose);">
+              Language Quality Frameworks & Guardrails
+            </h3>
+            <p class="text-gray-700 mt-4 max-w-3xl leading-relaxed">
+              Standards that reduce inconsistency across AI-assisted localization outputs.
+            </p>
+          </div>
+          <div class="text-gray-400 text-2xl mt-1 group-open:rotate-180 transition">▾</div>
+        </div>
+      </summary>
+
+      <div class="px-8 md:px-10 pb-10 border-t border-black/5">
+        <div class="pt-8 grid md:grid-cols-2 gap-8">
+          <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
+            <div class="aspect-[16/10]">
+              <img src="images/pronunciation-detail.png" alt="Screenshot"
+                   class="w-full h-full object-cover object-top" />
+            </div>
+          </div>
+          <div class="space-y-6">
+            <div>
+              <h4 class="text-lg font-bold mb-2">What I did</h4>
+              <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                <li>Defined quality criteria and classification rules</li>
+                <li>Aligned interpretation across reviewers</li>
+                <li>Iterated criteria based on recurring issues</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold mb-2">Why it matters for Product</h4>
+              <p class="text-gray-700 leading-relaxed">
+                Guardrails keep language aligned with brand voice and local expectations at scale.
+              </p>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold mb-2">Scale signal</h4>
+              <p class="text-gray-700 leading-relaxed">
+                Fewer subjective calls and more consistent quality signals across outputs.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Case 3 -->
+    <details class="case group rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden blur-item"
+             data-blur-item data-autoopen="1">
+      <summary class="p-8 md:p-10 select-none cursor-default">
+        <div class="flex items-start justify-between gap-6">
+          <div>
+            <p class="text-sm text-gray-600">Case Study</p>
+            <h3 class="text-3xl md:text-4xl font-extrabold mt-2" style="color: var(--purple-prose);">
+              Product Language & Cultural Fit (Korean)
+            </h3>
+            <p class="text-gray-700 mt-4 max-w-3xl leading-relaxed">
+              Korean product language that feels natural, clear, and culturally aligned.
+            </p>
+          </div>
+          <div class="text-gray-400 text-2xl mt-1 group-open:rotate-180 transition">▾</div>
+        </div>
+      </summary>
+
+      <div class="px-8 md:px-10 pb-10 border-t border-black/5">
+        <div class="pt-8 grid md:grid-cols-2 gap-8">
+          <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
+            <div class="aspect-[16/10]">
+              <img src="images/feedback-examples.png" alt="Screenshot"
+                   class="w-full h-full object-cover object-top" />
+            </div>
+          </div>
+          <div class="space-y-6">
+            <div>
+              <h4 class="text-lg font-bold mb-2">What I did</h4>
+              <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                <li>Optimized product copy for clarity and usability</li>
+                <li>Applied cultural nuance and sensitivity awareness</li>
+                <li>Proposed alternatives for awkward or off-tone cases</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold mb-2">Why it matters for Product</h4>
+              <p class="text-gray-700 leading-relaxed">
+                Local resonance reduces friction and builds trust in a global product.
+              </p>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold mb-2">Scale signal</h4>
+              <p class="text-gray-700 leading-relaxed">
+                Consistent tone rules and nuance notes help teams ship aligned copy faster.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+  </section>
+
   <script>
-    /* Auto-open details on scroll */
-    const detailsEls = document.querySelectorAll("details.auto-open");
+    /* 1) auto-open case studies on scroll (no click) */
+    const cases = document.querySelectorAll('details.case[data-autoopen="1"]');
     const openObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -193,26 +295,34 @@
           openObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.35 });
-    detailsEls.forEach(el => openObserver.observe(el));
+    }, { threshold: 0.22 });
+    cases.forEach(d => openObserver.observe(d));
 
-    /* Scroll-based blur */
-    const blurItems = document.querySelectorAll("[data-blur-item]");
-    function updateBlur() {
-      const center = window.innerHeight / 2;
+    /* 2) blur items above/below focus while scrolling
+          - center item stays sharp
+          - not-yet-seen and already-passed items blur */
+    const blurItems = Array.from(document.querySelectorAll("[data-blur-item]"));
+
+    function applyBlur() {
+      const centerY = window.innerHeight / 2;
+
       blurItems.forEach(el => {
         const r = el.getBoundingClientRect();
         const elCenter = r.top + r.height / 2;
-        const d = Math.abs(center - elCenter);
-        const blur = Math.min(d / 300, 6);
-        const opacity = Math.max(1 - d / 600, 0.6);
-        el.style.filter = `blur(${blur}px)`;
-        el.style.opacity = opacity;
+        const d = Math.abs(centerY - elCenter);
+
+        // Subtle + Netflix-y: small blur, mild fade
+        const blurPx = Math.min(d / 320, 5);     // max 5px
+        const op = Math.max(1 - d / 900, 0.72);  // min 0.72
+
+        el.style.filter = `blur(${blurPx}px)`;
+        el.style.opacity = op;
       });
     }
-    window.addEventListener("scroll", updateBlur, { passive: true });
-    window.addEventListener("resize", updateBlur);
-    updateBlur();
+
+    window.addEventListener("scroll", applyBlur, { passive: true });
+    window.addEventListener("resize", applyBlur);
+    applyBlur();
   </script>
 
 </body>
