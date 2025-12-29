@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dohee Kim — Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- React + ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <!-- Framer Motion -->
+  <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
+
+  <!-- Babel (to run JSX in browser) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    const { motion } = window['framer-motion'];
+
+    function Portfolio() {
+      const fadeIn = {
+        hidden: { opacity: 0, y: 40 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+      };
+
+      return (
+        <div className="min-h-screen w-full">
+          <section className="relative flex flex-col items-center justify-center h-[90vh] px-6 text-center">
+            <motion.h1
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7 }}
+              className="text-4xl md:text-6xl font-bold mb-6"
+            >
+              Dohee Kim — Product Language & Localization
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="max-w-2xl text-lg md:text-xl"
+            >
+              Korean language specialist building AI-assisted quality frameworks and culturally resonant product experiences.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="mt-8"
+            >
+              <button className="rounded-2xl px-6 py-4 text-lg shadow-md bg-white border">
+                View Work
+              </button>
+            </motion.div>
+
+            <motion.div
+              className="absolute bottom-6 text-sm opacity-70"
+              animate={{ y: [0, 10, 0] }}
+              transition={{ repeat: Infinity, duration: 1.6 }}
+            >
+              Scroll
+            </motion.div>
+          </section>
+
+          <section className="px-6 md:px-10 py-20 grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {[{
+              title: "AI Speech Evaluation",
+              desc: "Human-in-the-loop workflows improving reliability and consistency.",
+            },{
+              title: "Content Quality & Cultural Fit",
+              desc: "Terminology alignment, tone consistency, and feedback-driven iteration.",
+            },{
+              title: "Guidelines & Operations",
+              desc: "Turning complex procedures into clear, user-first language.",
+            }].map((item, i) => (
+              <motion.div key={i} variants={fadeIn} initial="hidden" whileInView="show" viewport={{ once: true }}>
+                <div className="rounded-2xl bg-white shadow-sm hover:shadow-xl p-6 transition-all">
+                  <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
+                  <p className="text-gray-600">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </section>
+
+          <footer className="px-6 md:px-10 py-10 text-center text-sm text-gray-600">
+            Contact: dkim112@yonsei.ac.kr — Korea
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<Portfolio />);
+  </script>
+</body>
+</html>
