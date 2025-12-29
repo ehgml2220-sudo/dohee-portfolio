@@ -64,7 +64,6 @@ class="w-28 h-28 bg-white border rounded-2xl bg-contain bg-center bg-no-repeat s
 
 <script>
   const items = document.querySelectorAll(".reveal");
-
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -75,4 +74,8 @@ class="w-28 h-28 bg-white border rounded-2xl bg-contain bg-center bg-no-repeat s
 
   items.forEach(el => observer.observe(el));
 </script>
+
+</body>
+</html>
+
 
