@@ -22,7 +22,7 @@
       will-change: filter, opacity;
     }
 
-    /* Make summary feel non-clicky (auto-open only) */
+    /* summary is visual only (no clicking) */
     details.auto-open > summary{
       cursor: default;
       user-select: none;
@@ -41,7 +41,7 @@
          style="background: var(--purple-prose);"></div>
   </div>
 
-  <!-- Hero -->
+  <!-- Hero (no blur target) -->
   <header class="max-w-5xl mx-auto text-center px-6 pt-20 pb-14">
     <p class="text-sm tracking-wide text-gray-600">
       Globalization · Product Language · Korean
@@ -77,11 +77,8 @@
       <div class="p-6">
         <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
           <div class="aspect-[16/10]">
-            <img
-              src="images/speech-eval.png"
-              alt="Human-in-the-loop AI Language Quality screenshot"
-              class="w-full h-full object-cover object-top scale-[1.12]"
-            />
+            <img src="images/speech-eval.png"
+                 class="w-full h-full object-cover object-top scale-[1.12]" />
           </div>
         </div>
       </div>
@@ -96,14 +93,14 @@
         </p>
 
         <details class="auto-open group mt-4">
-          <summary class="select-none inline-flex items-center gap-2 text-sm font-semibold"
+          <summary class="inline-flex items-center gap-2 text-sm font-semibold"
                    style="color: var(--purple-prose); pointer-events:none;">
             <span class="opacity-80">Details</span>
             <span class="text-gray-400 group-open:rotate-180 transition">▾</span>
           </summary>
 
           <div class="mt-4 pt-4 border-t border-black/10 text-sm text-gray-700 space-y-3">
-            <p class="leading-relaxed">
+            <p>
               Built error taxonomy and decision criteria to keep human review consistent at scale,
               with attention to edge cases where automation may miss nuance.
             </p>
@@ -124,11 +121,8 @@
       <div class="p-6">
         <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
           <div class="aspect-[16/10]">
-            <img
-              src="images/pronunciation-detail.png"
-              alt="Language Quality Frameworks & Guardrails screenshot"
-              class="w-full h-full object-cover object-top scale-[1.12]"
-            />
+            <img src="images/pronunciation-detail.png"
+                 class="w-full h-full object-cover object-top scale-[1.12]" />
           </div>
         </div>
       </div>
@@ -143,14 +137,14 @@
         </p>
 
         <details class="auto-open group mt-4">
-          <summary class="select-none inline-flex items-center gap-2 text-sm font-semibold"
+          <summary class="inline-flex items-center gap-2 text-sm font-semibold"
                    style="color: var(--purple-prose); pointer-events:none;">
             <span class="opacity-80">Details</span>
             <span class="text-gray-400 group-open:rotate-180 transition">▾</span>
           </summary>
 
           <div class="mt-4 pt-4 border-t border-black/10 text-sm text-gray-700 space-y-3">
-            <p class="leading-relaxed">
+            <p>
               Defined rules that reduce inconsistency across reviewers and outputs,
               supporting scalable localization workflows.
             </p>
@@ -171,11 +165,8 @@
       <div class="p-6">
         <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
           <div class="aspect-[16/10]">
-            <img
-              src="images/feedback-examples.png"
-              alt="Product Language & Cultural Fit (Korean) screenshot"
-              class="w-full h-full object-cover object-top"
-            />
+            <img src="images/feedback-examples.png"
+                 class="w-full h-full object-cover object-top" />
           </div>
         </div>
       </div>
@@ -190,14 +181,14 @@
         </p>
 
         <details class="auto-open group mt-4">
-          <summary class="select-none inline-flex items-center gap-2 text-sm font-semibold"
+          <summary class="inline-flex items-center gap-2 text-sm font-semibold"
                    style="color: var(--purple-prose); pointer-events:none;">
             <span class="opacity-80">Details</span>
             <span class="text-gray-400 group-open:rotate-180 transition">▾</span>
           </summary>
 
           <div class="mt-4 pt-4 border-t border-black/10 text-sm text-gray-700 space-y-3">
-            <p class="leading-relaxed">
+            <p>
               Applied cultural nuance to product-facing language so it feels natural,
               clear, and aligned with Korean member expectations.
             </p>
@@ -215,61 +206,51 @@
 
   </section>
 
-<script>
-  // 1) Auto-open details when they enter viewport
-  const detailsEls = document.querySelectorAll("details.auto-open");
-  const openObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.open = true;
-        openObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.35 });
-  detailsEls.forEach((el) => openObserver.observe(el));
+  <script>
+    /* Auto-open details on scroll */
+    const detailsEls = document.querySelectorAll("details.auto-open");
+    const openObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.open = true;
+          openObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.35 });
+    detailsEls.forEach(el => openObserver.observe(el));
 
-  // 2) Blur tuning (gentler, with center dead-zone)
-  const blurItems = Array.from(document.querySelectorAll("[data-blur-item]"));
+    /* Scroll-based blur (center stays clear) */
+    const blurItems = Array.from(document.querySelectorAll("[data-blur-item]"));
 
-  function applyBlur() {
-    const centerY = window.innerHeight / 2;
+    function applyBlur() {
+      const centerY = window.innerHeight / 2;
 
-    // ✅ 중앙 선명 구간(데드존): 화면 높이의 22%
-    const deadZone = window.innerHeight * 0.22;
+      const deadZone = window.innerHeight * 0.32; // 중앙 선명 영역
+      const range = window.innerHeight * 1.25;   // 블러 확산 속도
+      const maxBlur = 2.2;                        // 최대 blur
+      const minOpacity = 0.90;                    // 최소 투명도
 
-    // ✅ 블러가 본격적으로 늘기 시작하는 스케일(커질수록 천천히)
-    const range = window.innerHeight * 0.90;
+      blurItems.forEach(el => {
+        const r = el.getBoundingClientRect();
+        const elCenter = r.top + r.height / 2;
+        const d = Math.abs(centerY - elCenter);
 
-    blurItems.forEach(el => {
-      const r = el.getBoundingClientRect();
-      const elCenter = r.top + r.height / 2;
-      const d = Math.abs(centerY - elCenter);
+        const effective = Math.max(0, d - deadZone);
+        let t = Math.min(effective / range, 1);
+        t = t * t; // 비선형
 
-      // 데드존 안이면 blur 0
-      const effective = Math.max(0, d - deadZone);
+        const blurPx = maxBlur * t;
+        const opacity = 1 - (1 - minOpacity) * t;
 
-      // 0~1 정규화
-      let t = Math.min(effective / range, 1);
+        el.style.filter = `blur(${blurPx.toFixed(2)}px)`;
+        el.style.opacity = opacity.toFixed(3);
+      });
+    }
 
-      // ✅ 비선형(제곱): 초반 변화 완만
-      t = t * t;
-
-      // ✅ 최대 blur 낮추기 (2.8px 정도)
-      const blurPx = 2.8 * t;
-
-      // ✅ opacity는 거의 유지 (최소 0.90)
-      const opacity = 1 - 0.10 * t;
-
-      el.style.filter = `blur(${blurPx.toFixed(2)}px)`;
-      el.style.opacity = opacity.toFixed(3);
-    });
-  }
-
-  window.addEventListener("scroll", applyBlur, { passive: true });
-  window.addEventListener("resize", applyBlur);
-  applyBlur();
-</script>
-
+    window.addEventListener("scroll", applyBlur, { passive: true });
+    window.addEventListener("resize", applyBlur);
+    applyBlur();
+  </script>
 
 </body>
 </html>
