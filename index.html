@@ -5,103 +5,59 @@
   <title>Dohee Kim — Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Tailwind -->
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-50 text-gray-900">
 
-  <div class="min-h-screen w-full text-center p-10">
+  <!-- Hero / Header -->
+  <div class="min-h-screen w-full text-center px-6 py-20">
     <h1 class="text-5xl font-bold mb-6">
       Dohee Kim — Product Language & Localization
     </h1>
-
     <p class="text-xl mb-14 max-w-3xl mx-auto">
-      Korean language specialist building AI-assisted quality frameworks
-      and culturally resonant product experiences.
+      Korean language specialist building AI-assisted quality frameworks and culturally resonant product experiences.
     </p>
-
-    <!-- 카드 영역 -->
-    <div class="space-y-16 max-w-4xl mx-auto">
-
-      <!-- 카드 1 -->
-      <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
-
-        <div class="p-6 flex justify-center">
-          <div
-            class="w-28 h-28 bg-white border rounded-2xl bg-contain bg-center bg-no-repeat shadow"
-            style="background-image:url('images/speech-eval.png')">
-          </div>
-        </div>
-
-        <h2 class="text-2xl font-bold text-blue-800 px-6">
-          AI Speech Evaluation
-        </h2>
-
-        <p class="p-6 text-gray-700 opacity-0 translate-y-4 transition-all duration-700 reveal">
-          발음·억양 오류를 평가하고, 사람이 검증하는 human-in-the-loop 품질 루프를 설계했습니다.
-        </p>
-      </div>
-
-      <!-- 카드 2 -->
-      <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
-
-        <div class="p-6 flex justify-center">
-          <div
-            class="w-28 h-28 bg-white border rounded-2xl bg-contain bg-center bg-no-repeat shadow"
-            style="background-image:url('images/pronunciation-detail.png')">
-          </div>
-        </div>
-
-        <h2 class="text-2xl font-bold text-blue-800 px-6">
-          Content Quality & Cultural Fit
-        </h2>
-
-        <p class="p-6 text-gray-700 opacity-0 translate-y-4 transition-all duration-700 reveal">
-          phoneme / intonation 단위 분석과 오류 기준 정의를 통해 학습자 피드백을 체계화했습니다.
-        </p>
-      </div>
-
-      <!-- 카드 3 -->
-      <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
-
-        <div class="p-6 flex justify-center">
-          <div
-            class="w-28 h-28 bg-white border rounded-2xl bg-contain bg-center bg-no-repeat shadow"
-            style="background-image:url('images/feedback-examples.png')">
-          </div>
-        </div>
-
-        <h2 class="text-2xl font-bold text-blue-800 px-6">
-          Guidelines & Operations
-        </h2>
-
-        <p class="p-6 text-gray-700 opacity-0 translate-y-4 transition-all duration-700 reveal">
-          현장 질문과 케이스를 가이드라인·프로세스·품질 프레임워크로 확장했습니다.
-        </p>
-      </div>
-
-    </div>
-
-    <footer class="text-gray-600 text-sm mt-16">
-      Contact: dkim112@yonsei.ac.kr — Korea
-    </footer>
   </div>
 
-  <!-- 스크롤 애니메이션 -->
-  <script>
-    const items = document.querySelectorAll(".reveal");
+  <!-- Cards Section -->
+  <div class="max-w-4xl mx-auto space-y-14 px-6 pb-24">
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.remove("opacity-0", "translate-y-4");
-        }
-      });
-    }, { threshold: 0.25 });
+    <!-- Card 1 -->
+    <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
+      <div class="p-6 flex justify-center">
+        <div
+          class="w-28 h-28 bg-white border rounded-2xl bg-contain bg-center bg-no-repeat shadow"
+          style="background-image:url('images/speech-eval.png')">
+        </div>
+      </div>
+      <h2 class="text-2xl font-bold text-blue-800 px-6 mb-2">
+        AI Speech Evaluation
+      </h2>
+      <p class="p-6 text-gray-700 opacity-0 translate-y-4 transition-all duration-700 reveal">
+        발음·억양 오류를 평가하고, 사람이 검증하는 human-in-the-loop 품질 루프를 설계했습니다.
+      </p>
+    </div>
 
-    items.forEach(el => observer.observe(el));
-  </script>
+    <!-- Card 2 -->
+    <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
+      <div class="p-6 flex justify-center">
+        <div
+          class="w-28 h-28 bg-white border rounded-2xl bg-contain bg-center bg-no-repeat shadow"
+          style="background-image:url('images/pronunciation-detail.png')">
+        </div>
+      </div>
+      <h2 class="text-2xl font-bold text-blue-800 px-6 mb-2">
+        Content Quality & Cultural Fit
+      </h2>
+      <p class="p-6 text-gray-700 opacity-0 translate-y-4 transition-all duration-700 reveal">
+        phoneme / intonation 단위 분석과 오류 기준 정의를 통해 학습자 피드백을 체계화했습니다.
+      </p>
+    </div>
 
-</body>
-</html>
+    <!-- Card 3 -->
+    <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
+      <div class="p-6 flex justify-center">
+        <div
+          class="w-28 h-28 bg-white b
