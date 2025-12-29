@@ -13,20 +13,18 @@
       --country-air: #AFC6D9;   /* airy blue */
       --purple-prose: #4A2A6A;  /* deep purple */
     }
-
     summary::-webkit-details-marker { display: none; }
 
-    /* Blur transition */
+    /* ✅ blur transition */
     .blur-item{
       transition: filter 0.32s ease, opacity 0.32s ease;
       will-change: filter, opacity;
     }
 
-    /* Prevent "click to expand" feel (auto-open only) */
+    /* ✅ not forcing clicks; scroll auto-opens anyway */
     details.auto-open > summary{
       cursor: default;
       user-select: none;
-      pointer-events: none;
     }
   </style>
 </head>
@@ -219,19 +217,48 @@
   </section>
 
   <script>
-    /* 1) Auto-open details on scroll (no click needed) */
+    /* ✅ Auto-open details on scroll (keeps "scroll down = more description") */
     const detailsEls = document.querySelectorAll("details.auto-open");
-    const openObserver = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.open = true;          // auto expand
-          openObserver.unobserve(entry.target); // only once
+          observer.unobserve(entry.target);  // only once
         }
       });
     }, { threshold: 0.35 });
-    detailsEls.forEach((el) => openObserver.observe(el));
+    detailsEls.forEach((el) => observer.observe(el));
 
-    /* 2) Gentle blur: center stays clear, above/below blur slowly */
+    /* ✅ Blur: old content above + not-yet content below become gently blurry
+          Center stays clear (dead zone) so it won't feel dizzy. */
     const blurItems = Array.from(document.querySelectorAll("[data-blur-item]"));
 
-    function a
+    function applyBlur() {
+      const centerY = window.innerHeight / 2;
+
+      const deadZone = window.innerHeight * 0.32; // clear middle band
+      const range = window.innerHeight * 1.25;    // slower blur growth
+      const maxBlur = 2.2;                         // subtle blur
+      const minOpacity = 0.90;                     // subtle fade
+
+      blurItems.forEach(el => {
+        const r = el.getBoundingClientRect();
+        const elCenter = r.top + r.height / 2;
+        const d = Math.abs(centerY - elCenter);
+
+        const effective = Math.max(0, d - deadZone);
+        let t = Math.min(effective / range, 1);
+        t = t * t; // gentle curve
+
+        el.style.filter = `blur(${(maxBlur * t).toFixed(2)}px)`;
+        el.style.opacity = (1 - (1 - minOpacity) * t).toFixed(3);
+      });
+    }
+
+    window.addEventListener("scroll", applyBlur, { passive: true });
+    window.addEventListener("resize", applyBlur);
+    applyBlur();
+  </script>
+
+</body>
+</html>
