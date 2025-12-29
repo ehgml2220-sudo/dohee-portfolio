@@ -176,3 +176,101 @@
 
 </body>
 </html>
+
+<!-- human-in-loop.html (Read more page example) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Human-in-the-loop AI Language Quality — Dohee Kim</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{ --country-air:#AFC6D9; --purple-prose:#4A2A6A; }
+  </style>
+</head>
+
+<body class="bg-white text-gray-900">
+
+  <!-- Soft wash -->
+  <div class="fixed inset-0 -z-10">
+    <div class="absolute inset-0 bg-white"></div>
+    <div class="absolute -top-32 -left-24 h-[520px] w-[520px] rounded-full blur-3xl opacity-20"
+         style="background: var(--country-air);"></div>
+    <div class="absolute -bottom-40 -right-24 h-[560px] w-[560px] rounded-full blur-3xl opacity-15"
+         style="background: var(--purple-prose);"></div>
+  </div>
+
+  <main class="max-w-4xl mx-auto px-6 py-16">
+    <a href="index.html"
+       class="text-sm text-gray-600 hover:text-gray-900 underline underline-offset-4">
+      ← Back
+    </a>
+
+    <h1 class="text-4xl font-extrabold mt-6" style="color: var(--purple-prose);">
+      Human-in-the-loop AI Language Quality
+    </h1>
+
+    <p class="text-lg text-gray-700 mt-4 leading-relaxed">
+      A case page that shows how I define review criteria, align evaluators, and keep output quality stable.
+    </p>
+
+    <!-- Hero image -->
+    <div class="mt-10 rounded-3xl overflow-hidden bg-white shadow-sm ring-1 ring-black/5">
+      <div class="aspect-[16/10]">
+        <img src="images/speech-eval.png" alt="Screenshot"
+             class="w-full h-full object-cover object-top" />
+      </div>
+    </div>
+
+    <!-- Content blocks -->
+    <section class="mt-10 space-y-6">
+
+      <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-black/5">
+        <h2 class="text-xl font-bold mb-2">Context</h2>
+        <p class="text-gray-700 leading-relaxed">
+          Speech evaluation requires consistent human judgment. I worked on error labels, examples, and decision rules
+          so review stays reliable across large sets.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-black/5">
+        <h2 class="text-xl font-bold mb-2">What I did</h2>
+        <ul class="list-disc pl-5 text-gray-700 space-y-1">
+          <li>Defined error taxonomy for segmental and suprasegmental features</li>
+          <li>Wrote criteria and edge-case notes to reduce reviewer drift</li>
+          <li>Shared feedback to refine guidelines and raise consistency</li>
+        </ul>
+      </div>
+
+      <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-black/5">
+        <h2 class="text-xl font-bold mb-2">Why it matters for Netflix Product</h2>
+        <p class="text-gray-700 leading-relaxed">
+          Member trust depends on language quality. Human review protects nuance and brand voice where automation alone
+          may fail.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-black/5">
+        <h2 class="text-xl font-bold mb-2">Artifacts</h2>
+        <ul class="text-gray-700 space-y-2">
+          <li>
+            <span class="font-semibold" style="color: var(--purple-prose);">•</span>
+            Error taxonomy (labels + examples)
+          </li>
+          <li>
+            <span class="font-semibold" style="color: var(--purple-prose);">•</span>
+            Reviewer criteria (decision rules + edge cases)
+          </li>
+          <li>
+            <span class="font-semibold" style="color: var(--purple-prose);">•</span>
+            Feedback loop notes (what changed and why)
+          </li>
+        </ul>
+      </div>
+
+    </section>
+  </main>
+
+</body>
+</html>
