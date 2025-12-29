@@ -11,7 +11,6 @@
       --country-air: #AFC6D9;
       --purple-prose: #4A2A6A;
     }
-    /* Hide the default disclosure triangle on summary (cross-browser-ish) */
     summary::-webkit-details-marker { display: none; }
   </style>
 </head>
@@ -46,7 +45,6 @@
       so product language feels authentically local at scale.
     </p>
 
-    <!-- Email only -->
     <div class="mt-10 flex justify-center">
       <a href="mailto:dkim112@yonsei.ac.kr"
          class="rounded-full px-6 py-2.5 text-sm font-semibold border border-black/10 bg-white
@@ -56,62 +54,26 @@
     </div>
   </header>
 
-  <!-- Work Cards -->
-  <section class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6 pb-20">
-
+  <!-- Teaser Cards -->
+  <section class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6 pb-10">
     <!-- Card 1 -->
     <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5">
       <div class="p-6">
         <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
           <div class="aspect-[16/10]">
-            <img
-              src="images/speech-eval.png"
-              alt="Human-in-the-loop AI Language Quality screenshot"
-              class="w-full h-full object-cover object-top scale-[1.12]"
-            />
+            <img src="images/speech-eval.png" alt="AI Language Quality"
+                 class="w-full h-full object-cover object-top scale-[1.12]" />
           </div>
         </div>
       </div>
-
-      <div class="px-6 pb-8">
+      <div class="px-6 pb-6">
         <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
           Human-in-the-loop AI Language Quality
         </h2>
-
-        <!-- Always-visible one-liner -->
         <p class="text-gray-700 text-sm mt-2 leading-relaxed">
-          Defining where human linguistic judgment is essential in AI-driven evaluation systems.
+          Decision criteria for human review in AI evaluation systems.
         </p>
-
-        <!-- Expand-in-place with details/summary -->
-        <details class="group mt-4">
-          <summary
-            class="cursor-pointer select-none inline-flex items-center gap-2 text-sm font-semibold"
-            style="color: var(--purple-prose);">
-            <span class="group-open:hidden">Details</span>
-            <span class="hidden group-open:inline">Less</span>
-            <span class="text-gray-400 group-open:rotate-180 transition">▾</span>
-          </summary>
-
-          <div class="mt-4 pt-4 border-t border-black/10 text-sm text-gray-700 space-y-3">
-            <p class="leading-relaxed">
-              Built error taxonomy and decision criteria to keep human review consistent at scale,
-              with extra attention to edge cases where automation may miss nuance.
-            </p>
-
-            <ul class="list-disc pl-5 space-y-1">
-              <li>Segmental & suprasegmental error categories</li>
-              <li>Reviewer criteria and edge-case notes</li>
-              <li>Feedback loops to refine guidelines</li>
-            </ul>
-
-            <p class="text-gray-600">
-              Outcome: more stable evaluations and clearer signals for improving AI outputs.
-            </p>
-          </div>
-        </details>
       </div>
-
       <div class="h-1 w-full" style="background: var(--country-air);"></div>
     </article>
 
@@ -120,52 +82,19 @@
       <div class="p-6">
         <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
           <div class="aspect-[16/10]">
-            <img
-              src="images/pronunciation-detail.png"
-              alt="Language Quality Frameworks & Guardrails screenshot"
-              class="w-full h-full object-cover object-top scale-[1.12]"
-            />
+            <img src="images/pronunciation-detail.png" alt="Guardrails"
+                 class="w-full h-full object-cover object-top scale-[1.12]" />
           </div>
         </div>
       </div>
-
-      <div class="px-6 pb-8">
+      <div class="px-6 pb-6">
         <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
           Language Quality Frameworks & Guardrails
         </h2>
-
         <p class="text-gray-700 text-sm mt-2 leading-relaxed">
-          Building standards and quality criteria that govern AI-assisted localization.
+          Standards and quality criteria for AI-assisted localization.
         </p>
-
-        <details class="group mt-4">
-          <summary
-            class="cursor-pointer select-none inline-flex items-center gap-2 text-sm font-semibold"
-            style="color: var(--purple-prose);">
-            <span class="group-open:hidden">Details</span>
-            <span class="hidden group-open:inline">Less</span>
-            <span class="text-gray-400 group-open:rotate-180 transition">▾</span>
-          </summary>
-
-          <div class="mt-4 pt-4 border-t border-black/10 text-sm text-gray-700 space-y-3">
-            <p class="leading-relaxed">
-              Defined quality rules that reduce inconsistency across reviewers and outputs,
-              supporting scalable localization workflows.
-            </p>
-
-            <ul class="list-disc pl-5 space-y-1">
-              <li>Error definitions and classification rules</li>
-              <li>Consistency and terminology criteria</li>
-              <li>Reviewer alignment for stable outcomes</li>
-            </ul>
-
-            <p class="text-gray-600">
-              Outcome: clearer guardrails, fewer subjective decisions, more consistent quality signals.
-            </p>
-          </div>
-        </details>
       </div>
-
       <div class="h-1 w-full" style="background: var(--country-air);"></div>
     </article>
 
@@ -174,56 +103,208 @@
       <div class="p-6">
         <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
           <div class="aspect-[16/10]">
-            <img
-              src="images/feedback-examples.png"
-              alt="Product Language & Cultural Fit (Korean) screenshot"
-              class="w-full h-full object-cover object-top"
-            />
+            <img src="images/feedback-examples.png" alt="Cultural Fit"
+                 class="w-full h-full object-cover object-top" />
           </div>
         </div>
       </div>
-
-      <div class="px-6 pb-8">
+      <div class="px-6 pb-6">
         <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
           Product Language & Cultural Fit (Korean)
         </h2>
-
         <p class="text-gray-700 text-sm mt-2 leading-relaxed">
-          Ensuring product language resonates authentically with Korean members.
+          Korean product language that feels natural and local.
         </p>
-
-        <details class="group mt-4">
-          <summary
-            class="cursor-pointer select-none inline-flex items-center gap-2 text-sm font-semibold"
-            style="color: var(--purple-prose);">
-            <span class="group-open:hidden">Details</span>
-            <span class="hidden group-open:inline">Less</span>
-            <span class="text-gray-400 group-open:rotate-180 transition">▾</span>
-          </summary>
-
-          <div class="mt-4 pt-4 border-t border-black/10 text-sm text-gray-700 space-y-3">
-            <p class="leading-relaxed">
-              Applied cultural and linguistic nuance to product-facing language so it feels natural,
-              clear, and aligned with Korean member expectations.
-            </p>
-
-            <ul class="list-disc pl-5 space-y-1">
-              <li>Clarity and usability in UI wording</li>
-              <li>Cultural nuance and sensitivity awareness</li>
-              <li>Advocacy for Korean market expectations</li>
-            </ul>
-
-            <p class="text-gray-600">
-              Outcome: more natural Korean UX and fewer culturally awkward moments.
-            </p>
-          </div>
-        </details>
       </div>
-
       <div class="h-1 w-full" style="background: var(--country-air);"></div>
     </article>
+  </section>
+
+  <!-- Big Case Studies (scroll down = big content) -->
+  <section class="max-w-6xl mx-auto px-6 pb-24 pt-6 space-y-10">
+
+    <!-- Case 1 -->
+    <details class="case group rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden"
+             data-autoopen="true">
+      <summary class="cursor-pointer select-none p-8 md:p-10">
+        <div class="flex items-start justify-between gap-6">
+          <div>
+            <p class="text-sm text-gray-600">Case Study</p>
+            <h3 class="text-3xl md:text-4xl font-extrabold mt-2" style="color: var(--purple-prose);">
+              Human-in-the-loop AI Language Quality
+            </h3>
+            <p class="text-gray-700 mt-4 max-w-3xl leading-relaxed">
+              Clear criteria and error taxonomy for consistent human review at scale.
+            </p>
+          </div>
+          <div class="text-gray-400 text-2xl mt-1 group-open:rotate-180 transition">▾</div>
+        </div>
+      </summary>
+
+      <div class="px-8 md:px-10 pb-10 border-t border-black/5">
+        <div class="pt-8 grid md:grid-cols-2 gap-8">
+          <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
+            <div class="aspect-[16/10]">
+              <img src="images/speech-eval.png" alt="Screenshot"
+                   class="w-full h-full object-cover object-top" />
+            </div>
+          </div>
+
+          <div class="space-y-6 text-gray-800">
+            <div>
+              <h4 class="text-lg font-bold mb-2">What I did</h4>
+              <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                <li>Defined segmental and suprasegmental error categories</li>
+                <li>Wrote decision rules and edge-case notes for reviewer alignment</li>
+                <li>Shared feedback to refine guidelines and reduce reviewer drift</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="text-lg font-bold mb-2">Why it matters for Product</h4>
+              <p class="text-gray-700 leading-relaxed">
+                Human judgment protects nuance and prevents quality loss where automation alone can miss context.
+              </p>
+            </div>
+
+            <div>
+              <h4 class="text-lg font-bold mb-2">Scale signal</h4>
+              <p class="text-gray-700 leading-relaxed">
+                Stable criteria → consistent outcomes → clearer quality signals for tool and workflow improvement.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Case 2 -->
+    <details class="case group rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden"
+             data-autoopen="true">
+      <summary class="cursor-pointer select-none p-8 md:p-10">
+        <div class="flex items-start justify-between gap-6">
+          <div>
+            <p class="text-sm text-gray-600">Case Study</p>
+            <h3 class="text-3xl md:text-4xl font-extrabold mt-2" style="color: var(--purple-prose);">
+              Language Quality Frameworks & Guardrails
+            </h3>
+            <p class="text-gray-700 mt-4 max-w-3xl leading-relaxed">
+              Standards that guide AI-assisted localization and reduce inconsistency across outputs.
+            </p>
+          </div>
+          <div class="text-gray-400 text-2xl mt-1 group-open:rotate-180 transition">▾</div>
+        </div>
+      </summary>
+
+      <div class="px-8 md:px-10 pb-10 border-t border-black/5">
+        <div class="pt-8 grid md:grid-cols-2 gap-8">
+          <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
+            <div class="aspect-[16/10]">
+              <img src="images/pronunciation-detail.png" alt="Screenshot"
+                   class="w-full h-full object-cover object-top" />
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <h4 class="text-lg font-bold mb-2">What I did</h4>
+              <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                <li>Defined error categories and quality criteria</li>
+                <li>Aligned reviewers with consistent interpretation rules</li>
+                <li>Refined criteria based on recurring issues and feedback</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="text-lg font-bold mb-2">Why it matters for Product</h4>
+              <p class="text-gray-700 leading-relaxed">
+                Guardrails keep language consistent with brand voice and local expectations even as automation scales.
+              </p>
+            </div>
+
+            <div>
+              <h4 class="text-lg font-bold mb-2">Scale signal</h4>
+              <p class="text-gray-700 leading-relaxed">
+                Clear standards reduce subjective decisions and improve consistency across teams.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Case 3 -->
+    <details class="case group rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden"
+             data-autoopen="true">
+      <summary class="cursor-pointer select-none p-8 md:p-10">
+        <div class="flex items-start justify-between gap-6">
+          <div>
+            <p class="text-sm text-gray-600">Case Study</p>
+            <h3 class="text-3xl md:text-4xl font-extrabold mt-2" style="color: var(--purple-prose);">
+              Product Language & Cultural Fit (Korean)
+            </h3>
+            <p class="text-gray-700 mt-4 max-w-3xl leading-relaxed">
+              Product copy that matches Korean member expectations and feels natural in UI.
+            </p>
+          </div>
+          <div class="text-gray-400 text-2xl mt-1 group-open:rotate-180 transition">▾</div>
+        </div>
+      </summary>
+
+      <div class="px-8 md:px-10 pb-10 border-t border-black/5">
+        <div class="pt-8 grid md:grid-cols-2 gap-8">
+          <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
+            <div class="aspect-[16/10]">
+              <img src="images/feedback-examples.png" alt="Screenshot"
+                   class="w-full h-full object-cover object-top" />
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <h4 class="text-lg font-bold mb-2">What I did</h4>
+              <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                <li>Applied cultural nuance and sensitivity awareness for Korean UX</li>
+                <li>Optimized phrasing for clarity, tone, and usability</li>
+                <li>Flagged awkward or culturally off cases and proposed alternatives</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="text-lg font-bold mb-2">Why it matters for Product</h4>
+              <p class="text-gray-700 leading-relaxed">
+                Local resonance and clarity reduce friction and increase trust in a global product experience.
+              </p>
+            </div>
+
+            <div>
+              <h4 class="text-lg font-bold mb-2">Scale signal</h4>
+              <p class="text-gray-700 leading-relaxed">
+                Consistent tone rules and local nuance notes help teams ship aligned copy at speed.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </details>
 
   </section>
+
+  <script>
+    // Auto-open case studies when they enter viewport (keeps details/summary)
+    const cases = document.querySelectorAll('details.case[data-autoopen="true"]');
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.open = true;
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.22 });
+
+    cases.forEach(d => io.observe(d));
+  </script>
 
 </body>
 </html>
