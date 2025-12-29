@@ -15,7 +15,7 @@
     summary::-webkit-details-marker{ display:none; }
     html, body { height: 100%; }
 
-    /* background */
+    /* Background wash */
     .wash{ position: fixed; inset: 0; z-index: -10; }
     .bg-blob{
       position:absolute;
@@ -23,12 +23,12 @@
       height: 860px;
       border-radius:9999px;
       filter: blur(125px);
-      opacity: 0.30; /* stronger */
+      opacity: 0.34;
       will-change: transform, opacity, background;
-      transform: translate(22vw, 28vh) scale(1.06); /* initial = first key */
+      transform: translate(22vw, 28vh) scale(1.08);
     }
 
-    /* sticky stage */
+    /* Stage */
     .scroll-stage{ position: relative; height: 600vh; }
     .sticky-panel{
       position: sticky;
@@ -40,7 +40,7 @@
       padding: 24px;
     }
 
-    /* slides */
+    /* Slides (one visible) */
     .slide{
       position:absolute; inset:0;
       display:flex; align-items:center; justify-content:center;
@@ -56,30 +56,29 @@
       visibility:visible;
       pointer-events:auto;
     }
-
     details > summary{
       cursor: default;
       user-select: none;
       pointer-events: none;
     }
 
-    /* mini-player */
+    /* Mini-player */
     .mini-wrap{
       position: fixed;
       left: 18px;
       bottom: 18px;
-      z-index: 50;
-      width: 280px;
-      height: 170px;
+      z-index: 60;
+      width: 300px;
+      height: 180px;
       border-radius: 18px;
       overflow: hidden;
-      background: rgba(255,255,255,0.94);
+      background: rgba(255,255,255,0.95);
       box-shadow: 0 18px 45px rgba(0,0,0,0.12);
       border: 1px solid rgba(0,0,0,0.08);
 
       opacity: 0;
-      transform: translateY(16px) scale(0.96);
-      transition: opacity 320ms ease, transform 320ms ease;
+      transform: translateY(18px) scale(0.96);
+      transition: opacity 280ms ease, transform 280ms ease;
       pointer-events: none;
     }
     .mini-wrap.show{
@@ -87,12 +86,7 @@
       transform: translateY(0) scale(1);
       pointer-events: auto;
     }
-    .mini-inner{
-      width: 100%;
-      height: 100%;
-      transform-origin: top left;
-      will-change: transform;
-    }
+
     .mini-bar{
       position:absolute;
       left: 10px;
@@ -107,7 +101,7 @@
     .mini-label{
       font-size: 12px;
       color: rgba(0,0,0,0.55);
-      background: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.86);
       border: 1px solid rgba(0,0,0,0.08);
       padding: 6px 10px;
       border-radius: 999px;
@@ -121,12 +115,37 @@
       align-items:center;
       justify-content:center;
       border-radius: 999px;
-      background: rgba(255,255,255,0.88);
+      background: rgba(255,255,255,0.90);
       border: 1px solid rgba(0,0,0,0.08);
       color: rgba(0,0,0,0.6);
       cursor: pointer;
     }
     .mini-close:hover{ background: rgba(255,255,255,0.98); }
+
+    /* Mini canvas (fixed design size -> scaled down) */
+    .mini-canvas{
+      width: 1200px;
+      height: 800px;
+      background: white;
+      transform-origin: top left;
+    }
+
+    /* Animation portal for "sucked into" effect */
+    .portal{
+      position: fixed;
+      inset: 0;
+      z-index: 55;
+      pointer-events: none;
+    }
+    .portal > .portal-card{
+      position: absolute;
+      left: 0; top: 0;
+      width: 100vw;
+      height: 100vh;
+      padding: 24px;
+      box-sizing: border-box;
+      will-change: transform, opacity;
+    }
   </style>
 </head>
 
@@ -137,8 +156,12 @@
     <div id="blob" class="bg-blob"></div>
   </div>
 
+  <!-- Animation portal -->
+  <div id="portal" class="portal" aria-hidden="true"></div>
+
+  <!-- Mini -->
   <div id="mini" class="mini-wrap" aria-hidden="true">
-    <div id="miniInner" class="mini-inner"></div>
+    <div id="miniInner"></div>
     <div class="mini-bar">
       <div class="mini-label">Previous</div>
       <button id="miniClose" class="mini-close" type="button" aria-label="Close mini">✕</button>
@@ -413,6 +436,8 @@
     const stage = document.getElementById("stage");
     const blob  = document.getElementById("blob");
 
+    const portal = document.getElementById("portal");
+
     const mini = document.getElementById("mini");
     const miniInner = document.getElementById("miniInner");
     const miniClose = document.getElementById("miniClose");
@@ -423,25 +448,22 @@
       stage.style.height = `${slides.length * VH_PER_SLIDE}vh`;
     }
     setStageHeight();
-    window.addEventListener("resize", () => { setStageHeight(); fitMini(); });
 
-    /* ---------- Background (continuous, stronger color) ---------- */
+    /* Background motion (kept simple + stable) */
     const clamp01 = (x) => Math.min(1, Math.max(0, x));
     const lerp = (a, b, t) => a + (b - a) * t;
 
-    // stronger weights + opacity
     const keys = [
-      { x: 22,  y: 28,  s: 1.08, op: 0.32, pr: 1.00, bl: 0.12, yl: 0.00 },
-      { x: 10,  y: 12,  s: 1.12, op: 0.34, pr: 0.60, bl: 1.00, yl: 0.18 },
-      { x:  0,  y:  0,  s: 1.16, op: 0.36, pr: 0.16, bl: 0.85, yl: 1.00 },
-      { x: -10, y: -10, s: 1.14, op: 0.34, pr: 0.14, bl: 1.00, yl: 0.65 },
-      { x: -22, y: -22, s: 1.12, op: 0.32, pr: 0.85, bl: 0.42, yl: 0.12 }
+      { x: 22,  y: 28,  s: 1.10, op: 0.38, pr: 1.00, bl: 0.12, yl: 0.00 },
+      { x: 10,  y: 12,  s: 1.14, op: 0.40, pr: 0.60, bl: 1.00, yl: 0.20 },
+      { x:  0,  y:  0,  s: 1.18, op: 0.42, pr: 0.16, bl: 0.86, yl: 1.00 },
+      { x: -10, y: -10, s: 1.16, op: 0.40, pr: 0.14, bl: 1.00, yl: 0.70 },
+      { x: -22, y: -22, s: 1.14, op: 0.38, pr: 0.85, bl: 0.42, yl: 0.12 }
     ];
 
     function buildGradient(prW, blW, ylW){
-      // stronger alphas (still soft)
-      const pr = `rgba(74,42,106,${(0.92 * prW).toFixed(3)})`;
-      const bl = `rgba(175,198,217,${(0.92 * blW).toFixed(3)})`;
+      const pr = `rgba(74,42,106,${(0.95 * prW).toFixed(3)})`;
+      const bl = `rgba(175,198,217,${(0.95 * blW).toFixed(3)})`;
       const yl = `rgba(244,225,154,${(0.98 * ylW).toFixed(3)})`;
       return `radial-gradient(circle at 35% 35%, ${yl} 0%, ${bl} 38%, ${pr} 62%, rgba(255,255,255,0) 74%)`;
     }
@@ -468,31 +490,22 @@
       blob.style.background = buildGradient(prW, blW, ylW);
     }
 
-    /* ---------- Mini player ---------- */
-    function fitMini(){
-      const content = miniInner.firstElementChild;
-      if (!content) return;
-
-      const targetW = mini.clientWidth;
-      const targetH = mini.clientHeight;
-
-      content.style.transform = "none";
-      const r = content.getBoundingClientRect();
-      const scale = Math.min(targetW / r.width, targetH / r.height);
-
-      content.style.transformOrigin = "top left";
-      content.style.transform = `scale(${scale})`;
-    }
+    /* Mini render: fixed canvas -> scale */
+    const MINI_W = 1200;
+    const MINI_H = 800;
 
     function hideMini(){
       mini.classList.remove("show");
-      mini.setAttribute("aria-hidden", "true");
+      mini.setAttribute("aria-hidden","true");
       miniInner.innerHTML = "";
     }
 
-    function showMini(prevIdx){
-      // ✅ prevIdx must be >= 1, otherwise no previous
-      if (prevIdx < 1) { hideMini(); return; }
+    function renderMini(prevIdx){
+      // prevIdx can be 0 on the second page -> must show
+      if (prevIdx < 0) { hideMini(); return; }
+
+      const canvas = document.createElement("div");
+      canvas.className = "mini-canvas";
 
       const clone = slides[prevIdx].cloneNode(true);
       clone.classList.remove("active");
@@ -502,15 +515,70 @@
       clone.style.visibility = "visible";
       clone.style.pointerEvents = "none";
       clone.style.padding = "24px";
+      clone.style.width = MINI_W + "px";
+      clone.style.height = MINI_H + "px";
+      clone.style.boxSizing = "border-box";
+
+      canvas.appendChild(clone);
 
       miniInner.innerHTML = "";
-      miniInner.appendChild(clone);
+      miniInner.appendChild(canvas);
 
-      requestAnimationFrame(() => {
-        fitMini();
-        mini.classList.add("show");
-        mini.setAttribute("aria-hidden", "false");
-      });
+      // scale canvas to fit mini
+      const targetW = mini.clientWidth;
+      const targetH = mini.clientHeight;
+      const scale = Math.min(targetW / MINI_W, targetH / MINI_H);
+      canvas.style.transform = `scale(${scale})`;
+      canvas.style.transformOrigin = "top left";
+    }
+
+    /* "sucked into mini" animation */
+    function animateIntoMini(prevIdx){
+      // On first page there is no previous; on second page prevIdx=0 -> animate is ok
+      if (prevIdx < 0) return;
+
+      // Ensure mini has layout rect (even if hidden)
+      const miniRect = mini.getBoundingClientRect();
+
+      // Portal clone (full-screen)
+      const card = document.createElement("div");
+      card.className = "portal-card";
+      const clone = slides[prevIdx].cloneNode(true);
+      clone.classList.remove("active");
+      clone.style.position = "relative";
+      clone.style.inset = "auto";
+      clone.style.opacity = "1";
+      clone.style.visibility = "visible";
+      clone.style.pointerEvents = "none";
+      clone.style.height = "100%";
+      clone.style.display = "flex";
+      clone.style.alignItems = "center";
+      clone.style.justifyContent = "center";
+      card.appendChild(clone);
+      portal.appendChild(card);
+
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      const scaleX = miniRect.width / vw;
+      const scaleY = miniRect.height / vh;
+
+      const tx = miniRect.left;
+      const ty = miniRect.top;
+
+      card.animate(
+        [
+          { transform: "translate(0px,0px) scale(1,1)", opacity: 1 },
+          { transform: `translate(${tx}px,${ty}px) scale(${scaleX},${scaleY})`, opacity: 0.98 }
+        ],
+        {
+          duration: 520,
+          easing: "cubic-bezier(.2,.9,.2,1)",
+          fill: "forwards"
+        }
+      ).onfinish = () => {
+        portal.innerHTML = "";
+      };
     }
 
     miniClose.addEventListener("click", (e) => {
@@ -518,13 +586,14 @@
       hideMini();
     });
 
-    /* ---------- Slide switching + rAF throttle (reduces flicker) ---------- */
+    /* Slides */
+    function setActive(idx){
+      slides.forEach((s,i)=> s.classList.toggle("active", i===idx));
+    }
+
+    /* Scroll loop with rAF throttle (stable) */
     let prevActive = 0;
     let rafPending = false;
-
-    function setActive(idx){
-      slides.forEach((s, i) => s.classList.toggle("active", i === idx));
-    }
 
     function compute(){
       const rect = stage.getBoundingClientRect();
@@ -536,16 +605,31 @@
       const idx = Math.round(rawSlide);
 
       if (idx !== prevActive) {
-        // ✅ show mini only when CURRENT page has a real previous
-        // Example: when moving to page 2 (idx=1), previous is 0 => hide mini
-        // when moving to page 3 (idx=2), previous is 1 => show mini(1)
-        const previousPageIndex = idx - 1;
-        showMini(previousPageIndex);
+        // current idx=0 -> no mini
+        // current idx>=1 -> previous exists
+        if (idx === 0) {
+          hideMini();
+        } else {
+          const prevIdx = idx - 1;
+          // 1) animate old page into mini
+          // (use the prevIdx, which is the page that just left)
+          animateIntoMini(prevIdx);
+
+          // 2) update mini content + show
+          renderMini(prevIdx);
+          // show slightly after animation starts (less abrupt)
+          setTimeout(() => {
+            mini.classList.add("show");
+            mini.setAttribute("aria-hidden","false");
+          }, 120);
+        }
+
         prevActive = idx;
       }
 
       setActive(idx);
       updateBackground(progress);
+
       rafPending = false;
     }
 
@@ -556,7 +640,10 @@
     }
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    window.addEventListener("resize", () => {
+      setStageHeight();
+      onScroll();
+    });
 
     // init
     hideMini();
