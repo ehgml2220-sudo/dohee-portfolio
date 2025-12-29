@@ -8,9 +8,9 @@
 
   <style>
     :root{
-      --country-air:#AFC6D9;     /* airy blue */
-      --purple-prose:#4A2A6A;    /* deep purple */
-      --butter-yellow:#F4E19A;   /* soft yellow */
+      --country-air:#AFC6D9;
+      --purple-prose:#4A2A6A;
+      --butter-yellow:#F4E19A;
     }
     summary::-webkit-details-marker{ display:none; }
     html, body { height: 100%; }
@@ -18,17 +18,11 @@
     /* background wash */
     .wash{ position: fixed; inset: 0; z-index: -10; }
     .bg-blob{
-      position: absolute;
-      width: 760px;
-      height: 760px;
-      border-radius: 9999px;
-      filter: blur(110px);
-      opacity: 0.22;
-      transform: translate(0,0) scale(1);
-      transition:
-        transform 1100ms cubic-bezier(.22,.9,.2,1),
-        opacity 1100ms cubic-bezier(.22,.9,.2,1),
-        background 1100ms cubic-bezier(.22,.9,.2,1);
+      position:absolute;
+      width:820px; height:820px;
+      border-radius:9999px;
+      filter: blur(120px);
+      opacity:0.24;
       will-change: transform, opacity, background;
     }
 
@@ -44,43 +38,121 @@
       padding: 24px;
     }
 
-    /* slides stack but only one visible */
+    /* slides (only one visible) */
     .slide{
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      padding:24px;
 
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
       transition: opacity 260ms ease;
       will-change: opacity;
     }
     .slide.active{
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
+      opacity:1;
+      visibility:visible;
+      pointer-events:auto;
     }
 
-    /* no click vibe */
     details > summary{
       cursor: default;
       user-select: none;
       pointer-events: none;
+    }
+
+    /* --- Mini-player (prev slide) --- */
+    .mini-wrap{
+      position: fixed;
+      left: 18px;
+      bottom: 18px;
+      z-index: 50;
+      width: 280px;
+      height: 170px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.12);
+      border: 1px solid rgba(0,0,0,0.08);
+
+      opacity: 0;
+      transform: translateY(16px) scale(0.96);
+      transition: opacity 320ms ease, transform 320ms ease;
+      pointer-events: none; /* enabled only when shown */
+    }
+    .mini-wrap.show{
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .mini-inner{
+      width: 100%;
+      height: 100%;
+      transform-origin: top left;
+      /* scale will be set by JS to fit */
+      will-change: transform;
+    }
+
+    .mini-bar{
+      position:absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      pointer-events:none;
+    }
+    .mini-label{
+      font-size: 12px;
+      color: rgba(0,0,0,0.55);
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(0,0,0,0.08);
+      padding: 6px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+    }
+    .mini-close{
+      pointer-events:auto;
+      width: 34px;
+      height: 34px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(0,0,0,0.08);
+      color: rgba(0,0,0,0.6);
+      cursor: pointer;
+    }
+    .mini-close:hover{ background: rgba(255,255,255,0.95); }
+
+    /* optional: make mini a touch softer so it doesn't compete */
+    .mini-wrap .mini-inner{
+      filter: blur(0.2px);
     }
   </style>
 </head>
 
 <body class="bg-white text-gray-900">
 
-  <!-- background -->
   <div class="wash">
     <div class="absolute inset-0 bg-white"></div>
     <div id="blob" class="bg-blob"></div>
+  </div>
+
+  <!-- mini-player container -->
+  <div id="mini" class="mini-wrap" aria-hidden="true">
+    <div id="miniInner" class="mini-inner"></div>
+    <div class="mini-bar">
+      <div class="mini-label">Previous</div>
+      <button id="miniClose" class="mini-close" type="button" aria-label="Close mini">
+        ✕
+      </button>
+    </div>
   </div>
 
   <main class="scroll-stage" id="stage">
@@ -349,7 +421,11 @@
   <script>
     const slides = Array.from(document.querySelectorAll("[data-slide]"));
     const stage = document.getElementById("stage");
-    const blob = document.getElementById("blob");
+    const blob  = document.getElementById("blob");
+
+    const mini = document.getElementById("mini");
+    const miniInner = document.getElementById("miniInner");
+    const miniClose = document.getElementById("miniClose");
 
     const VH_PER_SLIDE = 130;
 
@@ -357,52 +433,131 @@
       stage.style.height = `${slides.length * VH_PER_SLIDE}vh`;
     }
     setStageHeight();
-    window.addEventListener("resize", setStageHeight);
+    window.addEventListener("resize", () => {
+      setStageHeight();
+      // re-fit mini content on resize
+      fitMini();
+    });
 
-    // ✅ Each slide: move from bottom-right -> center -> top-left (and repeat), and change colors
-    const bgSteps = [
-      // 0 HERO: purple heavy at bottom-right
-      {
-        transform: "translate(20vw, 28vh) scale(1.05)",
-        opacity: 0.22,
-        bg: "radial-gradient(circle at 30% 30%, rgba(74,42,106,0.95), rgba(74,42,106,0.00) 62%)"
-      },
-      // 1 TEASERS: purple -> blue
-      {
-        transform: "translate(8vw, 10vh) scale(1.10)",
-        opacity: 0.24,
-        bg: "radial-gradient(circle at 35% 35%, rgba(175,198,217,0.95), rgba(74,42,106,0.20) 40%, rgba(255,255,255,0) 68%)"
-      },
-      // 2 CASE 1: blue + yellow blend (center)
-      {
-        transform: "translate(0vw, 0vh) scale(1.12)",
-        opacity: 0.26,
-        bg: "radial-gradient(circle at 35% 35%, rgba(244,225,154,0.92), rgba(175,198,217,0.55) 38%, rgba(255,255,255,0) 70%)"
-      },
-      // 3 CASE 2: travel toward top-left, more blue
-      {
-        transform: "translate(-10vw, -10vh) scale(1.10)",
-        opacity: 0.24,
-        bg: "radial-gradient(circle at 35% 35%, rgba(175,198,217,0.90), rgba(244,225,154,0.35) 40%, rgba(255,255,255,0) 72%)"
-      },
-      // 4 CASE 3: top-left, purple returns subtly
-      {
-        transform: "translate(-20vw, -22vh) scale(1.08)",
-        opacity: 0.22,
-        bg: "radial-gradient(circle at 35% 35%, rgba(74,42,106,0.70), rgba(175,198,217,0.35) 42%, rgba(255,255,255,0) 72%)"
-      }
+    // --- background continuous motion (connected) ---
+    const clamp01 = (x) => Math.min(1, Math.max(0, x));
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    const keys = [
+      { x: 22,  y: 28,  s: 1.06, op: 0.22, pr: 0.95, bl: 0.10, yl: 0.00 },
+      { x: 10,  y: 12,  s: 1.10, op: 0.24, pr: 0.55, bl: 0.85, yl: 0.15 },
+      { x:  0,  y:  0,  s: 1.14, op: 0.26, pr: 0.12, bl: 0.70, yl: 0.95 },
+      { x: -10, y: -10, s: 1.12, op: 0.24, pr: 0.10, bl: 0.90, yl: 0.55 },
+      { x: -22, y: -22, s: 1.10, op: 0.22, pr: 0.70, bl: 0.35, yl: 0.10 }
     ];
 
-    function updateBackground(idx){
-      const c = bgSteps[idx] || bgSteps[bgSteps.length - 1];
-      blob.style.transform = c.transform;
-      blob.style.opacity = String(c.opacity);
-      blob.style.background = c.bg;
+    function buildGradient(prW, blW, ylW){
+      const pr = `rgba(74,42,106,${(0.75 * prW).toFixed(3)})`;
+      const bl = `rgba(175,198,217,${(0.75 * blW).toFixed(3)})`;
+      const yl = `rgba(244,225,154,${(0.85 * ylW).toFixed(3)})`;
+      return `radial-gradient(circle at 35% 35%, ${yl} 0%, ${bl} 38%, ${pr} 62%, rgba(255,255,255,0) 74%)`;
     }
 
+    function updateBackgroundContinuous(progress){
+      const raw = progress * (keys.length - 1);
+      const i0 = Math.floor(raw);
+      const i1 = Math.min(i0 + 1, keys.length - 1);
+      const t  = raw - i0;
+
+      const k0 = keys[i0], k1 = keys[i1];
+
+      const x  = lerp(k0.x,  k1.x,  t);
+      const y  = lerp(k0.y,  k1.y,  t);
+      const s  = lerp(k0.s,  k1.s,  t);
+      const op = lerp(k0.op, k1.op, t);
+
+      const prW = clamp01(lerp(k0.pr, k1.pr, t));
+      const blW = clamp01(lerp(k0.bl, k1.bl, t));
+      const ylW = clamp01(lerp(k0.yl, k1.yl, t));
+
+      blob.style.transform = `translate(${x}vw, ${y}vh) scale(${s})`;
+      blob.style.opacity = String(op);
+      blob.style.background = buildGradient(prW, blW, ylW);
+    }
+
+    // --- Mini-player logic ---
+    let prevIndex = 0;
+    let miniIndex = null;
+
+    function fitMini(){
+      // Fit content inside 280x170 preserving scale
+      const content = miniInner.firstElementChild;
+      if (!content) return;
+
+      const targetW = mini.clientWidth;
+      const targetH = mini.clientHeight;
+
+      // Measure original (use a temp visible state)
+      content.style.transform = "none";
+      const r = content.getBoundingClientRect();
+      const scale = Math.min(targetW / r.width, targetH / r.height);
+
+      content.style.transformOrigin = "top left";
+      content.style.transform = `scale(${scale})`;
+    }
+
+    function showMiniFor(index){
+      // Don't show mini for first slide
+      if (index <= 0) {
+        mini.classList.remove("show");
+        miniInner.innerHTML = "";
+        miniIndex = null;
+        return;
+      }
+
+      // Clone previous slide
+      const clone = slides[index].cloneNode(true);
+      clone.classList.add("mini-clone");
+      clone.classList.remove("active");
+      clone.style.position = "relative";
+      clone.style.inset = "auto";
+      clone.style.opacity = "1";
+      clone.style.visibility = "visible";
+      clone.style.pointerEvents = "none"; // mini is preview only
+      clone.style.padding = "24px";
+
+      miniInner.innerHTML = "";
+      miniInner.appendChild(clone);
+
+      // Fit & show
+      requestAnimationFrame(() => {
+        fitMini();
+        mini.classList.add("show");
+        mini.setAttribute("aria-hidden", "false");
+      });
+
+      miniIndex = index;
+    }
+
+    // Click mini to go back (optional but nice)
+    mini.addEventListener("click", (e) => {
+      if (e.target === miniClose) return;
+      if (miniIndex == null) return;
+      // Scroll to that slide section
+      scrollToSlide(miniIndex);
+    });
+
+    miniClose.addEventListener("click", (e) => {
+      e.stopPropagation();
+      mini.classList.remove("show");
+      mini.setAttribute("aria-hidden", "true");
+    });
+
+    function scrollToSlide(idx){
+      const total = stage.offsetHeight - window.innerHeight;
+      const p = (slides.length <= 1) ? 0 : (idx / (slides.length - 1));
+      const target = stage.offsetTop + (total * p);
+      window.scrollTo({ top: target, behavior: "smooth" });
+    }
+
+    // Slides: hard switch
     function setActive(idx){
       slides.forEach((s, i) => s.classList.toggle("active", i === idx));
-      updateBackground(idx);
     }
 
     function update(){
@@ -411,14 +566,22 @@
       const scrolled = Math.min(Math.max(-rect.top, 0), total);
       const progress = total > 0 ? (scrolled / total) : 0;
 
-      const raw = progress * (slides.length - 1);
-      const idx = Math.round(raw);
+      // active index
+      const rawSlide = progress * (slides.length - 1);
+      const idx = Math.round(rawSlide);
+
+      // If index changed, show mini with previous slide
+      if (idx !== prevIndex) {
+        const old = prevIndex;
+        prevIndex = idx;
+        if (old !== idx) showMiniFor(old);
+      }
 
       setActive(idx);
+      updateBackgroundContinuous(progress);
     }
 
     window.addEventListener("scroll", update, { passive: true });
-    updateBackground(0);
     update();
   </script>
 
