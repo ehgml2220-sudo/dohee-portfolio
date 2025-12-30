@@ -15,7 +15,7 @@
 
     html, body { height: 100%; }
 
-    /* ---------- Background wash ---------- */
+    /* Background wash (fixed) */
     .wash{ position: fixed; inset: 0; z-index: -10; }
     .bg-blob{
       position:absolute;
@@ -32,72 +32,13 @@
           rgba(175,198,217,0.9) 38%,
           rgba(74,42,106,0.9) 62%,
           rgba(255,255,255,0) 74%);
-      transition: transform 1.6s ease, background 1.6s ease;
+      transition: transform 1.2s ease, background 1.2s ease;
     }
 
-    /* ---------- Scroll stage ---------- */
-    .scroll-stage{ position: relative; height: 650vh; }
-    .sticky-panel{
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      padding: 24px;
-      overflow: hidden;
-    }
+    /* Shared layout */
+    .wrap{ max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; }
 
-    .slide{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-      opacity:0;
-      visibility:hidden;
-      pointer-events:none;
-      transition: opacity 420ms ease;
-      will-change: opacity;
-      overflow: hidden;
-    }
-    .slide.active{
-      opacity:1;
-      visibility:visible;
-      pointer-events:auto;
-    }
-
-    /* Case slides: align to top */
-    .slide.top{
-      align-items:flex-start;
-      padding-top: 72px;
-      overflow: visible;
-    }
-
-    /* ---------- iOS fadeup (Hero only) ---------- */
-    .ios-fadeup{
-      opacity:0;
-      transform: translateY(14px);
-      animation: iosFadeUp 1.25s cubic-bezier(.22,.88,.22,1) forwards;
-      animation-delay: var(--d, 0s);
-      will-change: transform, opacity;
-    }
-    @keyframes iosFadeUp{
-      to{ opacity:1; transform: translateY(0); }
-    }
-    .ios-played .ios-fadeup{
-      animation: none !important;
-      opacity: 1 !important;
-      transform: none !important;
-    }
-
-    /* ---------- Layout ---------- */
-    .case-wrap{
-      max-width: 72rem;
-      margin: 0 auto;
-      width: 100%;
-      padding: 0 1.5rem;
-    }
-
-    /* ---------- Unified image size ---------- */
+    /* Unified image frame */
     .image-frame{
       aspect-ratio: 16 / 10;
       border-radius: 1.25rem;
@@ -115,7 +56,7 @@
       display: block;
     }
 
-    /* ---------- Teaser cards ---------- */
+    /* Teaser cards (no Detail buttons) */
     .teaser-card{
       border-radius: 1.5rem;
       background: rgba(255,255,255,0.92);
@@ -127,32 +68,14 @@
       transform: translateY(-2px);
       box-shadow: 0 22px 55px rgba(0,0,0,0.11);
     }
-    .detail-btn{
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 14px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.95);
-      border: 1px solid rgba(0,0,0,0.10);
-      font-size: 13px;
-      font-weight: 600;
-      color: rgba(17,24,39,0.84);
-      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
-    }
-    .detail-btn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(0,0,0,0.16);
-      background: rgba(255,255,255,0.99);
-    }
-    .detail-btn:active{ transform: translateY(0); }
-    .detail-btn:focus{
-      outline: 2px solid rgba(74,42,106,0.35);
-      outline-offset: 2px;
+
+    /* Section spacing */
+    section{ padding: 72px 0; }
+    @media (max-width: 640px){
+      section{ padding: 56px 0; }
     }
 
-    /* ---------- Impact block (always visible, same type system) ---------- */
+    /* Impact block matches What/Why */
     .impact-inline{
       margin-top: 18px;
       padding-top: 6px;
@@ -174,31 +97,28 @@
 <body class="bg-white text-gray-900">
 
   <!-- Background -->
-  <div class="wash">
+  <div class="wash" aria-hidden="true">
     <div class="absolute inset-0 bg-white"></div>
     <div class="bg-blob" id="blob"></div>
   </div>
 
-  <main class="scroll-stage" id="stage">
-    <div class="sticky-panel">
+  <!-- PAGE: normal scroll (no sticky, no slide switching) -->
+  <main>
 
-      <!-- 1) HERO -->
-      <section class="slide active" data-slide data-intro>
-        <header id="introBlock" class="max-w-5xl mx-auto text-center px-6 py-16">
-
-          <h1 class="ios-fadeup text-6xl sm:text-7xl md:text-8xl font-extrabold leading-tight text-gray-900"
-              style="--d:0.00s;">
+    <!-- 1) HERO -->
+    <section>
+      <div class="wrap">
+        <div class="max-w-5xl mx-auto text-center px-6 py-10">
+          <h1 class="text-6xl sm:text-7xl md:text-8xl font-extrabold leading-tight text-gray-900">
             Dohee Kim
           </h1>
 
-          <p class="ios-fadeup text-lg md:text-xl max-w-3xl mx-auto mt-10 text-gray-700 leading-relaxed"
-             style="--d:1.60s;">
+          <p class="text-lg md:text-xl max-w-3xl mx-auto mt-10 text-gray-700 leading-relaxed">
             Trained in Linguistics, I'm interested in how meaning stays recognizable even as language shifts,
             and how meaning holds up as language moves through people, systems, and automated technologies.
           </p>
 
-          <div class="ios-fadeup mt-14 flex flex-col items-center gap-8"
-               style="--d:3.20s;">
+          <div class="mt-14 flex flex-col items-center gap-8">
             <a href="mailto:dkim112@yonsei.ac.kr"
                class="rounded-full px-7 py-3 text-sm font-semibold border border-black/10 bg-white hover:border-black/20 transition">
               Email
@@ -208,226 +128,199 @@
               Scroll to explore ↓
             </p>
           </div>
+        </div>
+      </div>
+    </section>
 
-        </header>
-      </section>
+    <!-- 2) TEASERS (no Detail) -->
+    <section>
+      <div class="wrap">
+        <div class="grid md:grid-cols-3 gap-8">
 
-      <!-- 2) TEASERS -->
-      <section class="slide" data-slide>
-        <div class="max-w-6xl mx-auto w-full px-6">
-          <div class="grid md:grid-cols-3 gap-8">
+          <article class="teaser-card">
+            <div class="p-6">
+              <div class="image-frame">
+                <img src="images/speech-eval.png" alt="Comprehension Layer Design" style="object-position:50% 92%;" />
+              </div>
+            </div>
+            <div class="px-6 pb-6">
+              <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">
+                Comprehension Layer Design
+              </h2>
+              <p class="text-sm text-gray-700 mt-2">
+                Language components that guide users through literary texts.
+              </p>
+            </div>
+          </article>
 
-            <article class="teaser-card">
-              <div class="p-6">
-                <div class="image-frame">
-                  <img src="images/speech-eval.png" alt="Comprehension Layer Design"
-                       style="object-position:50% 92%;" />
-                </div>
+          <article class="teaser-card">
+            <div class="p-6">
+              <div class="image-frame">
+                <img src="images/pronunciation-detail.png" alt="Language Quality Frameworks" style="object-position:50% 55%;" />
               </div>
-              <div class="px-6 pb-6">
-                <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">
-                  Comprehension Layer Design
-                </h2>
-                <p class="text-sm text-gray-700 mt-2">
-                  Designing language components that guide users through literary texts
-                </p>
-                <button type="button" class="detail-btn" data-jump="2"
-                        aria-label="Open details for Comprehension Layer Design">
-                  Detail <span aria-hidden="true">→</span>
-                </button>
-              </div>
-            </article>
+            </div>
+            <div class="px-6 pb-6">
+              <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">
+                Language Quality Frameworks & Guardrails
+              </h2>
+              <p class="text-sm text-gray-700 mt-2">
+                Standards for AI-assisted localization.
+              </p>
+            </div>
+          </article>
 
-            <article class="teaser-card">
-              <div class="p-6">
-                <div class="image-frame">
-                  <img src="images/pronunciation-detail.png" alt="Language Quality Frameworks"
-                       style="object-position:50% 55%;" />
-                </div>
+          <article class="teaser-card">
+            <div class="p-6">
+              <div class="image-frame">
+                <img src="images/feedback-examples.png" alt="Product Language & Cultural Fit" style="object-position:50% 50%;" />
               </div>
-              <div class="px-6 pb-6">
-                <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">
-                  Language Quality Frameworks & Guardrails
-                </h2>
-                <p class="text-sm text-gray-700 mt-2">
-                  Standards for AI-assisted localization.
-                </p>
-                <button type="button" class="detail-btn" data-jump="3"
-                        aria-label="Open details for Language Quality Frameworks & Guardrails">
-                  Detail <span aria-hidden="true">→</span>
-                </button>
-              </div>
-            </article>
+            </div>
+            <div class="px-6 pb-6">
+              <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">
+                Product Language & Cultural Fit (Korean)
+              </h2>
+              <p class="text-sm text-gray-700 mt-2">
+                Korean product language that feels natural and local.
+              </p>
+            </div>
+          </article>
 
-            <article class="teaser-card">
-              <div class="p-6">
-                <div class="image-frame">
-                  <img src="images/feedback-examples.png" alt="Product Language & Cultural Fit"
-                       style="object-position:50% 50%;" />
-                </div>
-              </div>
-              <div class="px-6 pb-6">
-                <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">
-                  Product Language & Cultural Fit (Korean)
-                </h2>
-                <p class="text-sm text-gray-700 mt-2">
-                  Korean product language that feels natural and local.
-                </p>
-                <button type="button" class="detail-btn" data-jump="4"
-                        aria-label="Open details for Product Language & Cultural Fit (Korean)">
-                  Detail <span aria-hidden="true">→</span>
-                </button>
-              </div>
-            </article>
+        </div>
+      </div>
+    </section>
 
+    <!-- 3) CASE 1 -->
+    <section>
+      <div class="wrap">
+        <p class="text-sm text-gray-600">Program Renewal</p>
+        <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
+          Comprehension Layer Design
+        </h3>
+
+        <div class="grid md:grid-cols-2 gap-10 items-start">
+          <div class="image-frame">
+            <img src="images/speech-eval.png" alt="Comprehension Layer screenshot" style="object-position:50% 92%;" />
           </div>
 
-          <p class="mt-10 text-center text-sm text-gray-500">
-            Tip: Click <span class="font-semibold">Detail</span> to jump to each case study.
-          </p>
-        </div>
-      </section>
-
-      <!-- 3) CASE 1 -->
-      <section class="slide top" data-slide>
-        <div class="case-wrap">
-          <p class="text-sm text-gray-600">Program Renewal</p>
-          <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
-            Comprehension Layer Design
-          </h3>
-
-          <div class="grid md:grid-cols-2 gap-10 items-start">
-            <div class="image-frame">
-              <img src="images/speech-eval.png" alt="Comprehension Layer screenshot"
-                   style="object-position:50% 92%;" />
+          <div class="text-gray-700 space-y-8">
+            <div>
+              <h4 class="font-bold mb-2">What I did</h4>
+              <ul class="list-disc pl-5 space-y-2">
+                <li>Identified key lexical and stylistic features of each literary text to establish a language baseline</li>
+                <li>Mapped vocabulary demands across materials to match user level and prevent excessive reading difficulty</li>
+                <li>Improved readability by adjusting line length, contrast, and typographic clarity to manage lexical complexity</li>
+                <li>Revised instructional and assessment language to maintain consistency across quizzes, tests, and workbooks</li>
+              </ul>
             </div>
 
-            <div class="text-gray-700 space-y-8">
-              <div>
-                <h4 class="font-bold mb-2">What I did</h4>
-                <ul class="list-disc pl-5 space-y-2">
-                  <li>Identified key lexical and stylistic features of each literary text to establish a language baseline</li>
-                  <li>Mapped vocabulary demands across materials to match user level and prevent excessive reading difficulty</li>
-                  <li>Improved readability by adjusting line length, contrast, and typographic clarity to manage lexical complexity</li>
-                  <li>Revised instructional and assessment language to maintain consistency across quizzes, tests, and workbooks</li>
-                </ul>
-              </div>
+            <div>
+              <h4 class="font-bold mb-2">Why it matters</h4>
+              <p>
+                The project operated within a learning context, where workbooks served as a medium for helping users understand literary texts.
+                In this environment, learners rely on consistent linguistic cues to interpret the literary content.
+                Inconsistent or incompatible language use interferes with comprehension, increases cognitive load, and diminishes users' ability to form a clear understanding of the literary work.
+              </p>
 
-              <div>
-                <h4 class="font-bold mb-2">Why it matters</h4>
+              <div class="impact-inline">
+                <h4>Impact</h4>
                 <p>
-                  The project operated within a learning context, where workbooks served as a medium for helping users understand literary texts.
-                  In this environment, learners rely on consistent linguistic cues to interpret the literary content.
-                  Inconsistent or incompatible language use interferes with comprehension, increasing cognitive load and diminishing users' ability to form a clear understanding of the literary work.
+                  Following the renewal, educators reported a more coherent lesson structure and questions closely aligned with the literary content.
                 </p>
-
-                <div class="impact-inline">
-                  <h4>Impact</h4>
-                  <p>
-                    Following the renewal, educators reported a more coherent lesson structure and questions closely aligned with the literary content.
-                  </p>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 4) CASE 2 -->
-      <section class="slide top" data-slide>
-        <div class="case-wrap">
-          <p class="text-sm text-gray-600">Case Study</p>
-          <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
-            Language Quality Frameworks & Guardrails
-          </h3>
-
-          <div class="grid md:grid-cols-2 gap-10 items-start">
-            <div class="image-frame">
-              <img src="images/pronunciation-detail.png" alt="Guardrails screenshot"
-                   style="object-position:50% 55%;" />
-            </div>
-
-            <div class="space-y-6 text-gray-700">
-              <div>
-                <h4 class="font-bold mb-2">What I did</h4>
-                <ul class="list-disc pl-5 space-y-2">
-                  <li>Defined quality criteria and classification rules</li>
-                  <li>Aligned interpretation across reviewers</li>
-                  <li>Iterated criteria based on recurring issues</li>
-                </ul>
-              </div>
-
-              <div>
-                <h4 class="font-bold mb-2">Why it matters</h4>
-                <p>Guardrails keep language aligned with brand voice and local expectations at scale.</p>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- 5) CASE 3 -->
-      <section class="slide top" data-slide>
-        <div class="case-wrap">
-          <p class="text-sm text-gray-600">Case Study</p>
-          <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
-            Product Language & Cultural Fit (Korean)
-          </h3>
+    <!-- 4) CASE 2 -->
+    <section>
+      <div class="wrap">
+        <p class="text-sm text-gray-600">Case Study</p>
+        <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
+          Language Quality Frameworks & Guardrails
+        </h3>
 
-          <div class="grid md:grid-cols-2 gap-10 items-start">
-            <div class="image-frame">
-              <img src="images/feedback-examples.png" alt="Cultural fit screenshot"
-                   style="object-position:50% 50%;" />
+        <div class="grid md:grid-cols-2 gap-10 items-start">
+          <div class="image-frame">
+            <img src="images/pronunciation-detail.png" alt="Guardrails screenshot" style="object-position:50% 55%;" />
+          </div>
+
+          <div class="space-y-6 text-gray-700">
+            <div>
+              <h4 class="font-bold mb-2">What I did</h4>
+              <ul class="list-disc pl-5 space-y-2">
+                <li>Defined quality criteria and classification rules</li>
+                <li>Aligned interpretation across reviewers</li>
+                <li>Iterated criteria based on recurring issues</li>
+              </ul>
             </div>
 
-            <div class="space-y-6 text-gray-700">
-              <div>
-                <h4 class="font-bold mb-2">What I did</h4>
-                <ul class="list-disc pl-5 space-y-2">
-                  <li>Optimized product copy for clarity and usability</li>
-                  <li>Applied cultural nuance and sensitivity awareness</li>
-                  <li>Proposed alternatives for off-tone cases</li>
-                </ul>
-              </div>
+            <div>
+              <h4 class="font-bold mb-2">Why it matters</h4>
+              <p>Guardrails keep language aligned with brand voice and local expectations at scale.</p>
+            </div>
 
-              <div>
-                <h4 class="font-bold mb-2">Why it matters</h4>
-                <p>Local resonance reduces friction and builds trust in a global product.</p>
-              </div>
+            <div class="impact-inline">
+              <h4>Impact</h4>
+              <p>More consistent evaluations and clearer feedback loops across reviewers.</p>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-    </div>
+    <!-- 5) CASE 3 -->
+    <section class="pb-24">
+      <div class="wrap">
+        <p class="text-sm text-gray-600">Case Study</p>
+        <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
+          Product Language & Cultural Fit (Korean)
+        </h3>
+
+        <div class="grid md:grid-cols-2 gap-10 items-start">
+          <div class="image-frame">
+            <img src="images/feedback-examples.png" alt="Cultural fit screenshot" style="object-position:50% 50%;" />
+          </div>
+
+          <div class="space-y-6 text-gray-700">
+            <div>
+              <h4 class="font-bold mb-2">What I did</h4>
+              <ul class="list-disc pl-5 space-y-2">
+                <li>Optimized product copy for clarity and usability</li>
+                <li>Applied cultural nuance and sensitivity awareness</li>
+                <li>Proposed alternatives for off-tone cases</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="font-bold mb-2">Why it matters</h4>
+              <p>Local resonance reduces friction and builds trust in a global product.</p>
+            </div>
+
+            <div class="impact-inline">
+              <h4>Impact</h4>
+              <p>Cleaner, more natural Korean copy that supports comprehension and user confidence.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <script>
-    const slides = Array.from(document.querySelectorAll("[data-slide]"));
-    const stage = document.getElementById("stage");
     const blob = document.getElementById("blob");
-    const introBlock = document.getElementById("introBlock");
-    let introPlayed = false;
 
-    function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+    function updateBackground(){
+      const doc = document.documentElement;
+      const max = (doc.scrollHeight - window.innerHeight) || 1;
+      const progress = Math.max(0, Math.min(1, window.scrollY / max));
 
-    function setStageHeight(){
-      const VH_PER_SLIDE = 125;
-      stage.style.height = `${slides.length * VH_PER_SLIDE}vh`;
-    }
-    setStageHeight();
-
-    function playIntroOnce(){
-      if (introPlayed) return;
-      introPlayed = true;
-      setTimeout(() => introBlock.classList.add("ios-played"), 4200);
-    }
-
-    function updateBackground(progress){
-      const x = 20 + (-28 * progress);
-      const y = 30 + (-32 * progress);
+      const x = 20 + (-28 * progress); // 20vw -> -8vw
+      const y = 30 + (-32 * progress); // 30vh -> -2vh
       const s = 1.10 + (0.08 * Math.sin(progress * Math.PI));
+
       blob.style.transform = `translate(${x}vw, ${y}vh) scale(${s})`;
 
       const pr = 0.80 + 0.20 * Math.cos(progress * Math.PI * 1.2);
@@ -442,53 +335,18 @@
           rgba(255,255,255,0) 74%)`;
     }
 
-    function scrollToSlide(idx){
-      const total = stage.offsetHeight - window.innerHeight;
-      const p = (slides.length <= 1) ? 0 : (idx / (slides.length - 1));
-      const target = stage.offsetTop + (total * p);
-      window.scrollTo({ top: target, behavior: "smooth" });
-    }
-
-    // Detail buttons
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-jump]");
-      if (!btn) return;
-      const idx = Number(btn.getAttribute("data-jump"));
-      if (!Number.isFinite(idx)) return;
-      scrollToSlide(idx);
-    });
-
-    function update(){
-      const total = stage.offsetHeight - innerHeight;
-      const scrolled = Math.min(Math.max(-stage.getBoundingClientRect().top,0), total);
-      const progress = total ? scrolled / total : 0;
-
-      const raw = progress * (slides.length - 1);
-      const idx = clamp(Math.floor(raw + 1e-6), 0, slides.length - 1);
-
-      slides.forEach((s,i)=>s.classList.toggle("active", i===idx));
-      if (idx === 0) playIntroOnce();
-
-      updateBackground(progress);
-    }
-
-    let rafPending = false;
-    function onScroll(){
-      if (rafPending) return;
-      rafPending = true;
+    let raf = false;
+    window.addEventListener("scroll", () => {
+      if (raf) return;
+      raf = true;
       requestAnimationFrame(() => {
-        update();
-        rafPending = false;
+        updateBackground();
+        raf = false;
       });
-    }
+    }, { passive: true });
 
-    window.addEventListener("scroll", onScroll, { passive:true });
-    window.addEventListener("resize", () => {
-      setStageHeight();
-      onScroll();
-    });
-
-    update();
+    window.addEventListener("resize", updateBackground);
+    updateBackground();
   </script>
 
 </body>
