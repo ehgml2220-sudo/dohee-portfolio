@@ -160,6 +160,36 @@
       background: var(--country-air);
       opacity: 0.85;
     }
+
+    /* iOS-like hello intro (Hero only) */
+.ios-hero * { -webkit-font-smoothing: antialiased; }
+
+.ios-hello{
+  letter-spacing: -0.02em;
+  transform-origin: 50% 60%;
+  animation: iosHello 1.05s cubic-bezier(.12,.9,.18,1) both;
+}
+@keyframes iosHello{
+  0%   { opacity: 0; transform: translateY(10px) scale(1.06); filter: blur(10px); }
+  55%  { opacity: 1; transform: translateY(0) scale(1.01); filter: blur(0px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+}
+
+.ios-reveal{
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(8px);
+  animation: iosReveal .75s cubic-bezier(.16,.85,.22,1) both;
+  animation-delay: var(--d, .2s);
+}
+@keyframes iosReveal{
+  to { opacity: 1; transform: translateY(0); filter: blur(0px); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .ios-hello, .ios-reveal{ animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; }
+}
+
   </style>
 </head>
 
@@ -183,35 +213,41 @@
   <main class="scroll-stage" id="stage">
     <div class="sticky-panel">
 
-      <!-- 1) HERO -->
-      <section class="slide active" data-slide>
-        <header class="max-w-5xl mx-auto text-center px-6 py-10">
-          <p class="text-sm tracking-wide text-gray-600">
-            Hello. I'm  
-          </p>
+     <!-- 1) HERO -->
+<section class="slide active" data-slide>
+  <header class="ios-hero max-w-5xl mx-auto text-center px-6 py-12">
 
-          <h1 class="text-5xl font-extrabold mt-4 leading-tight">
-            Dohee Kim
-            <span class="block text-2xl font-semibold mt-3 text-gray-700">
-             A single meaning can take multiple forms. 
-            </span>
-          </h1>
+    <!-- Big Hello (iOS-like) -->
+    <p class="ios-hello text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900">
+      Hello.
+    </p>
 
-          <p class="text-lg max-w-3xl mx-auto mt-7 text-gray-700 leading-relaxed">
-            Trained in Linguistics, I'm interested in how meaning stays recognizable even as language shifts 
-            and how meaning holds up as language moves through people, systems, not to mention automated technologies.
-          </p>
+    <h1 class="ios-reveal text-5xl md:text-6xl font-extrabold mt-6 leading-tight" style="--d:.18s;">
+      I'm Dohee Kim
+      <span class="block text-xl md:text-2xl font-semibold mt-4 text-gray-700">
+        A single meaning can take multiple forms.
+      </span>
+    </h1>
 
-          <div class="mt-10 flex justify-center">
-            <a href="mailto:dkim112@yonsei.ac.kr"
-               class="rounded-full px-6 py-2.5 text-sm font-semibold border border-black/10 bg-white hover:border-black/20 transition">
-              Email
-            </a>
-          </div>
+    <p class="ios-reveal text-lg max-w-3xl mx-auto mt-7 text-gray-700 leading-relaxed" style="--d:.34s;">
+      Trained in Linguistics, I'm interested in how meaning stays recognizable even as language shifts,
+      and how meaning holds up as language moves through people, systems, and automated technologies.
+    </p>
 
-          <p class="mt-10 text-sm text-gray-500">Scroll to explore ↓</p>
-        </header>
-      </section>
+    <div class="ios-reveal mt-10 flex justify-center" style="--d:.48s;">
+      <a href="mailto:dkim112@yonsei.ac.kr"
+         class="rounded-full px-6 py-2.5 text-sm font-semibold border border-black/10 bg-white hover:border-black/20 transition">
+        Email
+      </a>
+    </div>
+
+    <p class="ios-reveal mt-10 text-sm text-gray-500" style="--d:.62s;">
+      Scroll to explore ↓
+    </p>
+
+  </header>
+</section>
+
 
       <!-- 2) TEASERS (white cards stay) -->
       <section class="slide" data-slide>
