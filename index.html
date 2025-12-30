@@ -161,48 +161,33 @@
       opacity: 0.85;
     }
 
-  /* iOS setup-like intro (slow, airy, sequential) */
+ /* iOS setup-like intro — unified & smoother */
 .ios-hero * { -webkit-font-smoothing: antialiased; }
 
 .ios-fadeup{
   opacity: 0;
-  transform: translateY(22px);
-  filter: blur(8px);
-  animation: iosFadeUp 1.6s cubic-bezier(.14,.9,.18,1) both;
+  transform: translateY(14px);
+  filter: blur(4px);
+  animation: iosFadeUp 1.05s cubic-bezier(.22,.88,.22,1) both;
   animation-delay: var(--d, 0s);
   will-change: transform, opacity, filter;
 }
 
 @keyframes iosFadeUp{
-  0%   { opacity: 0; transform: translateY(22px); filter: blur(8px); }
-  60%  { opacity: 1; transform: translateY(0px); filter: blur(0px); }
-  100% { opacity: 1; transform: translateY(0px); filter: blur(0px); }
-}
-
-/* Hello: a little more “presence” like iOS (slower settle) */
-.ios-hello{
-  animation-duration: 2.1s;
-}
-.ios-hello-settle{
-  animation-name: iosFadeUp, iosSettle;
-  animation-duration: 2.1s, 2.6s;
-  animation-timing-function: cubic-bezier(.14,.9,.18,1), cubic-bezier(.2,.9,.2,1);
-  animation-fill-mode: both, both;
-  animation-delay: var(--d, 0s), calc(var(--d, 0s) + 0.25s);
-}
-@keyframes iosSettle{
-  0%   { letter-spacing: -0.005em; }
-  100% { letter-spacing: -0.02em; }
+  0%   { opacity: 0; transform: translateY(14px); filter: blur(4px); }
+  60%  { opacity: 1; transform: translateY(0); filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
 @media (prefers-reduced-motion: reduce){
-  .ios-fadeup, .ios-hello-settle{
+  .ios-fadeup{
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
   }
 }
+
 
   </style>
 </head>
@@ -231,47 +216,45 @@
 <section class="slide active" data-slide>
   <header class="ios-hero max-w-5xl mx-auto text-center px-6 py-16">
 
-    <!-- 1) Hello (smaller than name) -->
-    <p class="ios-fadeup ios-hello ios-hello-settle
+    <!-- 1) Hello -->
+    <p class="ios-fadeup
               text-3xl sm:text-4xl md:text-5xl
               font-extrabold text-gray-900"
-       style="--d:.00s;">
+       style="--d:0s;">
       Hello.
     </p>
 
-    <!-- 2) I'm Dohee Kim (MAIN focus, bigger than Hello) -->
+    <!-- 2) I'm Dohee Kim (main focus) -->
     <h1 class="ios-fadeup
                text-6xl sm:text-7xl md:text-8xl
-               font-extrabold mt-8 leading-tight text-gray-900"
-        style="--d:1.60s;">
+               font-extrabold mt-7 leading-tight text-gray-900"
+        style="--d:.35s;">
       I'm Dohee Kim
     </h1>
 
-    <!-- 3) Body text -->
+    <!-- 3) Body -->
     <p class="ios-fadeup
-              text-lg md:text-xl max-w-3xl mx-auto mt-10
+              text-lg md:text-xl max-w-3xl mx-auto mt-9
               text-gray-700 leading-relaxed"
-       style="--d:3.40s;">
+       style="--d:.75s;">
       Trained in Linguistics, I'm interested in how meaning stays recognizable even as language shifts,
       and how meaning holds up as language moves through people, systems, and automated technologies.
     </p>
 
-    <!-- 4) Email -->
-    <div class="ios-fadeup mt-14 flex justify-center"
-         style="--d:5.60s;">
+    <!-- 4) Email + Scroll (together) -->
+    <div class="ios-fadeup mt-14 flex flex-col items-center gap-6"
+         style="--d:1.15s;">
       <a href="mailto:dkim112@yonsei.ac.kr"
          class="rounded-full px-7 py-3 text-sm font-semibold
                 border border-black/10 bg-white
                 hover:border-black/20 transition">
         Email
       </a>
-    </div>
 
-    <!-- 5) Scroll hint -->
-    <p class="ios-fadeup mt-12 text-sm text-gray-500"
-       style="--d:6.80s;">
-      Scroll to explore ↓
-    </p>
+      <p class="text-sm text-gray-500">
+        Scroll to explore ↓
+      </p>
+    </div>
 
   </header>
 </section>
