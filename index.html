@@ -119,6 +119,28 @@
       background: var(--country-air);
       opacity: 0.85;
     }
+    
+/* Unified image size for all three cards */
+.card-image {
+  aspect-ratio: 16 / 10;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(6px);
+  box-shadow:
+    0 30px 60px rgba(0,0,0,0.08),
+    inset 0 0 0 1px rgba(255,255,255,0.35);
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+  
+  
   </style>
 </head>
 
