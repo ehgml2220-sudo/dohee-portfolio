@@ -155,18 +155,20 @@
       outline-offset: 2px;
     }
 
-    /* ---------- CASE 1: lift + reveal impact ---------- */
+    /* ---------- CASE 1: lift + reveal Impact (Impact moved up) ---------- */
     .case1-flex{
       min-height: calc(100vh - 96px);
       display:flex;
       flex-direction: column;
     }
     .case1-main{ will-change: transform; }
+
+    /* ✅ moved up: removed margin-top:auto, added margin-top:32px */
     .case1-impact{
-      margin-top: auto;
-      padding-bottom: 40px;
+      margin-top: 32px;
+      padding-bottom: 24px;
       opacity: 0;
-      transform: translateY(18px);
+      transform: translateY(12px);
       will-change: opacity, transform;
       transition: opacity 220ms ease, transform 220ms ease;
     }
@@ -198,7 +200,7 @@
   <main class="scroll-stage" id="stage">
     <div class="sticky-panel">
 
-      <!-- 1) HERO -->
+      <!-- 1) HERO (Hello/I’m removed) -->
       <section class="slide active" data-slide data-intro>
         <header id="introBlock" class="max-w-5xl mx-auto text-center px-6 py-16">
 
@@ -213,6 +215,7 @@
             and how meaning holds up as language moves through people, systems, and automated technologies.
           </p>
 
+          <!-- Email + Scroll appear simultaneously -->
           <div class="ios-fadeup mt-14 flex flex-col items-center gap-8"
                style="--d:3.20s;">
             <a href="mailto:dkim112@yonsei.ac.kr"
@@ -228,12 +231,11 @@
         </header>
       </section>
 
-      <!-- 2) TEASERS (ADD Detail buttons that jump to slides 3/4/5) -->
+      <!-- 2) TEASERS (Detail buttons jump to slides 3/4/5) -->
       <section class="slide" data-slide>
         <div class="max-w-6xl mx-auto w-full px-6">
           <div class="grid md:grid-cols-3 gap-8">
 
-            <!-- Card 1 -->
             <article class="teaser-card">
               <div class="p-6">
                 <div class="image-frame">
@@ -249,16 +251,13 @@
                   Designing language components that guide users through literary texts
                 </p>
 
-                <button type="button"
-                        class="detail-btn"
-                        data-jump="2"
+                <button type="button" class="detail-btn" data-jump="2"
                         aria-label="Open details for Comprehension Layer Design">
                   Detail <span aria-hidden="true">→</span>
                 </button>
               </div>
             </article>
 
-            <!-- Card 2 -->
             <article class="teaser-card">
               <div class="p-6">
                 <div class="image-frame">
@@ -274,16 +273,13 @@
                   Standards for AI-assisted localization.
                 </p>
 
-                <button type="button"
-                        class="detail-btn"
-                        data-jump="3"
+                <button type="button" class="detail-btn" data-jump="3"
                         aria-label="Open details for Language Quality Frameworks & Guardrails">
                   Detail <span aria-hidden="true">→</span>
                 </button>
               </div>
             </article>
 
-            <!-- Card 3 -->
             <article class="teaser-card">
               <div class="p-6">
                 <div class="image-frame">
@@ -299,9 +295,7 @@
                   Korean product language that feels natural and local.
                 </p>
 
-                <button type="button"
-                        class="detail-btn"
-                        data-jump="4"
+                <button type="button" class="detail-btn" data-jump="4"
                         aria-label="Open details for Product Language & Cultural Fit (Korean)">
                   Detail <span aria-hidden="true">→</span>
                 </button>
@@ -316,7 +310,7 @@
         </div>
       </section>
 
-      <!-- 3) CASE 1 -->
+      <!-- 3) CASE 1 (Top-aligned; Impact moved up) -->
       <section class="slide top" data-slide>
         <div class="case-wrap case1-flex">
 
@@ -504,14 +498,14 @@
       slides.forEach((s,i)=>s.classList.toggle("active", i===idx));
       if (idx === 0) playIntroOnce();
 
-      /* CASE 1 internal lift + impact reveal */
+      /* CASE 1 internal lift + impact reveal (reveal earlier) */
       const withinCase1 = raw - 2;
       const t = clamp((withinCase1 - 0.18) / 0.70, 0, 1);
 
       if (idx === 2){
         if (case1Main) case1Main.style.transform = `translateY(${(-44 * t).toFixed(1)}px)`;
         if (case1Impact){
-          if (t > 0.55) case1Impact.classList.add("show");
+          if (t > 0.38) case1Impact.classList.add("show");   /* ✅ earlier than before */
           else case1Impact.classList.remove("show");
         }
       } else {
