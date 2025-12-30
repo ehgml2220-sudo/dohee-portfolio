@@ -12,7 +12,6 @@
       --purple-prose:#4A2A6A;
       --butter-yellow:#F4E19A;
     }
-
     html, body { height: 100%; }
 
     /* ---------- Background wash ---------- */
@@ -23,20 +22,20 @@
       height: 860px;
       border-radius:9999px;
       filter: blur(130px);
-      opacity: 0.45;
+      opacity: 0.50;
       will-change: transform, opacity, background;
       transform: translate(20vw, 30vh) scale(1.1);
       background:
         radial-gradient(circle at 35% 35%,
-          rgba(244,225,154,0.9) 0%,
-          rgba(175,198,217,0.9) 38%,
-          rgba(74,42,106,0.9) 62%,
+          rgba(244,225,154,0.90) 0%,
+          rgba(175,198,217,0.90) 38%,
+          rgba(74,42,106,0.92) 62%,
           rgba(255,255,255,0) 74%);
-      transition: transform 1.6s ease, opacity 1.6s ease;
+      transition: transform 1.6s ease, opacity 1.6s ease, background 1.6s ease;
     }
 
-    /* ---------- Scroll stage ---------- */
-    .scroll-stage{ position: relative; height: 650vh; }
+    /* ---------- Scroll stage (sticky “page” feel) ---------- */
+    .scroll-stage{ position: relative; }
     .sticky-panel{
       position: sticky;
       top: 0;
@@ -66,8 +65,7 @@
       pointer-events:auto;
     }
 
-    /* ---------- iOS hello-style sequence (variable delay) ---------- */
-    .ios-hero{ }
+    /* ---------- iOS hello-style sequence ---------- */
     .ios-fadeup{
       opacity:0;
       transform: translateY(14px);
@@ -78,13 +76,7 @@
     @keyframes iosFadeUp{
       to{ opacity:1; transform: translateY(0); }
     }
-
-    /* Slight settle for Hello (optional tiny ease) */
-    .ios-hello-settle{
-      transform: translateY(10px);
-    }
-
-    /* Prevent re-trigger jitter once played */
+    .ios-hello-settle{ transform: translateY(10px); }
     .ios-played .ios-fadeup{
       animation: none !important;
       opacity: 1 !important;
@@ -108,14 +100,12 @@
 
     /* ---------- Unified image size (cards + cases) ---------- */
     .image-frame{
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 16 / 10;            /* consistent size */
       border-radius: 1.25rem;
       overflow: hidden;
-      background: rgba(255,255,255,0.75);
-      backdrop-filter: blur(6px);
-      box-shadow:
-        0 30px 60px rgba(0,0,0,0.08),
-        inset 0 0 0 1px rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.70);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.08);
     }
     .image-frame img{
       width: 100%;
@@ -134,7 +124,7 @@
       height: 180px;
       border-radius: 18px;
       overflow: hidden;
-      background: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.94);
       box-shadow: 0 18px 45px rgba(0,0,0,0.12);
       border: 1px solid rgba(0,0,0,0.08);
 
@@ -149,34 +139,21 @@
       pointer-events: auto;
       cursor: pointer;
     }
-    .mini-inner{
-      width: 100%;
-      height: 100%;
-      padding: 10px;
-      box-sizing: border-box;
-    }
+    .mini-inner{ width:100%; height:100%; padding:10px; box-sizing:border-box; }
     .mini-snap{
-      width: 100%;
-      height: 100%;
-      border-radius: 14px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.75);
-      backdrop-filter: blur(6px);
+      width:100%; height:100%;
+      border-radius:14px;
+      overflow:hidden;
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(10px);
       box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
     }
-    .mini-scale{
-      transform-origin: top left;
-      will-change: transform;
-    }
+    .mini-scale{ transform-origin: top left; will-change: transform; }
+
     .mini-bar{
       position:absolute;
-      left: 10px;
-      right: 10px;
-      bottom: 10px;
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 10px;
+      left:10px; right:10px; bottom:10px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
       pointer-events:none;
     }
     .mini-label{
@@ -191,11 +168,8 @@
     }
     .mini-close{
       pointer-events:auto;
-      width: 34px;
-      height: 34px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      width: 34px; height: 34px;
+      display:flex; align-items:center; justify-content:center;
       border-radius: 999px;
       background: rgba(255,255,255,0.90);
       border: 1px solid rgba(0,0,0,0.08);
@@ -204,73 +178,21 @@
     }
     .mini-close:hover{ background: rgba(255,255,255,0.98); }
 
-<style>
-  /* ...기존 CSS 유지... */
-
-  /* --------- Slide internal scroll (for Case 1 only) --------- */
-  .case-scroll{
-    max-height: min(72vh, 760px);
-    overflow-y: auto;
-    padding-right: 10px;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-  }
-  /* subtle scrollbar */
-  .case-scroll::-webkit-scrollbar{ width: 10px; }
-  .case-scroll::-webkit-scrollbar-thumb{
-    background: rgba(0,0,0,0.08);
-    border-radius: 999px;
-    border: 3px solid rgba(255,255,255,0);
-    background-clip: padding-box;
-  }
-  .case-scroll::-webkit-scrollbar-track{ background: transparent; }
-
-  /* --------- Quote bar reveal block --------- */
-  .quote-reveal{
-    display: flex;
-    gap: 18px;
-    align-items: flex-start;
-    padding: 14px 0;
-  }
-  .quote-bar{
-    width: 5px;
-    border-radius: 999px;
-    background: rgba(0,0,0,0.14);
-    flex: 0 0 auto;
-    transform: scaleY(0.4);
-    transform-origin: top;
-    transition: transform 520ms cubic-bezier(.22,.88,.22,1), opacity 520ms ease;
-    opacity: 0;
-  }
-  .quote-text{
-    font-size: 28px;
-    line-height: 1.25;
-    color: rgba(0,0,0,0.92);
-    letter-spacing: -0.01em;
-    max-width: 44rem;
-
-    transform: translateY(10px);
-    opacity: 0;
-    transition: transform 520ms cubic-bezier(.22,.88,.22,1), opacity 520ms ease;
-  }
-
-  /* revealed state */
-  .quote-reveal.is-in .quote-bar{
-    opacity: 1;
-    transform: scaleY(1);
-  }
-  .quote-reveal.is-in .quote-text{
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* optional: slightly smaller on mobile */
-  @media (max-width: 640px){
-    .quote-text{ font-size: 20px; }
-  }
-</style>
-
-    
+    /* ---------- Slide 3 pullout (bar + text slides in on scroll progress) ---------- */
+    .pullout{
+      margin-top: 22px;
+      border-left: 4px solid rgba(175,198,217,0.95);
+      padding-left: 16px;
+      color: rgba(17,24,39,0.92);
+      max-width: 52ch;
+      opacity: 0;
+      transform: translateX(-18px);
+      transition: opacity 520ms ease, transform 520ms ease;
+    }
+    .pullout.show{
+      opacity: 1;
+      transform: translateX(0);
+    }
   </style>
 </head>
 
@@ -298,32 +220,32 @@
   <main class="scroll-stage" id="stage">
     <div class="sticky-panel">
 
-      <!-- 1) HERO -->
+      <!-- ========== SLIDE 1 : INTRO (iOS style) ========== -->
       <section class="slide active" data-slide data-intro>
-        <header id="introBlock" class="ios-hero max-w-5xl mx-auto text-center px-6 py-16">
+        <header id="introBlock" class="max-w-5xl mx-auto text-center px-6 py-16">
 
-          <!-- 1) Hello (smaller than name) -->
+          <!-- 1) Hello -->
           <p class="ios-fadeup ios-hello-settle text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900"
              style="--d:0.00s;">
             Hello.
           </p>
 
-          <!-- 2) I'm Dohee Kim (MAIN focus, bigger than Hello) -->
+          <!-- 2) I'm Dohee Kim (bigger than hello) -->
           <h1 class="ios-fadeup text-6xl sm:text-7xl md:text-8xl font-extrabold mt-8 leading-tight text-gray-900"
-              style="--d:1.60s;">
+              style="--d:1.35s;">
             I’m Dohee Kim
           </h1>
 
-          <!-- 3) Body text -->
+          <!-- 3) Body -->
           <p class="ios-fadeup text-lg md:text-xl max-w-3xl mx-auto mt-10 text-gray-700 leading-relaxed"
-             style="--d:3.40s;">
+             style="--d:2.75s;">
             Trained in Linguistics, I'm interested in how meaning stays recognizable even as language shifts,
             and how meaning holds up as language moves through people, systems, and automated technologies.
           </p>
 
           <!-- 4) Email + 5) Scroll hint together -->
           <div class="ios-fadeup mt-14 flex flex-col items-center gap-8"
-               style="--d:5.60s;">
+               style="--d:4.30s;">
             <a href="mailto:dkim112@yonsei.ac.kr"
                class="rounded-full px-7 py-3 text-sm font-semibold border border-black/10 bg-white hover:border-black/20 transition">
               Email
@@ -337,7 +259,7 @@
         </header>
       </section>
 
-      <!-- 2) TEASERS -->
+      <!-- ========== SLIDE 2 : TEASERS (3 cards) ========== -->
       <section class="slide" data-slide>
         <div class="max-w-6xl mx-auto w-full px-6">
           <div class="grid md:grid-cols-3 gap-8">
@@ -345,16 +267,17 @@
             <article class="rounded-3xl bg-white shadow-sm overflow-hidden">
               <div class="p-6">
                 <div class="image-frame">
-                  <img src="images/speech-eval.png" alt="AI Language Quality"
-                       style="object-position:50% 88%;" />
+                  <!-- 책이 보이도록 아래쪽으로 크롭 -->
+                  <img src="images/speech-eval.png" alt="Comprehension Layer Design"
+                       style="object-position:50% 92%;" />
                 </div>
               </div>
               <div class="px-6 pb-6">
                 <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">
-                 Comprehension Layer Design
+                  Comprehension Layer Design
                 </h2>
                 <p class="text-sm text-gray-700 mt-2">
-                 Designing language components that guide users through literary texts
+                  Designing language components that guide users through literary texts.
                 </p>
               </div>
             </article>
@@ -362,7 +285,7 @@
             <article class="rounded-3xl bg-white shadow-sm overflow-hidden">
               <div class="p-6">
                 <div class="image-frame">
-                  <img src="images/pronunciation-detail.png" alt="Guardrails"
+                  <img src="images/pronunciation-detail.png" alt="Language Quality Frameworks & Guardrails"
                        style="object-position:50% 55%;" />
                 </div>
               </div>
@@ -379,7 +302,7 @@
             <article class="rounded-3xl bg-white shadow-sm overflow-hidden">
               <div class="p-6">
                 <div class="image-frame">
-                  <img src="images/feedback-examples.png" alt="Cultural Fit"
+                  <img src="images/feedback-examples.png" alt="Product Language & Cultural Fit (Korean)"
                        style="object-position:50% 50%;" />
                 </div>
               </div>
@@ -397,69 +320,50 @@
         </div>
       </section>
 
-     <!-- 3) CASE 1 -->
-<section class="slide" data-slide>
-  <div class="case-wrap">
+      <!-- ========== SLIDE 3 : CASE 1 (with pullout on further scroll) ========== -->
+      <section class="slide" data-slide data-case="1">
+        <div class="case-wrap">
+          <p class="text-sm text-gray-600">Program Renewal</p>
+          <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
+            Comprehension Layer Design
+          </h3>
 
-    <p class="text-sm text-gray-600">Program Renewal</p>
-    <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
-      Comprehension Layer Design
-    </h3>
+          <div class="grid md:grid-cols-2 gap-10 items-start">
+            <div class="image-frame">
+              <img src="images/speech-eval.png" alt="Comprehension Layer screenshot"
+                   style="object-position:50% 92%;" />
+            </div>
 
-    <!-- internal scroll area -->
-    <div class="case-scroll" id="case1Scroll">
+            <div class="space-y-6 text-gray-700">
+              <div>
+                <h4 class="font-bold mb-2">What I did</h4>
+                <ul class="list-disc pl-5 space-y-1">
+                  <li>Identified key lexical and stylistic features of each literary text</li>
+                  <li>Standardized language usage across quizzes, texts, and workbooks</li>
+                  <li>Revised instructional and assessment language to maintain consistency across formats</li>
+                </ul>
+              </div>
 
-      <div class="grid md:grid-cols-2 gap-10 items-start">
-        <div class="image-frame">
-          <img src="images/speech-eval.png" alt="Speech evaluation"
-               style="object-position:50% 88%;" />
-        </div>
+              <div>
+                <h4 class="font-bold mb-2">Why it matters</h4>
+                <p>
+                  The project operated within a learning context, where users rely on linguistic cues to construct meaning.
+                  Inconsistent language use affects comprehension, increases cognitive load, and can reduce engagement.
+                </p>
 
-        <div class="space-y-8 text-gray-700">
-          <div>
-            <h4 class="font-bold mb-2">What I did</h4>
-            <ul class="list-disc pl-5 space-y-1">
-              <li>Identified key lexical and stylistic features of each literary text</li>
-              <li>Standardized language usage across quizzes, texts, and workbooks</li>
-              <li>Revised instructional and assessment language to maintain consistency across formats</li>
-            </ul>
+                <!-- This appears after “a bit more scroll” within slide 3 -->
+                <div id="pullout3" class="pullout">
+                  Post-renewal feedback highlighted improved clarity, interaction, and student engagement with literary content.
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <h4 class="font-bold mb-2">Why it matters</h4>
-            <p>
-              The project operated within a learning context, where users rely on linguistic cues to construct meaning.
-              In this learning environment, inconsistent language use affects comprehension, increases cognitive load,
-              and reduces users' willingness to engage with learning materials.
-            </p>
-          </div>
+          <div class="case-divider"></div>
         </div>
-      </div>
+      </section>
 
-      <!-- spacer so user naturally scrolls down before reveal -->
-      <div class="h-10"></div>
-
-      <!-- reveal block (like your screenshot: left bar + big text) -->
-      <div class="quote-reveal" data-quote-reveal>
-        <div class="quote-bar" style="height: 78px;"></div>
-        <div class="quote-text">
-          Post-renewal feedback highlighted improved clarity, interaction,
-          and student engagement with literary content.
-        </div>
-      </div>
-
-      <div class="h-8"></div>
-      <div class="case-divider"></div>
-
-      <!-- a bit more bottom room so it doesn't feel cut off -->
-      <div class="h-6"></div>
-
-    </div>
-  </div>
-</section>
-
-
-      <!-- 4) CASE 2 -->
+      <!-- ========== SLIDE 4 : CASE 2 ========== -->
       <section class="slide" data-slide>
         <div class="case-wrap">
           <p class="text-sm text-gray-600">Case Study</p>
@@ -494,7 +398,7 @@
         </div>
       </section>
 
-      <!-- 5) CASE 3 -->
+      <!-- ========== SLIDE 5 : CASE 3 ========== -->
       <section class="slide" data-slide>
         <div class="case-wrap">
           <p class="text-sm text-gray-600">Case Study</p>
@@ -535,12 +439,15 @@
   <script>
     const slides = Array.from(document.querySelectorAll("[data-slide]"));
     const stage = document.getElementById("stage");
+    const blob  = document.getElementById("blob");
 
     const mini = document.getElementById("mini");
     const miniScale = document.getElementById("miniScale");
     const miniClose = document.getElementById("miniClose");
 
     const introBlock = document.getElementById("introBlock");
+    const pullout3 = document.getElementById("pullout3");
+
     let introPlayed = false;
     let miniPrevIdx = null;
 
@@ -549,28 +456,6 @@
       stage.style.height = `${slides.length * VH_PER_SLIDE}vh`;
     }
     setStageHeight();
-<script>
-  /* ...기존 JS 유지... */
-
-  // ---- Case 1: reveal quote when it becomes visible inside the internal scroller ----
-  const case1Scroll = document.getElementById("case1Scroll");
-  const quoteBlocks = document.querySelectorAll("[data-quote-reveal]");
-
-  const quoteObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting){
-        entry.target.classList.add("is-in");
-      }
-    });
-  }, {
-    root: case1Scroll || null,
-    threshold: 0.35
-  });
-
-  quoteBlocks.forEach((el) => quoteObserver.observe(el));
-
-  /* ...init... */
-</script>
 
     function hideMini(){
       mini.classList.remove("show");
@@ -596,8 +481,8 @@
       miniScale.innerHTML = "";
       miniScale.appendChild(clone);
 
-      // Scale down snapshot into mini box (simple, stable)
-      const targetW = 300 - 20; // approx (padding + borders)
+      // scale snapshot into mini box
+      const targetW = 300 - 20;
       const targetH = 180 - 20;
       const scale = Math.min(targetW / window.innerWidth, targetH / window.innerHeight);
       miniScale.style.transform = `scale(${Math.max(scale, 0.22)})`;
@@ -625,10 +510,46 @@
     function playIntroOnce(){
       if (introPlayed) return;
       introPlayed = true;
-      // After the first play, mark as played to avoid jitter if slide toggles
+      // lock the intro state after it finishes, to prevent jitter if slide re-activates
       setTimeout(() => {
         introBlock.classList.add("ios-played");
-      }, 7600);
+      }, 6500);
+    }
+
+    // background motion palette keyframes (same idea you liked)
+    const clamp01 = (x) => Math.min(1, Math.max(0, x));
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    const keys = [
+      { x: 20,  y: 30,  s: 1.10, op: 0.50, pr: 0.95, bl: 0.35, yl: 0.10 },
+      { x: 10,  y: 14,  s: 1.14, op: 0.52, pr: 0.45, bl: 0.95, yl: 0.25 },
+      { x:  0,  y:  0,  s: 1.18, op: 0.54, pr: 0.18, bl: 0.85, yl: 0.95 },
+      { x: -10, y: -12, s: 1.16, op: 0.52, pr: 0.20, bl: 0.95, yl: 0.60 },
+      { x: -22, y: -22, s: 1.14, op: 0.50, pr: 0.85, bl: 0.42, yl: 0.12 }
+    ];
+
+    function buildGradient(prW, blW, ylW){
+      const pr = `rgba(74,42,106,${(0.95 * prW).toFixed(3)})`;
+      const bl = `rgba(175,198,217,${(0.92 * blW).toFixed(3)})`;
+      const yl = `rgba(244,225,154,${(0.92 * ylW).toFixed(3)})`;
+      return `radial-gradient(circle at 35% 35%, ${yl} 0%, ${bl} 38%, ${pr} 62%, rgba(255,255,255,0) 74%)`;
+    }
+
+    function updateBackground(progress){
+      const raw = progress * (keys.length - 1);
+      const i0 = Math.floor(raw);
+      const i1 = Math.min(i0 + 1, keys.length - 1);
+      const t  = raw - i0;
+      const k0 = keys[i0], k1 = keys[i1];
+
+      blob.style.transform =
+        `translate(${lerp(k0.x,k1.x,t)}vw, ${lerp(k0.y,k1.y,t)}vh) scale(${lerp(k0.s,k1.s,t)})`;
+      blob.style.opacity = String(lerp(k0.op,k1.op,t));
+      blob.style.background = buildGradient(
+        clamp01(lerp(k0.pr,k1.pr,t)),
+        clamp01(lerp(k0.bl,k1.bl,t)),
+        clamp01(lerp(k0.yl,k1.yl,t))
+      );
     }
 
     function update(){
@@ -639,10 +560,10 @@
       const idx = Math.round(progress * (slides.length - 1));
       slides.forEach((s,i)=>s.classList.toggle("active", i===idx));
 
-      // iOS intro play once (first time slide 0 is active)
+      // intro plays once
       if (idx === 0) playIntroOnce();
 
-      // mini box from slide 2+ (idx >= 1)
+      // mini box from slide 2+
       if (idx === 0) {
         hideMini();
       } else {
@@ -650,6 +571,18 @@
         mini.classList.add("show");
         mini.setAttribute("aria-hidden","false");
       }
+
+      // Slide 3: show pullout after some additional scroll within that slide segment
+      // We treat local progress around slide 3 window.
+      if (pullout3) {
+        const per = 1 / (slides.length - 1);
+        const start = per * 2;           // slide index 2 (0-based) ≈ slide 3
+        const end   = per * 3;
+        const local = (progress - start) / (end - start); // 0..1
+        pullout3.classList.toggle("show", local > 0.58);
+      }
+
+      updateBackground(progress);
     }
 
     let rafPending = false;
