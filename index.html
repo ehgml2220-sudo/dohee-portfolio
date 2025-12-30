@@ -16,11 +16,7 @@
     html, body { height: 100%; }
 
     /* ---------- Background wash ---------- */
-    .wash{
-      position: fixed;
-      inset: 0;
-      z-index: -10;
-    }
+    .wash{ position: fixed; inset: 0; z-index: -10; }
     .bg-blob{
       position:absolute;
       width: 860px;
@@ -35,10 +31,9 @@
           rgba(175,198,217,0.9) 38%,
           rgba(74,42,106,0.9) 62%,
           rgba(255,255,255,0) 74%);
-      transition: transform 1.6s ease, opacity 1.6s ease;
     }
 
-    /* ---------- Scroll stage ---------- */
+    /* ---------- Scroll stage (auto height based on slides) ---------- */
     .scroll-stage{ position: relative; height: 650vh; }
     .sticky-panel{
       position: sticky;
@@ -68,34 +63,44 @@
       pointer-events:auto;
     }
 
-    /* ---------- iOS-style intro sequence ---------- */
+    /* ---------- iOS-like intro sequence ---------- */
     .intro-step{
       opacity: 0;
       transform: translateY(10px);
-      animation: introFade 1.2s ease forwards;
+      animation: introFade 1.35s cubic-bezier(.22,.88,.22,1) forwards;
+      will-change: transform, opacity;
     }
-    .delay-1{ animation-delay: 1.4s; }
-    .delay-2{ animation-delay: 3.0s; }
-    .delay-3{ animation-delay: 4.8s; }
-    .delay-4{ animation-delay: 6.2s; }
+    .delay-1{ animation-delay: 1.2s; }
+    .delay-2{ animation-delay: 2.5s; }
+    .delay-3{ animation-delay: 3.7s; }
+    .delay-4{ animation-delay: 3.7s; } /* Email + Scroll together */
 
     @keyframes introFade{
-      to{
-        opacity:1;
-        transform: translateY(0);
-      }
+      to{ opacity:1; transform: translateY(0); }
     }
 
-    /* ---------- Case layout ---------- */
+    /* IMPORTANT: allow replay control */
+    .intro-paused .intro-step{ animation: none !important; opacity: 1; transform: none; }
+    .intro-ready .intro-step{ opacity: 0; transform: translateY(10px); }
+
+    /* ---------- Layout ---------- */
     .case-wrap{
       max-width: 72rem;
       margin: 0 auto;
       width: 100%;
       padding: 0 1.5rem;
     }
+    .case-divider{
+      margin-top: 2.5rem;
+      height: 1px;
+      width: 96px;
+      background: var(--country-air);
+      opacity: 0.85;
+    }
 
-    /* ---------- Image treatment (NO hard borders) ---------- */
-    .soft-image{
+    /* ---------- Unified image size (cards + cases) ---------- */
+    .image-frame{
+      aspect-ratio: 16 / 10;
       border-radius: 1.25rem;
       overflow: hidden;
       background: rgba(255,255,255,0.75);
@@ -104,43 +109,88 @@
         0 30px 60px rgba(0,0,0,0.08),
         inset 0 0 0 1px rgba(255,255,255,0.35);
     }
-
-    .soft-image img{
-      width:100%;
-      height:100%;
+    .image-frame img{
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      display:block;
+      display: block;
     }
 
-    .case-divider{
-      margin-top: 2.5rem;
-      height: 1px;
-      width: 96px;
-      background: var(--country-air);
-      opacity: 0.85;
+    /* ---------- Mini-player (Previous) ---------- */
+    .mini-wrap{
+      position: fixed;
+      left: 18px;
+      bottom: 18px;
+      z-index: 60;
+      width: 300px;
+      height: 180px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.12);
+      border: 1px solid rgba(0,0,0,0.08);
+      opacity: 0;
+      transform: translateY(18px) scale(0.965);
+      transition: opacity 320ms ease, transform 320ms ease;
+      pointer-events: none;
     }
-    
-/* Unified image size for all three cards */
-.card-image {
-  aspect-ratio: 16 / 10;
-  border-radius: 1.25rem;
-  overflow: hidden;
-  background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(6px);
-  box-shadow:
-    0 30px 60px rgba(0,0,0,0.08),
-    inset 0 0 0 1px rgba(255,255,255,0.35);
-}
-
-.card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-  
-  
+    .mini-wrap.show{
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+      cursor: pointer;
+    }
+    .mini-bar{
+      position:absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .mini-label{
+      font-size: 12px;
+      color: rgba(0,0,0,0.55);
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(0,0,0,0.08);
+      padding: 6px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+    }
+    .mini-close{
+      width: 34px;
+      height: 34px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.90);
+      border: 1px solid rgba(0,0,0,0.08);
+      color: rgba(0,0,0,0.6);
+      cursor: pointer;
+    }
+    .mini-close:hover{ background: rgba(255,255,255,0.98); }
+    .mini-inner{
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    .mini-snap{
+      width: 100%;
+      height: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(6px);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+    }
+    .mini-snap .mini-scale{
+      transform-origin: top left;
+      will-change: transform;
+    }
   </style>
 </head>
 
@@ -152,18 +202,31 @@
     <div class="bg-blob"></div>
   </div>
 
+  <!-- Mini previous -->
+  <div id="mini" class="mini-wrap" aria-hidden="true" title="Go back">
+    <div class="mini-inner">
+      <div class="mini-snap">
+        <div id="miniScale" class="mini-scale"></div>
+      </div>
+    </div>
+    <div class="mini-bar">
+      <div class="mini-label">Previous</div>
+      <button id="miniClose" class="mini-close" type="button" aria-label="Close mini">✕</button>
+    </div>
+  </div>
+
   <main class="scroll-stage" id="stage">
     <div class="sticky-panel">
 
       <!-- ========== SLIDE 1 : INTRO ========== -->
-      <section class="slide active">
-        <header class="max-w-5xl mx-auto text-center px-6">
+      <section class="slide active" data-slide data-intro>
+        <header class="max-w-5xl mx-auto text-center px-6 intro-ready" id="introBlock">
 
           <p class="text-sm tracking-wide text-gray-500 intro-step">
             Hello
           </p>
 
-          <h1 class="text-6xl font-extrabold mt-6 leading-tight intro-step delay-1">
+          <h1 class="text-6xl sm:text-7xl font-extrabold mt-6 leading-tight intro-step delay-1">
             I’m Dohee Kim
           </h1>
 
@@ -173,29 +236,32 @@
             systems, and automated technologies.
           </p>
 
-          <div class="mt-14 flex justify-center gap-6 intro-step delay-3">
+          <!-- Email + Scroll together -->
+          <div class="mt-14 flex flex-col items-center gap-6 intro-step delay-3">
             <a href="mailto:dkim112@yonsei.ac.kr"
                class="rounded-full px-7 py-3 text-sm font-semibold border border-black/10 bg-white hover:border-black/20 transition">
               Email
             </a>
-          </div>
 
-          <p class="mt-10 text-sm text-gray-500 intro-step delay-4">
-            Scroll to explore ↓
-          </p>
+            <p class="text-sm text-gray-500">
+              Scroll to explore ↓
+            </p>
+          </div>
 
         </header>
       </section>
 
       <!-- ========== SLIDE 2 : TEASERS ========== -->
-      <section class="slide">
+      <section class="slide" data-slide>
         <div class="max-w-6xl mx-auto w-full px-6 grid md:grid-cols-3 gap-8">
 
           <div class="rounded-3xl bg-white shadow-sm overflow-hidden">
-            <div class="p-6 soft-image">
-              <img src="images/speech-eval.png"
-                   alt="AI Language Quality"
-                   style="object-position:50% 88%;" />
+            <div class="p-6">
+              <div class="image-frame">
+                <img src="images/speech-eval.png"
+                     alt="AI Language Quality"
+                     style="object-position:50% 88%;" />
+              </div>
             </div>
             <div class="px-6 pb-6">
               <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">
@@ -208,10 +274,12 @@
           </div>
 
           <div class="rounded-3xl bg-white shadow-sm overflow-hidden">
-            <div class="p-6 soft-image">
-              <img src="images/pronunciation-detail.png"
-                   alt="Guardrails"
-                   style="object-position:50% 55%;" />
+            <div class="p-6">
+              <div class="image-frame">
+                <img src="images/pronunciation-detail.png"
+                     alt="Guardrails"
+                     style="object-position:50% 55%;" />
+              </div>
             </div>
             <div class="px-6 pb-6">
               <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">
@@ -224,10 +292,12 @@
           </div>
 
           <div class="rounded-3xl bg-white shadow-sm overflow-hidden">
-            <div class="p-6 soft-image">
-              <img src="images/feedback-examples.png"
-                   alt="Cultural Fit"
-                   style="object-position:50% 50%;" />
+            <div class="p-6">
+              <div class="image-frame">
+                <img src="images/feedback-examples.png"
+                     alt="Cultural Fit"
+                     style="object-position:50% 50%;" />
+              </div>
             </div>
             <div class="px-6 pb-6">
               <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">
@@ -243,14 +313,15 @@
       </section>
 
       <!-- ========== SLIDE 3 : CASE 1 ========== -->
-      <section class="slide">
+      <section class="slide" data-slide>
         <div class="case-wrap">
-          <h3 class="text-4xl font-extrabold mb-6" style="color:var(--purple-prose)">
+          <p class="text-sm text-gray-600">Case Study</p>
+          <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
             Human-in-the-loop AI Language Quality
           </h3>
 
           <div class="grid md:grid-cols-2 gap-10 items-start">
-            <div class="soft-image aspect-[16/10]">
+            <div class="image-frame">
               <img src="images/speech-eval.png"
                    alt="Speech evaluation"
                    style="object-position:50% 88%;" />
@@ -268,9 +339,79 @@
 
               <div>
                 <h4 class="font-bold mb-2">Why it matters</h4>
-                <p>
-                  Human judgment safeguards nuance where automation misses context.
-                </p>
+                <p>Human judgment safeguards nuance where automation misses context.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="case-divider"></div>
+        </div>
+      </section>
+
+      <!-- ========== SLIDE 4 : CASE 2 (RESTORED) ========== -->
+      <section class="slide" data-slide>
+        <div class="case-wrap">
+          <p class="text-sm text-gray-600">Case Study</p>
+          <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
+            Language Quality Frameworks & Guardrails
+          </h3>
+
+          <div class="grid md:grid-cols-2 gap-10 items-start">
+            <div class="image-frame">
+              <img src="images/pronunciation-detail.png"
+                   alt="Guardrails screenshot"
+                   style="object-position:50% 55%;" />
+            </div>
+
+            <div class="space-y-6 text-gray-700">
+              <div>
+                <h4 class="font-bold mb-2">What I did</h4>
+                <ul class="list-disc pl-5 space-y-1">
+                  <li>Defined quality criteria and classification rules</li>
+                  <li>Aligned interpretation across reviewers</li>
+                  <li>Iterated criteria based on recurring issues</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 class="font-bold mb-2">Why it matters</h4>
+                <p>Guardrails keep language aligned with brand voice and local expectations at scale.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="case-divider"></div>
+        </div>
+      </section>
+
+      <!-- ========== SLIDE 5 : CASE 3 (RESTORED) ========== -->
+      <section class="slide" data-slide>
+        <div class="case-wrap">
+          <p class="text-sm text-gray-600">Case Study</p>
+          <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
+            Product Language & Cultural Fit (Korean)
+          </h3>
+
+          <div class="grid md:grid-cols-2 gap-10 items-start">
+            <div class="image-frame">
+              <img src="images/feedback-examples.png"
+                   alt="Cultural fit screenshot"
+                   style="object-position:50% 50%;" />
+            </div>
+
+            <div class="space-y-6 text-gray-700">
+              <div>
+                <h4 class="font-bold mb-2">What I did</h4>
+                <ul class="list-disc pl-5 space-y-1">
+                  <li>Optimized product copy for clarity and usability</li>
+                  <li>Applied cultural nuance and sensitivity awareness</li>
+                  <li>Proposed alternatives for off-tone cases</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 class="font-bold mb-2">Why it matters</h4>
+                <p>Local resonance reduces friction and builds trust in a global product.</p>
               </div>
             </div>
           </div>
@@ -283,19 +424,127 @@
   </main>
 
   <script>
-    const slides = [...document.querySelectorAll(".slide")];
+    const slides = Array.from(document.querySelectorAll("[data-slide]"));
     const stage = document.getElementById("stage");
+
+    const introBlock = document.getElementById("introBlock");
+    let introPlayed = false;
+
+    const mini = document.getElementById("mini");
+    const miniScale = document.getElementById("miniScale");
+    const miniClose = document.getElementById("miniClose");
+    let miniPrevIdx = null;
+
+    function setStageHeight(){
+      const VH_PER_SLIDE = 125;
+      stage.style.height = `${slides.length * VH_PER_SLIDE}vh`;
+    }
+    setStageHeight();
+
+    function hideMini(){
+      mini.classList.remove("show");
+      mini.setAttribute("aria-hidden","true");
+      miniScale.innerHTML = "";
+      miniPrevIdx = null;
+    }
+
+    function renderMini(prevIdx){
+      if (prevIdx < 0) { hideMini(); return; }
+      miniPrevIdx = prevIdx;
+
+      const clone = slides[prevIdx].cloneNode(true);
+      clone.classList.remove("active");
+      clone.style.position = "relative";
+      clone.style.inset = "auto";
+      clone.style.opacity = "1";
+      clone.style.visibility = "visible";
+      clone.style.pointerEvents = "none";
+      clone.style.padding = "16px";
+      clone.style.height = "100%";
+
+      miniScale.innerHTML = "";
+      miniScale.appendChild(clone);
+
+      // scale down to fit mini
+      const targetW = 300 - 20 - 20;
+      const targetH = 180 - 20 - 20;
+      // rough design canvas assumptions (viewport-like)
+      const scale = Math.min(targetW / window.innerWidth, targetH / window.innerHeight);
+      miniScale.style.transform = `scale(${Math.max(scale, 0.22)})`;
+      miniScale.style.transformOrigin = "top left";
+    }
+
+    function scrollToSlide(idx){
+      const total = stage.offsetHeight - window.innerHeight;
+      const p = (slides.length <= 1) ? 0 : (idx / (slides.length - 1));
+      const target = stage.offsetTop + (total * p);
+      window.scrollTo({ top: target, behavior: "smooth" });
+    }
+
+    mini.addEventListener("click", (e) => {
+      if (e.target === miniClose) return;
+      if (miniPrevIdx == null) return;
+      scrollToSlide(miniPrevIdx);
+    });
+
+    miniClose.addEventListener("click", (e) => {
+      e.stopPropagation();
+      hideMini();
+    });
+
+    function playIntroOnce(){
+      if (introPlayed) return;
+      introPlayed = true;
+      // reset to allow animation to run reliably
+      introBlock.classList.remove("intro-paused");
+      introBlock.classList.add("intro-ready");
+      // force reflow then let animations run
+      void introBlock.offsetWidth;
+      // remove ready so animations play
+      requestAnimationFrame(() => {
+        introBlock.classList.remove("intro-ready");
+      });
+    }
 
     function update(){
       const total = stage.offsetHeight - innerHeight;
       const scrolled = Math.min(Math.max(-stage.getBoundingClientRect().top,0), total);
       const progress = total ? scrolled / total : 0;
       const idx = Math.round(progress * (slides.length - 1));
+
       slides.forEach((s,i)=>s.classList.toggle("active", i===idx));
+
+      // intro animation (only once on first load when slide 0 is active)
+      if (idx === 0) playIntroOnce();
+
+      // mini prev (show from slide 1+)
+      if (idx === 0) {
+        hideMini();
+      } else {
+        renderMini(idx - 1);
+        mini.classList.add("show");
+        mini.setAttribute("aria-hidden","false");
+      }
     }
 
-    addEventListener("scroll", ()=>requestAnimationFrame(update), {passive:true});
-    addEventListener("resize", update);
+    let rafPending = false;
+    function onScroll(){
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(() => {
+        update();
+        rafPending = false;
+      });
+    }
+
+    addEventListener("scroll", onScroll, { passive:true });
+    addEventListener("resize", () => {
+      setStageHeight();
+      onScroll();
+    });
+
+    // init
+    hideMini();
     update();
   </script>
 
