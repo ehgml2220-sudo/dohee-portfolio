@@ -270,12 +270,21 @@
           <div class="grid md:grid-cols-3 gap-8">
             <article class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden">
               <div class="p-6">
-                <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
-                  <div class="aspect-[16/10]">
-                    <img src="images/speech-eval.png" alt="AI Language Quality"
-                         class="w-full h-full object-cover object-top scale-[1.12]" />
-                  </div>
-                </div>
+                <div class="relative rounded-2xl overflow-hidden
+            bg-white/70 backdrop-blur-md
+            shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+  <div class="aspect-[16/10]">
+    <img src="images/speech-eval.png"
+         class="w-full h-full object-cover object-top" />
+  </div>
+
+  <!-- soft inner glow (border 대신 공기감) -->
+  <div class="absolute inset-0 pointer-events-none
+              rounded-2xl
+              shadow-[inset_0_0_0_1px_rgba(255,255,255,0.25)]">
+  </div>
+</div>
+
               </div>
               <div class="px-6 pb-6">
                 <h2 class="text-xl font-extrabold" style="color: var(--purple-prose);">
