@@ -8,9 +8,9 @@
 
   <style>
     :root{
-      --country-air:#AFC6D9;
       --purple-prose:#4A2A6A;
       --butter-yellow:#F4E19A;
+      --country-air:#AFC6D9;
     }
 
     html, body { height: 100%; }
@@ -32,7 +32,7 @@
           rgba(175,198,217,0.9) 38%,
           rgba(74,42,106,0.9) 62%,
           rgba(255,255,255,0) 74%);
-      transition: transform 1.6s ease, opacity 1.6s ease, background 1.6s ease;
+      transition: transform 1.6s ease, background 1.6s ease;
     }
 
     /* ---------- Scroll stage ---------- */
@@ -41,9 +41,6 @@
       position: sticky;
       top: 0;
       height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       padding: 24px;
       overflow: hidden;
     }
@@ -79,7 +76,7 @@
     .ios-fadeup{
       opacity:0;
       transform: translateY(14px);
-      animation: iosFadeUp 1.35s cubic-bezier(.22,.88,.22,1) forwards;
+      animation: iosFadeUp 1.25s cubic-bezier(.22,.88,.22,1) forwards;
       animation-delay: var(--d, 0s);
       will-change: transform, opacity;
     }
@@ -155,37 +152,31 @@
       outline-offset: 2px;
     }
 
-    /* ---------- CASE 1: lift + reveal Impact (Impact moved up) ---------- */
-    .case1-flex{
-      min-height: calc(100vh - 96px);
-      display:flex;
-      flex-direction: column;
-    }
-    .case1-main{ will-change: transform; }
-
-    /* ✅ moved up: removed margin-top:auto, added margin-top:32px */
-    .case1-impact{
-      margin-top: 32px;
-      padding-bottom: 24px;
+    /* ---------- CASE 1: Impact moved UP (under Why it matters) ---------- */
+    .impact-inline{
+      margin-top: 18px;          /* ⬆️ brings Impact up like your screenshot */
+      padding-top: 6px;
       opacity: 0;
-      transform: translateY(12px);
-      will-change: opacity, transform;
-      transition: opacity 220ms ease, transform 220ms ease;
+      transform: translateY(10px);
+      transition: opacity 240ms ease, transform 240ms ease;
     }
-    .case1-impact .impact-title{
-      font-size: 12px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.45);
-      margin-bottom: 8px;
+    .impact-inline.show{
+      opacity: 1;
+      transform: translateY(0);
     }
-    .case1-impact .impact-text{
+
+    /* Match What/Why typography exactly */
+    .impact-inline h4{
+      font-weight: 700;          /* same as other h4 */
+      margin-bottom: 0.5rem;     /* same spacing */
+      font-size: 1rem;
+      color: rgb(17,24,39);
+    }
+    .impact-inline p{
       font-size: 1rem;
       line-height: 1.75;
-      color: rgba(17,24,39,0.88);
-      max-width: 44rem;
+      color: rgb(55,65,81);
     }
-    .case1-impact.show{ opacity: 1; transform: translateY(0); }
   </style>
 </head>
 
@@ -200,7 +191,7 @@
   <main class="scroll-stage" id="stage">
     <div class="sticky-panel">
 
-      <!-- 1) HERO (Hello/I’m removed) -->
+      <!-- 1) HERO -->
       <section class="slide active" data-slide data-intro>
         <header id="introBlock" class="max-w-5xl mx-auto text-center px-6 py-16">
 
@@ -215,7 +206,6 @@
             and how meaning holds up as language moves through people, systems, and automated technologies.
           </p>
 
-          <!-- Email + Scroll appear simultaneously -->
           <div class="ios-fadeup mt-14 flex flex-col items-center gap-8"
                style="--d:3.20s;">
             <a href="mailto:dkim112@yonsei.ac.kr"
@@ -310,52 +300,50 @@
         </div>
       </section>
 
-      <!-- 3) CASE 1 (Top-aligned; Impact moved up) -->
+      <!-- 3) CASE 1 (Impact moved up like screenshot) -->
       <section class="slide top" data-slide>
-        <div class="case-wrap case1-flex">
+        <div class="case-wrap">
+          <p class="text-sm text-gray-600">Program Renewal</p>
+          <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
+            Comprehension Layer Design
+          </h3>
 
-          <div id="case1Main" class="case1-main">
-            <p class="text-sm text-gray-600">Program Renewal</p>
-            <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
-              Comprehension Layer Design
-            </h3>
+          <div class="grid md:grid-cols-2 gap-10 items-start">
+            <div class="image-frame">
+              <img src="images/speech-eval.png" alt="Comprehension Layer screenshot"
+                   style="object-position:50% 92%;" />
+            </div>
 
-            <div class="grid md:grid-cols-2 gap-10 items-start">
-              <div class="image-frame">
-                <img src="images/speech-eval.png" alt="Comprehension Layer screenshot"
-                     style="object-position:50% 92%;" />
+            <div class="text-gray-700 space-y-8">
+              <div>
+                <h4 class="font-bold mb-2">What I did</h4>
+                <ul class="list-disc pl-5 space-y-2">
+                  <li>Identified key lexical and stylistic features of each literary text to establish a language baseline</li>
+                  <li>Mapped vocabulary demands across materials to match user level and prevent excessive reading difficulty</li>
+                  <li>Improved readability by adjusting line length, contrast, and typographic clarity to manage lexical complexity</li>
+                  <li>Revised instructional and assessment language to maintain consistency across quizzes, tests, and workbooks</li>
+                </ul>
               </div>
 
-              <div class="text-gray-700 space-y-6">
-                <div>
-                  <h4 class="font-bold mb-2">What I did</h4>
-                  <ul class="list-disc pl-5 space-y-1">
-                    <li>Identified key lexical and stylistic features of each literary text to establish a language baseline</li>
-                    <li>Mapped vocabulary demands across materials to match user level and prevent excessive reading difficulty</li>
-                    <li>Improved readability by adjusting line length, contrast, and typographic clarity to manage lexical complexity</li>
-                    <li>Revised instructional and assessment language to maintain consistency across quizzes, tests, and workbooks</li>
-                  </ul>
-                </div>
+              <div>
+                <h4 class="font-bold mb-2">Why it matters</h4>
+                <p>
+                  The project operated within a learning context, where workbooks served as a medium for helping users understand literary texts.
+                  In this environment, learners rely on consistent linguistic cues to interpret the literary content.
+                  Inconsistent or incompatible language use interferes with comprehension, increasing cognitive load and diminishing users' ability to form a clear understanding of the literary work.
+                </p>
 
-                <div>
-                  <h4 class="font-bold mb-2">Why it matters</h4>
+                <!-- ✅ Impact directly under Why (NOT at page bottom) -->
+                <div id="case1Impact" class="impact-inline">
+                  <h4>Impact</h4>
                   <p>
-                    The project operated within a learning context, where workbooks served as a medium for helping users understand literary texts.
-                    In this environment, learners rely on consistent linguistic cues to interpret the literary content.
-                    Inconsistent or incompatible language use interferes with comprehension, increasing cognitive load and diminishing users' ability to form a clear understanding of the literary work.
+                    Following the renewal, educators reported a more coherent lesson structure and questions closely aligned with the literary content.
                   </p>
                 </div>
               </div>
+
             </div>
           </div>
-
-          <div id="case1Impact" class="case1-impact" aria-live="polite">
-            <p class="impact-title">Impact</p>
-            <p class="impact-text">
-              Following the renewal, educators reported a more coherent lesson structure and questions closely aligned with the literary content.
-            </p>
-          </div>
-
         </div>
       </section>
 
@@ -376,7 +364,7 @@
             <div class="space-y-6 text-gray-700">
               <div>
                 <h4 class="font-bold mb-2">What I did</h4>
-                <ul class="list-disc pl-5 space-y-1">
+                <ul class="list-disc pl-5 space-y-2">
                   <li>Defined quality criteria and classification rules</li>
                   <li>Aligned interpretation across reviewers</li>
                   <li>Iterated criteria based on recurring issues</li>
@@ -409,7 +397,7 @@
             <div class="space-y-6 text-gray-700">
               <div>
                 <h4 class="font-bold mb-2">What I did</h4>
-                <ul class="list-disc pl-5 space-y-1">
+                <ul class="list-disc pl-5 space-y-2">
                   <li>Optimized product copy for clarity and usability</li>
                   <li>Applied cultural nuance and sensitivity awareness</li>
                   <li>Proposed alternatives for off-tone cases</li>
@@ -432,9 +420,7 @@
     const slides = Array.from(document.querySelectorAll("[data-slide]"));
     const stage = document.getElementById("stage");
     const blob = document.getElementById("blob");
-
     const introBlock = document.getElementById("introBlock");
-    const case1Main = document.getElementById("case1Main");
     const case1Impact = document.getElementById("case1Impact");
 
     let introPlayed = false;
@@ -478,7 +464,7 @@
       window.scrollTo({ top: target, behavior: "smooth" });
     }
 
-    /* ✅ Detail buttons jump to target case slides (2,3,4) */
+    // Detail buttons
     document.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-jump]");
       if (!btn) return;
@@ -498,19 +484,17 @@
       slides.forEach((s,i)=>s.classList.toggle("active", i===idx));
       if (idx === 0) playIntroOnce();
 
-      /* CASE 1 internal lift + impact reveal (reveal earlier) */
-      const withinCase1 = raw - 2;
-      const t = clamp((withinCase1 - 0.18) / 0.70, 0, 1);
+      // Case 1: show Impact earlier (since it's no longer at the bottom)
+      const withinCase1 = raw - 2; // slide index 2
+      const t = clamp((withinCase1 - 0.12) / 0.55, 0, 1);
 
       if (idx === 2){
-        if (case1Main) case1Main.style.transform = `translateY(${(-44 * t).toFixed(1)}px)`;
         if (case1Impact){
-          if (t > 0.38) case1Impact.classList.add("show");   /* ✅ earlier than before */
+          if (t > 0.18) case1Impact.classList.add("show");
           else case1Impact.classList.remove("show");
         }
       } else {
-        if (case1Main) case1Main.style.transform = "";
-        if (case1Impact) case1Impact.classList.remove("show");
+        case1Impact?.classList.remove("show");
       }
 
       updateBackground(progress);
