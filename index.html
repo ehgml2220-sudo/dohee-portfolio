@@ -24,7 +24,7 @@
       border-radius:9999px;
       filter: blur(130px);
       opacity: 0.45;
-      will-change: transform, opacity, background;
+      will-change: transform, background;
       transform: translate(20vw, 30vh) scale(1.1);
       background:
         radial-gradient(circle at 35% 35%,
@@ -65,14 +65,14 @@
       pointer-events:auto;
     }
 
-    /* ✅ Case slides: start from top so nothing gets clipped */
+    /* Case slides: align to top */
     .slide.top{
       align-items:flex-start;
       padding-top: 72px;
       overflow: visible;
     }
 
-    /* ---------- iOS fadeup ---------- */
+    /* ---------- iOS fadeup (Hero only) ---------- */
     .ios-fadeup{
       opacity:0;
       transform: translateY(14px);
@@ -115,7 +115,7 @@
       display: block;
     }
 
-    /* ---------- Teaser cards: click affordance + Detail button ---------- */
+    /* ---------- Teaser cards ---------- */
     .teaser-card{
       border-radius: 1.5rem;
       background: rgba(255,255,255,0.92);
@@ -152,23 +152,14 @@
       outline-offset: 2px;
     }
 
-    /* ---------- CASE 1: Impact moved UP (under Why it matters) ---------- */
+    /* ---------- Impact block (always visible, same type system) ---------- */
     .impact-inline{
-      margin-top: 18px;          /* ⬆️ brings Impact up like your screenshot */
+      margin-top: 18px;
       padding-top: 6px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 240ms ease, transform 240ms ease;
     }
-    .impact-inline.show{
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Match What/Why typography exactly */
     .impact-inline h4{
-      font-weight: 700;          /* same as other h4 */
-      margin-bottom: 0.5rem;     /* same spacing */
+      font-weight: 700;
+      margin-bottom: 0.5rem;
       font-size: 1rem;
       color: rgb(17,24,39);
     }
@@ -221,7 +212,7 @@
         </header>
       </section>
 
-      <!-- 2) TEASERS (Detail buttons jump to slides 3/4/5) -->
+      <!-- 2) TEASERS -->
       <section class="slide" data-slide>
         <div class="max-w-6xl mx-auto w-full px-6">
           <div class="grid md:grid-cols-3 gap-8">
@@ -240,7 +231,6 @@
                 <p class="text-sm text-gray-700 mt-2">
                   Designing language components that guide users through literary texts
                 </p>
-
                 <button type="button" class="detail-btn" data-jump="2"
                         aria-label="Open details for Comprehension Layer Design">
                   Detail <span aria-hidden="true">→</span>
@@ -262,7 +252,6 @@
                 <p class="text-sm text-gray-700 mt-2">
                   Standards for AI-assisted localization.
                 </p>
-
                 <button type="button" class="detail-btn" data-jump="3"
                         aria-label="Open details for Language Quality Frameworks & Guardrails">
                   Detail <span aria-hidden="true">→</span>
@@ -284,7 +273,6 @@
                 <p class="text-sm text-gray-700 mt-2">
                   Korean product language that feels natural and local.
                 </p>
-
                 <button type="button" class="detail-btn" data-jump="4"
                         aria-label="Open details for Product Language & Cultural Fit (Korean)">
                   Detail <span aria-hidden="true">→</span>
@@ -300,7 +288,7 @@
         </div>
       </section>
 
-      <!-- 3) CASE 1 (Impact moved up like screenshot) -->
+      <!-- 3) CASE 1 -->
       <section class="slide top" data-slide>
         <div class="case-wrap">
           <p class="text-sm text-gray-600">Program Renewal</p>
@@ -333,8 +321,7 @@
                   Inconsistent or incompatible language use interferes with comprehension, increasing cognitive load and diminishing users' ability to form a clear understanding of the literary work.
                 </p>
 
-                <!-- ✅ Impact directly under Why (NOT at page bottom) -->
-                <div id="case1Impact" class="impact-inline">
+                <div class="impact-inline">
                   <h4>Impact</h4>
                   <p>
                     Following the renewal, educators reported a more coherent lesson structure and questions closely aligned with the literary content.
@@ -421,8 +408,6 @@
     const stage = document.getElementById("stage");
     const blob = document.getElementById("blob");
     const introBlock = document.getElementById("introBlock");
-    const case1Impact = document.getElementById("case1Impact");
-
     let introPlayed = false;
 
     function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
@@ -483,19 +468,6 @@
 
       slides.forEach((s,i)=>s.classList.toggle("active", i===idx));
       if (idx === 0) playIntroOnce();
-
-      // Case 1: show Impact earlier (since it's no longer at the bottom)
-      const withinCase1 = raw - 2; // slide index 2
-      const t = clamp((withinCase1 - 0.12) / 0.55, 0, 1);
-
-      if (idx === 2){
-        if (case1Impact){
-          if (t > 0.18) case1Impact.classList.add("show");
-          else case1Impact.classList.remove("show");
-        }
-      } else {
-        case1Impact?.classList.remove("show");
-      }
 
       updateBackground(progress);
     }
