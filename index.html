@@ -66,7 +66,7 @@
       pointer-events:auto;
     }
 
-    /* ---------- iOS hello-style sequence (variable delay) ---------- */
+    /* ---------- iOS hello-style sequence ---------- */
     .ios-fadeup{
       opacity:0;
       transform: translateY(14px);
@@ -78,8 +78,6 @@
       to{ opacity:1; transform: translateY(0); }
     }
     .ios-hello-settle{ transform: translateY(10px); }
-
-    /* Prevent re-trigger jitter once played */
     .ios-played .ios-fadeup{
       animation: none !important;
       opacity: 1 !important;
@@ -93,15 +91,8 @@
       width: 100%;
       padding: 0 1.5rem;
     }
-    .case-divider{
-      margin-top: 2.5rem;
-      height: 1px;
-      width: 96px;
-      background: var(--country-air);
-      opacity: 0.85;
-    }
 
-    /* ---------- Unified image size (cards + cases) ---------- */
+    /* ---------- Unified image size ---------- */
     .image-frame{
       aspect-ratio: 16 / 10;
       border-radius: 1.25rem;
@@ -199,38 +190,39 @@
     }
     .mini-close:hover{ background: rgba(255,255,255,0.98); }
 
-    /* ---------- Case 1: vertical bar (always visible) ---------- */
-    .case-notes{
-      position: relative;
-      padding-left: 22px;   /* space for bar */
-    }
-    .case-bar{
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;            /* full height of notes */
-      width: 4px;
-      border-radius: 999px;
-      background: rgba(74,42,106,0.35);
-      filter: blur(0.2px);
-      opacity: 1;
-      transform: none;
+    /* ---------- Case 1: keep main content stable + reveal Impact at bottom ---------- */
+    .case-flex{
+      min-height: calc(100vh - 48px); /* sticky padding 고려 */
+      display: flex;
+      flex-direction: column;
     }
 
-    /* ---------- Case 1: Impact area under image (no new pop-up box) ---------- */
-    .case-impact{
-      margin-top: 18px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(175,198,217,0.55);
+    .impact-bottom{
+      margin-top: auto;                /* 하단으로 밀기 */
+      padding-top: 16px;
+      padding-bottom: 210px;           /* ✅ mini-box(180px) + 여유 */
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 520ms ease, transform 520ms ease;
     }
-    .case-impact h4{
-      font-weight: 700;
+    .impact-bottom.show{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Impact text: no borders/lines */
+    .impact-title{
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.45);
       margin-bottom: 8px;
     }
-    .case-impact p{
+    .impact-text{
       font-size: 1rem;
       line-height: 1.75;
-      color: rgba(17,24,39,0.86);
+      color: rgba(17,24,39,0.88);
+      max-width: 44rem;
     }
   </style>
 </head>
@@ -302,7 +294,7 @@
             <article class="rounded-3xl bg-white shadow-sm overflow-hidden">
               <div class="p-6">
                 <div class="image-frame">
-                  <img src="images/speech-eval.png" alt="Comprehension Layer Design"
+                  <img src="images/speech-eval.png" alt="AI Language Quality"
                        style="object-position:50% 92%;" />
                 </div>
               </div>
@@ -354,59 +346,49 @@
         </div>
       </section>
 
-      <!-- 3) CASE 1 (Impact appears under the image, no new box) -->
+      <!-- 3) CASE 1 (Impact appears at bottom as you scroll down; no lines between image/text) -->
       <section class="slide" data-slide>
-        <div class="case-wrap">
+        <div class="case-wrap case-flex">
           <p class="text-sm text-gray-600">Program Renewal</p>
           <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
             Comprehension Layer Design
           </h3>
 
           <div class="grid md:grid-cols-2 gap-10 items-start">
-            <!-- LEFT: image + impact directly underneath (your scribble area) -->
-            <div>
-              <div class="image-frame">
-                <img src="images/speech-eval.png" alt="Comprehension Layer screenshot"
-                     style="object-position:50% 92%;" />
-              </div>
-
-              <!-- ✅ IMPACT stays in this same section (no pop-out card) -->
-              <div class="case-impact">
-                <h4>Impact</h4>
-                <p>
-                  Following the renewal, educators reported a more coherent lesson structure and questions closely aligned with the literary content.
-                </p>
-              </div>
+            <div class="image-frame">
+              <img src="images/speech-eval.png" alt="Comprehension Layer screenshot"
+                   style="object-position:50% 92%;" />
             </div>
 
-            <!-- RIGHT: notes with persistent vertical bar -->
-            <div class="case-notes text-gray-700">
-              <div class="case-bar" aria-hidden="true"></div>
+            <div class="text-gray-700 space-y-6">
+              <div>
+                <h4 class="font-bold mb-2">What I did</h4>
+                <ul class="list-disc pl-5 space-y-1">
+                  <li>Identified key lexical and stylistic features of each literary text to establish a language baseline</li>
+                  <li>Mapped vocabulary demands across materials to match user level and prevent excessive reading difficulty</li>
+                  <li>Improved readability by adjusting line length, contrast, and typographic clarity to manage lexical complexity</li>
+                  <li>Revised instructional and assessment language to maintain consistency across quizzes, tests, and workbooks</li>
+                </ul>
+              </div>
 
-              <div class="space-y-6">
-                <div>
-                  <h4 class="font-bold mb-2">What I did</h4>
-                  <ul class="list-disc pl-5 space-y-1">
-                    <li>Identified key lexical and stylistic features of each literary text to establish a language baseline</li>
-                    <li>Mapped vocabulary demands across materials to match user level and prevent excessive reading difficulty</li>
-                    <li>Improved readability by adjusting line length, contrast, and typographic clarity to manage lexical complexity</li>
-                    <li>Revised instructional and assessment language to maintain consistency across quizzes, tests, and workbooks</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 class="font-bold mb-2">Why it matters</h4>
-                  <p>
-                    The project operated within a learning context, where workbooks served as a medium for helping users understand literary texts.
-                    In this environment, learners rely on consistent linguistic cues to interpret the literary content.
-                    Inconsistent or incompatible language use interferes with comprehension, increasing cognitive load and diminishing users' ability to form a clear understanding of the literary work.
-                  </p>
-                </div>
+              <div>
+                <h4 class="font-bold mb-2">Why it matters</h4>
+                <p>
+                  The project operated within a learning context, where workbooks served as a medium for helping users understand literary texts.
+                  In this environment, learners rely on consistent linguistic cues to interpret the literary content.
+                  Inconsistent or incompatible language use interferes with comprehension, increasing cognitive load and diminishing users' ability to form a clear understanding of the literary work.
+                </p>
               </div>
             </div>
           </div>
 
-          <div class="case-divider"></div>
+          <!-- ✅ Impact revealed as you scroll down (stays at bottom; not covered by mini) -->
+          <div id="case1Impact" class="impact-bottom" aria-live="polite">
+            <p class="impact-title">Impact</p>
+            <p class="impact-text">
+              Following the renewal, educators reported a more coherent lesson structure and questions closely aligned with the literary content.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -440,8 +422,6 @@
               </div>
             </div>
           </div>
-
-          <div class="case-divider"></div>
         </div>
       </section>
 
@@ -475,8 +455,6 @@
               </div>
             </div>
           </div>
-
-          <div class="case-divider"></div>
         </div>
       </section>
 
@@ -495,6 +473,8 @@
     const introBlock = document.getElementById("introBlock");
     let introPlayed = false;
     let miniPrevIdx = null;
+
+    const case1Impact = document.getElementById("case1Impact");
 
     function setStageHeight(){
       const VH_PER_SLIDE = 125;
@@ -563,7 +543,6 @@
       const x = 20 + (-28 * progress);
       const y = 30 + (-32 * progress);
       const s = 1.10 + (0.08 * Math.sin(progress * Math.PI));
-
       blob.style.transform = `translate(${x}vw, ${y}vh) scale(${s})`;
 
       const pr = 0.80 + 0.20 * Math.cos(progress * Math.PI * 1.2);
@@ -596,6 +575,16 @@
         renderMini(idx - 1);
         mini.classList.add("show");
         mini.setAttribute("aria-hidden","false");
+      }
+
+      /* ✅ Reveal Impact within Case 1 as user scrolls down inside that slide */
+      const case1 = slides[2]; // 0 intro, 1 teasers, 2 case1
+      const revealAt = 2.35;   // tune this number if you want earlier/later
+      if (raw >= revealAt) {
+        case1.dataset.seen = "1";
+        case1Impact?.classList.add("show");
+      } else {
+        if (case1.dataset.seen !== "1") case1Impact?.classList.remove("show");
       }
 
       updateBackground(progress);
