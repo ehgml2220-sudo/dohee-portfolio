@@ -45,6 +45,7 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
+      overflow: hidden;
     }
 
     .slide{
@@ -59,6 +60,7 @@
       pointer-events:none;
       transition: opacity 420ms ease;
       will-change: opacity;
+      overflow: hidden;
     }
     .slide.active{
       opacity:1;
@@ -66,7 +68,14 @@
       pointer-events:auto;
     }
 
-    /* ---------- iOS hello-style sequence ---------- */
+    /* ✅ Case slides: start from top so nothing gets clipped */
+    .slide.top{
+      align-items:flex-start;
+      padding-top: 72px;
+      overflow: visible;
+    }
+
+    /* ---------- iOS fadeup ---------- */
     .ios-fadeup{
       opacity:0;
       transform: translateY(14px);
@@ -77,7 +86,6 @@
     @keyframes iosFadeUp{
       to{ opacity:1; transform: translateY(0); }
     }
-    .ios-hello-settle{ transform: translateY(10px); }
     .ios-played .ios-fadeup{
       animation: none !important;
       opacity: 1 !important;
@@ -110,103 +118,53 @@
       display: block;
     }
 
-    /* ---------- Mini-player (Previous) ---------- */
-    .mini-wrap{
-      position: fixed;
-      left: 18px;
-      bottom: 18px;
-      z-index: 60;
-      width: 300px;
-      height: 180px;
-      border-radius: 18px;
+    /* ---------- Teaser cards: click affordance + Detail button ---------- */
+    .teaser-card{
+      border-radius: 1.5rem;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.08);
       overflow: hidden;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+    .teaser-card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 22px 55px rgba(0,0,0,0.11);
+    }
+    .detail-btn{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 10px 14px;
+      border-radius: 999px;
       background: rgba(255,255,255,0.95);
-      box-shadow: 0 18px 45px rgba(0,0,0,0.12);
-      border: 1px solid rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.10);
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(17,24,39,0.84);
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+    .detail-btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(0,0,0,0.16);
+      background: rgba(255,255,255,0.99);
+    }
+    .detail-btn:active{ transform: translateY(0); }
+    .detail-btn:focus{
+      outline: 2px solid rgba(74,42,106,0.35);
+      outline-offset: 2px;
+    }
 
-      opacity: 0;
-      transform: translateY(18px) scale(0.965);
-      transition: opacity 320ms ease, transform 320ms ease;
-      pointer-events: none;
-    }
-    .mini-wrap.show{
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-      cursor: pointer;
-    }
-    .mini-inner{
-      width: 100%;
-      height: 100%;
-      padding: 10px;
-      box-sizing: border-box;
-    }
-    .mini-snap{
-      width: 100%;
-      height: 100%;
-      border-radius: 14px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.75);
-      backdrop-filter: blur(6px);
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
-    }
-    .mini-scale{
-      transform-origin: top left;
-      will-change: transform;
-    }
-    .mini-bar{
-      position:absolute;
-      left: 10px;
-      right: 10px;
-      bottom: 10px;
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-      pointer-events:none;
-    }
-    .mini-label{
-      font-size: 12px;
-      color: rgba(0,0,0,0.55);
-      background: rgba(255,255,255,0.86);
-      border: 1px solid rgba(0,0,0,0.08);
-      padding: 6px 10px;
-      border-radius: 999px;
-      backdrop-filter: blur(8px);
-      pointer-events:none;
-    }
-    .mini-close{
-      pointer-events:auto;
-      width: 34px;
-      height: 34px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.90);
-      border: 1px solid rgba(0,0,0,0.08);
-      color: rgba(0,0,0,0.6);
-      cursor: pointer;
-    }
-    .mini-close:hover{ background: rgba(255,255,255,0.98); }
-
-    /* ---------- CASE 1: in-slide "lift up + reveal impact at bottom" ---------- */
+    /* ---------- CASE 1: lift + reveal impact ---------- */
     .case1-flex{
-      min-height: calc(100vh - 48px);
+      min-height: calc(100vh - 96px);
       display:flex;
       flex-direction: column;
     }
-
-    /* main block that moves up a bit while scrolling within slide */
-    .case1-main{
-      will-change: transform;
-      transition: transform 180ms ease;
-    }
-
-    /* impact stays within the same slide (no new box), but has safe bottom space for mini */
+    .case1-main{ will-change: transform; }
     .case1-impact{
       margin-top: auto;
-      padding-bottom: 220px; /* mini height(180) + buffer */
+      padding-bottom: 40px;
       opacity: 0;
       transform: translateY(18px);
       will-change: opacity, transform;
@@ -225,12 +183,7 @@
       color: rgba(17,24,39,0.88);
       max-width: 44rem;
     }
-
-    /* when revealed */
-    .case1-impact.show{
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .case1-impact.show{ opacity: 1; transform: translateY(0); }
   </style>
 </head>
 
@@ -242,95 +195,129 @@
     <div class="bg-blob" id="blob"></div>
   </div>
 
-  <!-- Mini previous -->
-  <div id="mini" class="mini-wrap" aria-hidden="true" title="Go back">
-    <div class="mini-inner">
-      <div class="mini-snap">
-        <div id="miniScale" class="mini-scale"></div>
-      </div>
-    </div>
-    <div class="mini-bar">
-      <div class="mini-label">Previous</div>
-      <button id="miniClose" class="mini-close" type="button" aria-label="Close mini">✕</button>
-    </div>
-  </div>
-
   <main class="scroll-stage" id="stage">
     <div class="sticky-panel">
 
       <!-- 1) HERO -->
       <section class="slide active" data-slide data-intro>
         <header id="introBlock" class="max-w-5xl mx-auto text-center px-6 py-16">
-          <p class="ios-fadeup ios-hello-settle text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900"
-             style="--d:0.00s;">Hello.</p>
 
-          <h1 class="ios-fadeup text-6xl sm:text-7xl md:text-8xl font-extrabold mt-8 leading-tight text-gray-900"
-              style="--d:1.60s;">I’m Dohee Kim</h1>
+          <h1 class="ios-fadeup text-6xl sm:text-7xl md:text-8xl font-extrabold leading-tight text-gray-900"
+              style="--d:0.00s;">
+            Dohee Kim
+          </h1>
 
           <p class="ios-fadeup text-lg md:text-xl max-w-3xl mx-auto mt-10 text-gray-700 leading-relaxed"
-             style="--d:3.40s;">
+             style="--d:1.60s;">
             Trained in Linguistics, I'm interested in how meaning stays recognizable even as language shifts,
             and how meaning holds up as language moves through people, systems, and automated technologies.
           </p>
 
           <div class="ios-fadeup mt-14 flex flex-col items-center gap-8"
-               style="--d:5.60s;">
+               style="--d:3.20s;">
             <a href="mailto:dkim112@yonsei.ac.kr"
                class="rounded-full px-7 py-3 text-sm font-semibold border border-black/10 bg-white hover:border-black/20 transition">
               Email
             </a>
-            <p class="text-sm text-gray-500">Scroll to explore ↓</p>
+
+            <p class="text-sm text-gray-500">
+              Scroll to explore ↓
+            </p>
           </div>
+
         </header>
       </section>
 
-      <!-- 2) TEASERS -->
+      <!-- 2) TEASERS (ADD Detail buttons that jump to slides 3/4/5) -->
       <section class="slide" data-slide>
         <div class="max-w-6xl mx-auto w-full px-6">
           <div class="grid md:grid-cols-3 gap-8">
 
-            <article class="rounded-3xl bg-white shadow-sm overflow-hidden">
+            <!-- Card 1 -->
+            <article class="teaser-card">
               <div class="p-6">
                 <div class="image-frame">
-                  <img src="images/speech-eval.png" alt="AI Language Quality" style="object-position:50% 92%;" />
+                  <img src="images/speech-eval.png" alt="Comprehension Layer Design"
+                       style="object-position:50% 92%;" />
                 </div>
               </div>
               <div class="px-6 pb-6">
-                <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">Comprehension Layer Design</h2>
-                <p class="text-sm text-gray-700 mt-2">Designing language components that guide users through literary texts</p>
+                <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">
+                  Comprehension Layer Design
+                </h2>
+                <p class="text-sm text-gray-700 mt-2">
+                  Designing language components that guide users through literary texts
+                </p>
+
+                <button type="button"
+                        class="detail-btn"
+                        data-jump="2"
+                        aria-label="Open details for Comprehension Layer Design">
+                  Detail <span aria-hidden="true">→</span>
+                </button>
               </div>
             </article>
 
-            <article class="rounded-3xl bg-white shadow-sm overflow-hidden">
+            <!-- Card 2 -->
+            <article class="teaser-card">
               <div class="p-6">
                 <div class="image-frame">
-                  <img src="images/pronunciation-detail.png" alt="Guardrails" style="object-position:50% 55%;" />
+                  <img src="images/pronunciation-detail.png" alt="Language Quality Frameworks"
+                       style="object-position:50% 55%;" />
                 </div>
               </div>
               <div class="px-6 pb-6">
-                <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">Language Quality Frameworks & Guardrails</h2>
-                <p class="text-sm text-gray-700 mt-2">Standards for AI-assisted localization.</p>
+                <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">
+                  Language Quality Frameworks & Guardrails
+                </h2>
+                <p class="text-sm text-gray-700 mt-2">
+                  Standards for AI-assisted localization.
+                </p>
+
+                <button type="button"
+                        class="detail-btn"
+                        data-jump="3"
+                        aria-label="Open details for Language Quality Frameworks & Guardrails">
+                  Detail <span aria-hidden="true">→</span>
+                </button>
               </div>
             </article>
 
-            <article class="rounded-3xl bg-white shadow-sm overflow-hidden">
+            <!-- Card 3 -->
+            <article class="teaser-card">
               <div class="p-6">
                 <div class="image-frame">
-                  <img src="images/feedback-examples.png" alt="Cultural Fit" style="object-position:50% 50%;" />
+                  <img src="images/feedback-examples.png" alt="Product Language & Cultural Fit"
+                       style="object-position:50% 50%;" />
                 </div>
               </div>
               <div class="px-6 pb-6">
-                <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">Product Language & Cultural Fit (Korean)</h2>
-                <p class="text-sm text-gray-700 mt-2">Korean product language that feels natural and local.</p>
+                <h2 class="text-xl font-extrabold" style="color:var(--purple-prose)">
+                  Product Language & Cultural Fit (Korean)
+                </h2>
+                <p class="text-sm text-gray-700 mt-2">
+                  Korean product language that feels natural and local.
+                </p>
+
+                <button type="button"
+                        class="detail-btn"
+                        data-jump="4"
+                        aria-label="Open details for Product Language & Cultural Fit (Korean)">
+                  Detail <span aria-hidden="true">→</span>
+                </button>
               </div>
             </article>
 
           </div>
+
+          <p class="mt-10 text-center text-sm text-gray-500">
+            Tip: Click <span class="font-semibold">Detail</span> to jump to each case study.
+          </p>
         </div>
       </section>
 
-      <!-- 3) CASE 1 (Problem fix: no lines, no pop-up, reveal Impact at bottom while content lifts up) -->
-      <section class="slide" data-slide>
+      <!-- 3) CASE 1 -->
+      <section class="slide top" data-slide>
         <div class="case-wrap case1-flex">
 
           <div id="case1Main" class="case1-main">
@@ -341,7 +328,8 @@
 
             <div class="grid md:grid-cols-2 gap-10 items-start">
               <div class="image-frame">
-                <img src="images/speech-eval.png" alt="Comprehension Layer screenshot" style="object-position:50% 92%;" />
+                <img src="images/speech-eval.png" alt="Comprehension Layer screenshot"
+                     style="object-position:50% 92%;" />
               </div>
 
               <div class="text-gray-700 space-y-6">
@@ -367,7 +355,6 @@
             </div>
           </div>
 
-          <!-- Impact stays at the bottom, revealed by scroll (and never covered by mini) -->
           <div id="case1Impact" class="case1-impact" aria-live="polite">
             <p class="impact-title">Impact</p>
             <p class="impact-text">
@@ -379,7 +366,7 @@
       </section>
 
       <!-- 4) CASE 2 -->
-      <section class="slide" data-slide>
+      <section class="slide top" data-slide>
         <div class="case-wrap">
           <p class="text-sm text-gray-600">Case Study</p>
           <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
@@ -388,7 +375,8 @@
 
           <div class="grid md:grid-cols-2 gap-10 items-start">
             <div class="image-frame">
-              <img src="images/pronunciation-detail.png" alt="Guardrails screenshot" style="object-position:50% 55%;" />
+              <img src="images/pronunciation-detail.png" alt="Guardrails screenshot"
+                   style="object-position:50% 55%;" />
             </div>
 
             <div class="space-y-6 text-gray-700">
@@ -411,7 +399,7 @@
       </section>
 
       <!-- 5) CASE 3 -->
-      <section class="slide" data-slide>
+      <section class="slide top" data-slide>
         <div class="case-wrap">
           <p class="text-sm text-gray-600">Case Study</p>
           <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
@@ -420,7 +408,8 @@
 
           <div class="grid md:grid-cols-2 gap-10 items-start">
             <div class="image-frame">
-              <img src="images/feedback-examples.png" alt="Cultural fit screenshot" style="object-position:50% 50%;" />
+              <img src="images/feedback-examples.png" alt="Cultural fit screenshot"
+                   style="object-position:50% 50%;" />
             </div>
 
             <div class="space-y-6 text-gray-700">
@@ -450,16 +439,11 @@
     const stage = document.getElementById("stage");
     const blob = document.getElementById("blob");
 
-    const mini = document.getElementById("mini");
-    const miniScale = document.getElementById("miniScale");
-    const miniClose = document.getElementById("miniClose");
-
     const introBlock = document.getElementById("introBlock");
     const case1Main = document.getElementById("case1Main");
     const case1Impact = document.getElementById("case1Impact");
 
     let introPlayed = false;
-    let miniPrevIdx = null;
 
     function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
 
@@ -469,59 +453,10 @@
     }
     setStageHeight();
 
-    function hideMini(){
-      mini.classList.remove("show");
-      mini.setAttribute("aria-hidden","true");
-      miniScale.innerHTML = "";
-      miniPrevIdx = null;
-    }
-
-    function renderMini(prevIdx){
-      if (prevIdx < 0) { hideMini(); return; }
-      miniPrevIdx = prevIdx;
-
-      const clone = slides[prevIdx].cloneNode(true);
-      clone.classList.remove("active");
-      clone.style.position = "relative";
-      clone.style.inset = "auto";
-      clone.style.opacity = "1";
-      clone.style.visibility = "visible";
-      clone.style.pointerEvents = "none";
-      clone.style.padding = "16px";
-      clone.style.height = "100%";
-
-      miniScale.innerHTML = "";
-      miniScale.appendChild(clone);
-
-      const targetW = 300 - 20;
-      const targetH = 180 - 20;
-      const scale = Math.min(targetW / window.innerWidth, targetH / window.innerHeight);
-      miniScale.style.transform = `scale(${Math.max(scale, 0.22)})`;
-      miniScale.style.transformOrigin = "top left";
-    }
-
-    function scrollToSlide(idx){
-      const total = stage.offsetHeight - window.innerHeight;
-      const p = (slides.length <= 1) ? 0 : (idx / (slides.length - 1));
-      const target = stage.offsetTop + (total * p);
-      window.scrollTo({ top: target, behavior: "smooth" });
-    }
-
-    mini.addEventListener("click", (e) => {
-      if (e.target === miniClose) return;
-      if (miniPrevIdx == null) return;
-      scrollToSlide(miniPrevIdx);
-    });
-
-    miniClose.addEventListener("click", (e) => {
-      e.stopPropagation();
-      hideMini();
-    });
-
     function playIntroOnce(){
       if (introPlayed) return;
       introPlayed = true;
-      setTimeout(() => introBlock.classList.add("ios-played"), 7600);
+      setTimeout(() => introBlock.classList.add("ios-played"), 4200);
     }
 
     function updateBackground(progress){
@@ -542,45 +477,44 @@
           rgba(255,255,255,0) 74%)`;
     }
 
+    function scrollToSlide(idx){
+      const total = stage.offsetHeight - window.innerHeight;
+      const p = (slides.length <= 1) ? 0 : (idx / (slides.length - 1));
+      const target = stage.offsetTop + (total * p);
+      window.scrollTo({ top: target, behavior: "smooth" });
+    }
+
+    /* ✅ Detail buttons jump to target case slides (2,3,4) */
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-jump]");
+      if (!btn) return;
+      const idx = Number(btn.getAttribute("data-jump"));
+      if (!Number.isFinite(idx)) return;
+      scrollToSlide(idx);
+    });
+
     function update(){
       const total = stage.offsetHeight - innerHeight;
       const scrolled = Math.min(Math.max(-stage.getBoundingClientRect().top,0), total);
       const progress = total ? scrolled / total : 0;
 
-      // use raw to animate within a slide
       const raw = progress * (slides.length - 1);
-
-      // floor avoids flicker around boundaries (round was the “problem” feel on slide 3)
       const idx = clamp(Math.floor(raw + 1e-6), 0, slides.length - 1);
 
       slides.forEach((s,i)=>s.classList.toggle("active", i===idx));
-
       if (idx === 0) playIntroOnce();
 
-      if (idx === 0) {
-        hideMini();
-      } else {
-        renderMini(idx - 1);
-        mini.classList.add("show");
-        mini.setAttribute("aria-hidden","false");
-      }
-
-      // ---- CASE 1 internal animation: lift main content + reveal Impact at bottom
-      // Case 1 is slide index 2 (0 intro, 1 teasers, 2 case1)
-      const withinCase1 = raw - 2; // 0..1 while staying on slide 3
-      // start reveal a bit after entering the slide
-      const t = clamp((withinCase1 - 0.20) / 0.65, 0, 1);
+      /* CASE 1 internal lift + impact reveal */
+      const withinCase1 = raw - 2;
+      const t = clamp((withinCase1 - 0.18) / 0.70, 0, 1);
 
       if (idx === 2){
-        // lift up slightly as you scroll “down” in the slide
-        if (case1Main) case1Main.style.transform = `translateY(${(-70 * t).toFixed(1)}px)`;
-        // reveal Impact near the end
+        if (case1Main) case1Main.style.transform = `translateY(${(-44 * t).toFixed(1)}px)`;
         if (case1Impact){
           if (t > 0.55) case1Impact.classList.add("show");
           else case1Impact.classList.remove("show");
         }
       } else {
-        // reset when leaving the slide
         if (case1Main) case1Main.style.transform = "";
         if (case1Impact) case1Impact.classList.remove("show");
       }
@@ -604,7 +538,6 @@
       onScroll();
     });
 
-    hideMini();
     update();
   </script>
 
