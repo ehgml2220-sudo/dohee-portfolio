@@ -238,6 +238,53 @@
       line-height: 1.7;
       color: rgba(17,24,39,0.88);
     }
+
+    /* Slide 3: keep main content stable + show wrap-up at bottom */
+.case-flex{
+  min-height: calc(100vh - 48px); /* sticky padding 고려 */
+  display: flex;
+  flex-direction: column;
+}
+
+.case-wrapup{
+  margin-top: auto;              /* ✅ 하단으로 밀기 */
+  padding-top: 18px;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 520ms ease, transform 520ms ease;
+}
+
+.case-wrapup.show{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Wrap card style (subtle, readable) */
+.wrap-card{
+  max-width: 44rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.62);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+}
+
+.wrap-title{
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.45);
+  margin-bottom: 8px;
+}
+
+.wrap-text{
+  font-size: 1rem;
+  line-height: 1.75;
+  color: rgba(17,24,39,0.88);
+}
+
   </style>
 </head>
 
@@ -401,11 +448,7 @@
                 </div>
 
                 <!-- Pullout appears after a little more scroll (then stays) -->
-                <div id="case3Pullout" class="pullout">
-                  <p class="pullout-text">
-                    Post-renewal feedback highlighted improved clarity, interaction, and student engagement with literary content.
-                  </p>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -416,7 +459,7 @@
 
       <!-- 4) CASE 2 -->
       <section class="slide" data-slide>
-        <div class="case-wrap">
+        <div class="case-wrap case-flex">
           <p class="text-sm text-gray-600">Case Study</p>
           <h3 class="text-4xl font-extrabold mb-6 mt-2" style="color:var(--purple-prose)">
             Language Quality Frameworks & Guardrails
@@ -446,6 +489,15 @@
           </div>
 
           <div class="case-divider"></div>
+          <!-- Wrap-up appears at bottom (persistent) -->
+<div id="case3Wrap" class="case-wrapup">
+  <div class="wrap-card">
+    <p class="wrap-title">Wrap-up</p>
+    <p class="wrap-text">
+Post-renewal feedback highlighted a more coherent lesson structure and questions closely aligned with the literary content.    </p>
+  </div>
+</div>
+
         </div>
       </section>
 
@@ -612,21 +664,21 @@
 
       // slide 3 pullout: once visible, stay visible
       const slide3 = slides[2]; // 0 intro, 1 teasers, 2 case1
-      const pull = document.getElementById("case3Pullout");
-      const notes = slide3.querySelector(".case-notes");
+     const wrap = document.getElementById("case3Wrap");
+const notes = slide3.querySelector(".case-notes");
+const trigger = 2.35;
 
-      const trigger = 2.35; // adjust (2.45 = later, 2.25 = earlier)
+if (raw >= trigger) {
+  slide3.dataset.seen = "1";
+  wrap?.classList.add("show");
+  notes?.classList.add("show-bar");
+} else {
+  if (slide3.dataset.seen !== "1") {
+    wrap?.classList.remove("show");
+    notes?.classList.remove("show-bar");
+  }
+}
 
-      if (raw >= trigger) {
-        slide3.dataset.seen = "1";
-        pull?.classList.add("show");
-        notes?.classList.add("show-bar");
-      } else {
-        if (slide3.dataset.seen !== "1") {
-          pull?.classList.remove("show");
-          notes?.classList.remove("show-bar");
-        }
-      }
 
       updateBackground(progress);
     }
