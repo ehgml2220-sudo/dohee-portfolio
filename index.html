@@ -15,6 +15,7 @@
     summary::-webkit-details-marker{ display:none; }
     html, body { height: 100%; }
 
+    /* Background wash */
     .wash{ position: fixed; inset: 0; z-index: -10; }
     .bg-blob{
       position:absolute;
@@ -22,11 +23,12 @@
       height: 860px;
       border-radius:9999px;
       filter: blur(125px);
-      opacity: 0.34;
+      opacity: 0.38;              /* slightly stronger */
       will-change: transform, opacity, background;
       transform: translate(22vw, 28vh) scale(1.08);
     }
 
+    /* Stage */
     .scroll-stage{ position: relative; height: 600vh; }
     .sticky-panel{
       position: sticky;
@@ -38,6 +40,7 @@
       padding: 24px;
     }
 
+    /* Slides */
     .slide{
       position:absolute; inset:0;
       display:flex; align-items:center; justify-content:center;
@@ -55,7 +58,7 @@
     }
     details > summary{ cursor: default; user-select: none; pointer-events: none; }
 
-    /* Mini */
+    /* Mini-player (Previous) */
     .mini-wrap{
       position: fixed;
       left: 18px;
@@ -115,6 +118,7 @@
     }
     .mini-close:hover{ background: rgba(255,255,255,0.98); }
 
+    /* Mini canvas (fixed design size -> scaled down) */
     .mini-canvas{
       width: 1200px;
       height: 800px;
@@ -122,7 +126,7 @@
       transform-origin: top left;
     }
 
-    /* Portal */
+    /* Animation portal for "sucked into" effect */
     .portal{
       position: fixed;
       inset: 0;
@@ -137,6 +141,24 @@
       padding: 24px;
       box-sizing: border-box;
       will-change: transform, opacity, filter;
+    }
+
+    /* Case section: no big white container from slide 3+ */
+    .case-wrap{
+      max-width: 72rem;
+      margin: 0 auto;
+      width: 100%;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    /* Subtle divider */
+    .case-divider{
+      margin-top: 2rem;
+      height: 1px;
+      width: 96px;
+      background: var(--country-air);
+      opacity: 0.85;
     }
   </style>
 </head>
@@ -192,7 +214,7 @@
         </header>
       </section>
 
-      <!-- 2) TEASERS -->
+      <!-- 2) TEASERS (white cards stay) -->
       <section class="slide" data-slide>
         <div class="max-w-6xl mx-auto w-full px-6">
           <div class="grid md:grid-cols-3 gap-8">
@@ -259,161 +281,156 @@
         </div>
       </section>
 
-      <!-- 3) CASE 1 -->
+      <!-- 3) CASE 1 (NO big white box) -->
       <section class="slide" data-slide>
-        <div class="max-w-6xl mx-auto w-full px-6">
-          <div class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden">
-            <div class="p-8 md:p-10">
-              <p class="text-sm text-gray-600">Case Study</p>
-              <h3 class="text-3xl md:text-4xl font-extrabold mt-2" style="color: var(--purple-prose);">
-                Human-in-the-loop AI Language Quality
-              </h3>
-              <p class="text-gray-700 mt-4 max-w-3xl leading-relaxed">
-                Error taxonomy and decision rules for stable human review at scale.
-              </p>
-            </div>
-            <details open>
-              <summary class="hidden">Details</summary>
-              <div class="px-8 md:px-10 pb-10 border-t border-black/5">
-                <div class="pt-8 grid md:grid-cols-2 gap-8">
-                  <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
-                    <div class="aspect-[16/10]">
-                      <img src="images/speech-eval.png" alt="Screenshot"
-                           class="w-full h-full object-cover object-top" />
-                    </div>
-                  </div>
-                  <div class="space-y-6">
-                    <div>
-                      <h4 class="text-lg font-bold mb-2">What I did</h4>
-                      <ul class="list-disc pl-5 space-y-1 text-gray-700">
-                        <li>Defined segmental + suprasegmental error categories</li>
-                        <li>Wrote decision criteria and edge-case notes</li>
-                        <li>Refined guidelines via reviewer feedback</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 class="text-lg font-bold mb-2">Why it matters for Product</h4>
-                      <p class="text-gray-700 leading-relaxed">
-                        Human judgment safeguards nuance where automation may miss context.
-                      </p>
-                    </div>
-                    <div>
-                      <h4 class="text-lg font-bold mb-2">Scale signal</h4>
-                      <p class="text-gray-700 leading-relaxed">
-                        Consistent criteria → stable outcomes → clearer quality signals for tool iteration.
-                      </p>
-                    </div>
-                  </div>
+        <div class="case-wrap">
+          <div class="p-8 md:p-10">
+            <p class="text-sm text-gray-600">Case Study</p>
+            <h3 class="text-3xl md:text-4xl font-extrabold mt-2" style="color: var(--purple-prose);">
+              Human-in-the-loop AI Language Quality
+            </h3>
+            <p class="text-gray-700 mt-4 max-w-3xl leading-relaxed">
+              Error taxonomy and decision rules for stable human review at scale.
+            </p>
+          </div>
+
+          <div class="px-8 md:px-10 pb-10">
+            <div class="pt-6 grid md:grid-cols-2 gap-10 items-start">
+              <!-- screenshot floats subtly -->
+              <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white/80 backdrop-blur">
+                <div class="aspect-[16/10]">
+                  <img src="images/speech-eval.png" alt="Screenshot"
+                       class="w-full h-full object-cover object-top" />
                 </div>
               </div>
-            </details>
-            <div class="h-1 w-full" style="background: var(--country-air);"></div>
+
+              <div class="space-y-6">
+                <div>
+                  <h4 class="text-lg font-bold mb-2">What I did</h4>
+                  <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                    <li>Defined segmental + suprasegmental error categories</li>
+                    <li>Wrote decision criteria and edge-case notes</li>
+                    <li>Refined guidelines via reviewer feedback</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">Why it matters for Product</h4>
+                  <p class="text-gray-700 leading-relaxed">
+                    Human judgment safeguards nuance where automation may miss context.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">Scale signal</h4>
+                  <p class="text-gray-700 leading-relaxed">
+                    Consistent criteria → stable outcomes → clearer quality signals for tool iteration.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="case-divider"></div>
           </div>
         </div>
       </section>
 
-      <!-- 4) CASE 2 -->
+      <!-- 4) CASE 2 (NO big white box) -->
       <section class="slide" data-slide>
-        <div class="max-w-6xl mx-auto w-full px-6">
-          <div class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden">
-            <div class="p-8 md:p-10">
-              <p class="text-sm text-gray-600">Case Study</p>
-              <h3 class="text-3xl md:text-4xl font-extrabold mt-2" style="color: var(--purple-prose);">
-                Language Quality Frameworks & Guardrails
-              </h3>
-              <p class="text-gray-700 mt-4 max-w-3xl leading-relaxed">
-                Standards that reduce inconsistency across AI-assisted localization outputs.
-              </p>
-            </div>
-            <details open>
-              <summary class="hidden">Details</summary>
-              <div class="px-8 md:px-10 pb-10 border-t border-black/5">
-                <div class="pt-8 grid md:grid-cols-2 gap-8">
-                  <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
-                    <div class="aspect-[16/10]">
-                      <img src="images/pronunciation-detail.png" alt="Screenshot"
-                           class="w-full h-full object-cover object-top" />
-                    </div>
-                  </div>
-                  <div class="space-y-6">
-                    <div>
-                      <h4 class="text-lg font-bold mb-2">What I did</h4>
-                      <ul class="list-disc pl-5 space-y-1 text-gray-700">
-                        <li>Defined quality criteria and classification rules</li>
-                        <li>Aligned interpretation across reviewers</li>
-                        <li>Iterated criteria based on recurring issues</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 class="text-lg font-bold mb-2">Why it matters for Product</h4>
-                      <p class="text-gray-700 leading-relaxed">
-                        Guardrails keep language aligned with brand voice and local expectations at scale.
-                      </p>
-                    </div>
-                    <div>
-                      <h4 class="text-lg font-bold mb-2">Scale signal</h4>
-                      <p class="text-gray-700 leading-relaxed">
-                        Fewer subjective calls and more consistent quality signals across outputs.
-                      </p>
-                    </div>
-                  </div>
+        <div class="case-wrap">
+          <div class="p-8 md:p-10">
+            <p class="text-sm text-gray-600">Case Study</p>
+            <h3 class="text-3xl md:text-4xl font-extrabold mt-2" style="color: var(--purple-prose);">
+              Language Quality Frameworks & Guardrails
+            </h3>
+            <p class="text-gray-700 mt-4 max-w-3xl leading-relaxed">
+              Standards that reduce inconsistency across AI-assisted localization outputs.
+            </p>
+          </div>
+
+          <div class="px-8 md:px-10 pb-10">
+            <div class="pt-6 grid md:grid-cols-2 gap-10 items-start">
+              <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white/80 backdrop-blur">
+                <div class="aspect-[16/10]">
+                  <img src="images/pronunciation-detail.png" alt="Screenshot"
+                       class="w-full h-full object-cover object-top" />
                 </div>
               </div>
-            </details>
-            <div class="h-1 w-full" style="background: var(--country-air);"></div>
+
+              <div class="space-y-6">
+                <div>
+                  <h4 class="text-lg font-bold mb-2">What I did</h4>
+                  <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                    <li>Defined quality criteria and classification rules</li>
+                    <li>Aligned interpretation across reviewers</li>
+                    <li>Iterated criteria based on recurring issues</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">Why it matters for Product</h4>
+                  <p class="text-gray-700 leading-relaxed">
+                    Guardrails keep language aligned with brand voice and local expectations at scale.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">Scale signal</h4>
+                  <p class="text-gray-700 leading-relaxed">
+                    Fewer subjective calls and more consistent quality signals across outputs.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="case-divider"></div>
           </div>
         </div>
       </section>
 
-      <!-- 5) CASE 3 -->
+      <!-- 5) CASE 3 (NO big white box) -->
       <section class="slide" data-slide>
-        <div class="max-w-6xl mx-auto w-full px-6">
-          <div class="rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden">
-            <div class="p-8 md:p-10">
-              <p class="text-sm text-gray-600">Case Study</p>
-              <h3 class="text-3xl md:text-4xl font-extrabold mt-2" style="color: var(--purple-prose);">
-                Product Language & Cultural Fit (Korean)
-              </h3>
-              <p class="text-gray-700 mt-4 max-w-3xl leading-relaxed">
-                Korean product language that feels natural, clear, and culturally aligned.
-              </p>
-            </div>
-            <details open>
-              <summary class="hidden">Details</summary>
-              <div class="px-8 md:px-10 pb-10 border-t border-black/5">
-                <div class="pt-8 grid md:grid-cols-2 gap-8">
-                  <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white">
-                    <div class="aspect-[16/10]">
-                      <img src="images/feedback-examples.png" alt="Screenshot"
-                           class="w-full h-full object-cover object-top" />
-                    </div>
-                  </div>
-                  <div class="space-y-6">
-                    <div>
-                      <h4 class="text-lg font-bold mb-2">What I did</h4>
-                      <ul class="list-disc pl-5 space-y-1 text-gray-700">
-                        <li>Optimized product copy for clarity and usability</li>
-                        <li>Applied cultural nuance and sensitivity awareness</li>
-                        <li>Proposed alternatives for off-tone cases</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 class="text-lg font-bold mb-2">Why it matters for Product</h4>
-                      <p class="text-gray-700 leading-relaxed">
-                        Local resonance reduces friction and builds trust in a global product.
-                      </p>
-                    </div>
-                    <div>
-                      <h4 class="text-lg font-bold mb-2">Scale signal</h4>
-                      <p class="text-gray-700 leading-relaxed">
-                        Consistent tone rules and nuance notes help teams ship aligned copy faster.
-                      </p>
-                    </div>
-                  </div>
+        <div class="case-wrap">
+          <div class="p-8 md:p-10">
+            <p class="text-sm text-gray-600">Case Study</p>
+            <h3 class="text-3xl md:text-4xl font-extrabold mt-2" style="color: var(--purple-prose);">
+              Product Language & Cultural Fit (Korean)
+            </h3>
+            <p class="text-gray-700 mt-4 max-w-3xl leading-relaxed">
+              Korean product language that feels natural, clear, and culturally aligned.
+            </p>
+          </div>
+
+          <div class="px-8 md:px-10 pb-10">
+            <div class="pt-6 grid md:grid-cols-2 gap-10 items-start">
+              <div class="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-white/80 backdrop-blur">
+                <div class="aspect-[16/10]">
+                  <img src="images/feedback-examples.png" alt="Screenshot"
+                       class="w-full h-full object-cover object-top" />
                 </div>
               </div>
-            </details>
-            <div class="h-1 w-full" style="background: var(--country-air);"></div>
+
+              <div class="space-y-6">
+                <div>
+                  <h4 class="text-lg font-bold mb-2">What I did</h4>
+                  <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                    <li>Optimized product copy for clarity and usability</li>
+                    <li>Applied cultural nuance and sensitivity awareness</li>
+                    <li>Proposed alternatives for off-tone cases</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">Why it matters for Product</h4>
+                  <p class="text-gray-700 leading-relaxed">
+                    Local resonance reduces friction and builds trust in a global product.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">Scale signal</h4>
+                  <p class="text-gray-700 leading-relaxed">
+                    Consistent tone rules and nuance notes help teams ship aligned copy faster.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="case-divider"></div>
           </div>
         </div>
       </section>
@@ -438,16 +455,16 @@
     }
     setStageHeight();
 
-    /* Background */
+    /* Background motion */
     const clamp01 = (x) => Math.min(1, Math.max(0, x));
     const lerp = (a, b, t) => a + (b - a) * t;
 
     const keys = [
-      { x: 22,  y: 28,  s: 1.10, op: 0.38, pr: 1.00, bl: 0.12, yl: 0.00 },
-      { x: 10,  y: 12,  s: 1.14, op: 0.40, pr: 0.60, bl: 1.00, yl: 0.20 },
-      { x:  0,  y:  0,  s: 1.18, op: 0.42, pr: 0.16, bl: 0.86, yl: 1.00 },
-      { x: -10, y: -10, s: 1.16, op: 0.40, pr: 0.14, bl: 1.00, yl: 0.70 },
-      { x: -22, y: -22, s: 1.14, op: 0.38, pr: 0.85, bl: 0.42, yl: 0.12 }
+      { x: 22,  y: 28,  s: 1.10, op: 0.40, pr: 1.00, bl: 0.12, yl: 0.00 },
+      { x: 10,  y: 12,  s: 1.14, op: 0.42, pr: 0.60, bl: 1.00, yl: 0.20 },
+      { x:  0,  y:  0,  s: 1.18, op: 0.44, pr: 0.16, bl: 0.86, yl: 1.00 },
+      { x: -10, y: -10, s: 1.16, op: 0.42, pr: 0.14, bl: 1.00, yl: 0.70 },
+      { x: -22, y: -22, s: 1.14, op: 0.40, pr: 0.85, bl: 0.42, yl: 0.12 }
     ];
 
     function buildGradient(prW, blW, ylW){
@@ -475,7 +492,7 @@
       );
     }
 
-    /* Mini */
+    /* Mini render: fixed canvas -> scale */
     const MINI_W = 1200;
     const MINI_H = 800;
     let miniPrevIdx = null;
@@ -507,6 +524,7 @@
       clone.style.boxSizing = "border-box";
 
       canvas.appendChild(clone);
+
       miniInner.innerHTML = "";
       miniInner.appendChild(canvas);
 
@@ -524,7 +542,7 @@
       window.scrollTo({ top: target, behavior: "smooth" });
     }
 
-    // Click mini -> go back
+    /* Click mini -> go back */
     mini.addEventListener("click", (e) => {
       if (e.target === miniClose) return;
       if (miniPrevIdx == null) return;
@@ -536,74 +554,65 @@
       hideMini();
     });
 
-    /* Sucked-into animation (softer + left-emphasis + slower) */
+    /* Softer "into mini" animation with left-emphasis */
     function animateIntoMini(prevIdx){
-  if (prevIdx < 0) return;
+      if (prevIdx < 0) return;
 
-  // ✅ 중요: mini가 show 상태에서만 rect가 정확해요.
-  // (hidden일 때 transform/opacity 때문에 체감이 꼬일 수 있음)
-  const miniRect = mini.getBoundingClientRect();
+      const miniRect = mini.getBoundingClientRect();
 
-  const card = document.createElement("div");
-  card.className = "portal-card";
+      const card = document.createElement("div");
+      card.className = "portal-card";
 
-  const clone = slides[prevIdx].cloneNode(true);
-  clone.classList.remove("active");
-  clone.style.position = "relative";
-  clone.style.inset = "auto";
-  clone.style.opacity = "1";
-  clone.style.visibility = "visible";
-  clone.style.pointerEvents = "none";
-  clone.style.height = "100%";
-  clone.style.display = "flex";
-  clone.style.alignItems = "center";
-  clone.style.justifyContent = "center";
+      const clone = slides[prevIdx].cloneNode(true);
+      clone.classList.remove("active");
+      clone.style.position = "relative";
+      clone.style.inset = "auto";
+      clone.style.opacity = "1";
+      clone.style.visibility = "visible";
+      clone.style.pointerEvents = "none";
+      clone.style.height = "100%";
+      clone.style.display = "flex";
+      clone.style.alignItems = "center";
+      clone.style.justifyContent = "center";
 
-  card.appendChild(clone);
-  portal.appendChild(card);
+      card.appendChild(clone);
+      portal.appendChild(card);
 
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
 
-  // 목표: mini의 "좌상단"이 아니라 "중심"으로 빨려들게 -> 더 자연스러움
-  const miniCx = miniRect.left + miniRect.width / 2;
-  const miniCy = miniRect.top  + miniRect.height / 2;
+      /* target = mini center, source = viewport center */
+      const miniCx = miniRect.left + miniRect.width / 2;
+      const miniCy = miniRect.top  + miniRect.height / 2;
+      const srcCx  = vw / 2;
+      const srcCy  = vh / 2;
 
-  // 포털 카드(전체 화면)의 중심
-  const srcCx = vw / 2;
-  const srcCy = vh / 2;
+      const dx = miniCx - srcCx;
+      const dy = miniCy - srcCy;
 
-  // 중심 기준 이동량
-  const dx = miniCx - srcCx;
-  const dy = miniCy - srcCy;
+      const scaleX = miniRect.width / vw;
+      const scaleY = miniRect.height / vh;
 
-  // 스케일
-  const scaleX = miniRect.width / vw;
-  const scaleY = miniRect.height / vh;
+      /* left-first keyframes (x leads, y follows) */
+      const leftPull1 = dx * 0.82;
+      const downPull1 = dy * 0.10;
+      const leftPull2 = dx * 1.05;
+      const downPull2 = dy * 0.55;
 
-  // ✅ "왼쪽 먼저" 체감: 중간 키프레임에서 x를 더 많이 당김(overshoot)
-  const leftPull1 = dx * 0.82;     // 왼쪽으로 크게 먼저
-  const downPull1 = dy * 0.10;     // 아래는 아주 조금만
-  const leftPull2 = dx * 1.05;     // 살짝 과하게 갔다가
-  const downPull2 = dy * 0.55;     // 그 다음에 아래로
-
-  card.animate(
-    [
-      { transform: "translate3d(0,0,0) scale(1,1)", opacity: 0.70, filter: "blur(0px)" },
-      { transform: `translate3d(${leftPull1}px, ${downPull1}px, 0) scale(0.96,0.96)`, opacity: 0.22, filter: "blur(1px)" },
-      { transform: `translate3d(${leftPull2}px, ${downPull2}px, 0) scale(0.90,0.90)`, opacity: 0.08, filter: "blur(1.8px)" },
-      { transform: `translate3d(${dx}px, ${dy}px, 0) scale(${scaleX},${scaleY})`, opacity: 0.0, filter: "blur(2.2px)" }
-    ],
-    {
-      duration: 900, // 더 느리게
-      easing: "cubic-bezier(.18,.88,.18,1)",
-      fill: "forwards"
+      card.animate(
+        [
+          { transform: "translate3d(0,0,0) scale(1,1)", opacity: 0.65, filter: "blur(0px)" },
+          { transform: `translate3d(${leftPull1}px, ${downPull1}px, 0) scale(0.96,0.96)`, opacity: 0.22, filter: "blur(1px)" },
+          { transform: `translate3d(${leftPull2}px, ${downPull2}px, 0) scale(0.90,0.90)`, opacity: 0.07, filter: "blur(1.8px)" },
+          { transform: `translate3d(${dx}px, ${dy}px, 0) scale(${scaleX},${scaleY})`, opacity: 0.0, filter: "blur(2.2px)" }
+        ],
+        {
+          duration: 900,
+          easing: "cubic-bezier(.18,.88,.18,1)",
+          fill: "forwards"
+        }
+      ).onfinish = () => { portal.innerHTML = ""; };
     }
-  ).onfinish = () => {
-    portal.innerHTML = "";
-  };
-}
-
 
     /* Slides */
     function setActive(idx){
@@ -629,17 +638,12 @@
         } else {
           const prevIdx = idx - 1;
 
-          // Render mini first (so it "exists"), but keep hidden
+          /* render mini first, show it, then animate toward it */
           renderMini(prevIdx);
+          mini.classList.add("show");
+          mini.setAttribute("aria-hidden","false");
 
-          // Animate into the mini position (softer)
           animateIntoMini(prevIdx);
-
-          // Show mini a bit later (less abrupt)
-          setTimeout(() => {
-            mini.classList.add("show");
-            mini.setAttribute("aria-hidden","false");
-          }, 220);
         }
         prevActive = idx;
       }
@@ -662,9 +666,10 @@
       onScroll();
     });
 
-    // init
+    /* init */
     hideMini();
     compute();
   </script>
+
 </body>
 </html>
