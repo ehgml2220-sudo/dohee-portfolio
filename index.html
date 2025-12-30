@@ -549,6 +549,28 @@
       stage.style.height = `${slides.length * VH_PER_SLIDE}vh`;
     }
     setStageHeight();
+<script>
+  /* ...기존 JS 유지... */
+
+  // ---- Case 1: reveal quote when it becomes visible inside the internal scroller ----
+  const case1Scroll = document.getElementById("case1Scroll");
+  const quoteBlocks = document.querySelectorAll("[data-quote-reveal]");
+
+  const quoteObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting){
+        entry.target.classList.add("is-in");
+      }
+    });
+  }, {
+    root: case1Scroll || null,
+    threshold: 0.35
+  });
+
+  quoteBlocks.forEach((el) => quoteObserver.observe(el));
+
+  /* ...init... */
+</script>
 
     function hideMini(){
       mini.classList.remove("show");
