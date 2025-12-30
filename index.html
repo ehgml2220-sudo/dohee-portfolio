@@ -161,34 +161,37 @@
       opacity: 0.85;
     }
 
-    /* iOS-like hello intro (Hero only) — softer + more gradual */
+  /* iOS setup-like intro (slow, airy, sequential) */
 .ios-hero * { -webkit-font-smoothing: antialiased; }
 
 .ios-fadeup{
   opacity: 0;
-  transform: translateY(18px);
-  filter: blur(6px);
-  animation: iosFadeUp 1.05s cubic-bezier(.16,.86,.22,1) both;
+  transform: translateY(22px);
+  filter: blur(8px);
+  animation: iosFadeUp 1.6s cubic-bezier(.14,.9,.18,1) both;
   animation-delay: var(--d, 0s);
   will-change: transform, opacity, filter;
 }
 
 @keyframes iosFadeUp{
-  0%   { opacity: 0; transform: translateY(18px); filter: blur(6px); }
-  55%  { opacity: 1; transform: translateY(0px); filter: blur(0px); }
+  0%   { opacity: 0; transform: translateY(22px); filter: blur(8px); }
+  60%  { opacity: 1; transform: translateY(0px); filter: blur(0px); }
   100% { opacity: 1; transform: translateY(0px); filter: blur(0px); }
 }
 
-/* A tiny settling motion for the first line only (very subtle) */
+/* Hello: a little more “presence” like iOS (slower settle) */
+.ios-hello{
+  animation-duration: 2.1s;
+}
 .ios-hello-settle{
   animation-name: iosFadeUp, iosSettle;
-  animation-duration: 1.05s, 1.35s;
-  animation-timing-function: cubic-bezier(.16,.86,.22,1), cubic-bezier(.2,.9,.2,1);
+  animation-duration: 2.1s, 2.6s;
+  animation-timing-function: cubic-bezier(.14,.9,.18,1), cubic-bezier(.2,.9,.2,1);
   animation-fill-mode: both, both;
-  animation-delay: var(--d, 0s), calc(var(--d, 0s) + 0.1s);
+  animation-delay: var(--d, 0s), calc(var(--d, 0s) + 0.25s);
 }
 @keyframes iosSettle{
-  0%   { letter-spacing: -0.01em; }
+  0%   { letter-spacing: -0.005em; }
   100% { letter-spacing: -0.02em; }
 }
 
